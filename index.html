@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA para Enseñar Mejor — UBE 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rojo:       #de2a35;
+  --rojo-dark:  #b5202a;
+  --rojo-light: #fdecea;
+  --gris:       #4b4f52;
+  --gris-dark:  #2c2f32;
+  --gris-light: #f5f6f7;
+  --negro:      #121416;
+  --blanco:     #ffffff;
+
+  /* módulos */
+  --m1: #117A65; --m1l: #d1f2eb;
+  --m2: #1a5276; --m2l: #d6eaf8;
+  --m3: #6c3483; --m3l: #e8daef;
+  --m4: #784212; --m4l: #fdebd0;
+  --m5: #0e6655; --m5l: #d0ece7;
+
+  /* canva icon colors */
+  --ic1: #de2a35;
+  --ic2: #ff6b35;
+  --ic3: #8b5cf6;
+  --ic4: #0ea5e9;
+  --ic5: #10b981;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--negro);
+  color: var(--blanco);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── NAVBAR ─────────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(18,20,22,0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; height: 68px;
+}
+.nav-left { display: flex; align-items: center; gap: 16px; }
+.nav-ube {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.nav-ube-badge {
+  background: var(--rojo);
+  color: white; font-weight: 800;
+  font-size: 1rem; padding: 5px 10px;
+  border-radius: 6px; letter-spacing: 0.05em;
+}
+.nav-ube-name {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.75rem; font-weight: 400;
+  border-left: 1px solid rgba(255,255,255,0.15);
+  padding-left: 12px; line-height: 1.4;
+}
+.nav-divider {
+  width: 1px; height: 28px;
+  background: rgba(255,255,255,0.1);
+}
+.nav-program {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.82rem; font-weight: 500;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 4px; list-style: none;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.65);
+  text-decoration: none; font-size: 0.82rem; font-weight: 500;
+  padding: 7px 14px; border-radius: 8px;
+  transition: all 0.2s; white-space: nowrap;
+}
+.nav-links a:hover { background: rgba(255,255,255,0.08); color: white; }
+.nav-cta {
+  background: var(--rojo) !important;
+  color: white !important;
+  padding: 8px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+.nav-cta:hover { background: var(--rojo-dark) !important; }
+
+/* ─── HERO ──────────────────────────────────────────────── */
+.hero {
+  min-height: 94vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(222,42,53,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(139,92,246,0.08) 0%, transparent 50%),
+    linear-gradient(180deg, #121416 0%, #0d0f11 100%);
+  display: flex; align-items: center;
+  padding: 6rem 2.5rem 4rem;
+  position: relative; overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+
+.hero-inner {
+  max-width: 1160px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 420px;
+  gap: 4rem; align-items: center;
+  position: relative; z-index: 2;
+}
+
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(222,42,53,0.15);
+  border: 1px solid rgba(222,42,53,0.3);
+  border-radius: 100px; padding: 5px 14px 5px 8px;
+  margin-bottom: 1.8rem;
+  animation: fadeUp 0.5s ease both;
+}
+.hero-tag-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--rojo);
+  box-shadow: 0 0 8px var(--rojo);
+  animation: glow 2s infinite;
+}
+.hero-tag span {
+  font-size: 0.75rem; font-weight: 600;
+  color: #ff8a80; letter-spacing: 0.06em; text-transform: uppercase;
+}
+
+.hero-h1 {
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  font-weight: 800; line-height: 1.1;
+  margin-bottom: 1.2rem;
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+.hero-h1 .accent {
+  color: var(--rojo);
+  display: inline-block;
+}
+.hero-h1 .light { color: rgba(255,255,255,0.55); font-weight: 300; }
+
+.hero-p {
+  font-size: 1rem; font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  max-width: 560px; line-height: 1.8;
+  margin-bottom: 2.4rem;
+  animation: fadeUp 0.5s 0.2s ease both;
+}
+
+.hero-chips {
+  display: flex; flex-wrap: wrap; gap: 0.6rem;
+  margin-bottom: 2.4rem;
+  animation: fadeUp 0.5s 0.25s ease both;
+}
+.hero-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 0.78rem; color: rgba(255,255,255,0.65);
+}
+.hero-chip .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.hero-btns {
+  display: flex; flex-wrap: wrap; gap: 1rem;
+  animation: fadeUp 0.5s 0.3s ease both;
+}
+.btn-red {
+  background: var(--rojo);
+  color: white; padding: 13px 28px;
+  border-radius: 10px; font-size: 0.9rem; font-weight: 600;
+  text-decoration: none; border: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(222,42,53,0.3);
+}
+.btn-red:hover { background: var(--rojo-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(222,42,53,0.4); }
+.btn-ghost {
+  background: transparent;
+  color: rgba(255,255,255,0.75); padding: 13px 28px;
+  border-radius: 10px; font-size: 0.9rem; font-weight: 500;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.35); color: white; }
+
+/* Hero card panel */
+.hero-panel {
+  animation: fadeLeft 0.7s 0.4s ease both;
+}
+.hero-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 20px; padding: 1.5rem;
+  backdrop-filter: blur(8px);
+}
+.hcard-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.hcard-title {
+  font-size: 0.75rem; font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.hcard-badge {
+  background: rgba(222,42,53,0.15);
+  border: 1px solid rgba(222,42,53,0.3);
+  color: #ff8a80; font-size: 0.68rem; font-weight: 600;
+  padding: 3px 10px; border-radius: 100px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.mod-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.mod-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  border-left: 3px solid var(--mc);
+  transition: background 0.2s; cursor: pointer;
+  text-decoration: none;
+}
+.mod-row:hover { background: rgba(255,255,255,0.08); }
+.mod-icon-wrap {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--mc-l);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.mod-info { flex: 1; min-width: 0; }
+.mod-name { font-size: 0.82rem; font-weight: 600; color: white; }
+.mod-tool { font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 1px; }
+.mod-dur {
+  font-size: 0.7rem; font-weight: 500;
+  color: rgba(255,255,255,0.3);
+  font-family: 'DM Mono', monospace;
+  white-space: nowrap;
+}
+.hcard-footer {
+  display: flex; gap: 0.7rem; margin-top: 1.2rem;
+}
+.hstat {
+  flex: 1; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px; padding: 0.9rem;
+  text-align: center;
+}
+.hstat-n {
+  font-size: 1.5rem; font-weight: 800; color: white;
+  line-height: 1;
+}
+.hstat-n em { color: var(--rojo); font-style: normal; }
+.hstat-l {
+  font-size: 0.67rem; color: rgba(255,255,255,0.4);
+  margin-top: 4px; line-height: 1.3;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* ─── SECTION BASE ──────────────────────────────────────── */
+.sec {
+  padding: 5.5rem 2.5rem;
+}
+.sec-inner { max-width: 1160px; margin: 0 auto; }
+.sec-tag {
+  font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--rojo); margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-tag::before {
+  content: ''; display: block;
+  width: 20px; height: 2px; background: var(--rojo);
+}
+.sec-h2 {
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  font-weight: 800; line-height: 1.2;
+  margin-bottom: 0.8rem;
+}
+.sec-sub {
+  font-size: 0.95rem; color: rgba(255,255,255,0.5);
+  max-width: 520px; line-height: 1.7;
+}
+
+/* ─── FLUJO NARRATIVO ───────────────────────────────────── */
+.flujo-sec {
+  background: #0d0f11;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.flujo-chain {
+  display: flex; gap: 0; margin-top: 3rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px; overflow: hidden;
+}
+.flujo-item {
+  flex: 1; padding: 1.5rem 1.2rem;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.2s;
+  position: relative;
+}
+.flujo-item:last-child { border-right: none; }
+.flujo-item:hover { background: rgba(255,255,255,0.04); }
+.flujo-arrow {
+  position: absolute; right: -10px; top: 50%;
+  transform: translateY(-50%);
+  width: 20px; height: 20px;
+  background: var(--gris-dark);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; color: rgba(255,255,255,0.4);
+  z-index: 2;
+}
+.flujo-item:last-child .flujo-arrow { display: none; }
+.fi-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; font-weight: 500;
+  color: var(--fi-c); opacity: 0.8;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 0.8rem;
+}
+.fi-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--fi-cl);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 0.8rem;
+}
+.fi-q {
+  font-size: 0.82rem; font-weight: 600; color: white;
+  margin-bottom: 0.3rem; line-height: 1.4;
+}
+.fi-tool {
+  font-size: 0.7rem; color: rgba(255,255,255,0.35);
+}
+
+/* ─── MÓDULOS GRID ──────────────────────────────────────── */
+.modulos-sec { background: var(--negro); }
+.modulos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.2rem; margin-top: 3rem;
+}
+.mod-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px; overflow: hidden;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  transition: all 0.25s; position: relative;
+}
+.mod-card:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.3);
+}
+.mod-card-top {
+  height: 5px; background: var(--mc);
+}
+.mod-card-body { padding: 1.6rem; flex: 1; }
+.mod-card-head {
+  display: flex; align-items: flex-start;
+  gap: 1rem; margin-bottom: 1rem;
+}
+.mc-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--mc-l);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; flex-shrink: 0;
+}
+.mc-meta {}
+.mc-sesion {
+  font-size: 0.67rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--mc); margin-bottom: 4px;
+}
+.mc-name {
+  font-size: 1rem; font-weight: 700; color: white;
+  line-height: 1.3;
+}
+.mc-desc {
+  font-size: 0.83rem; color: rgba(255,255,255,0.5);
+  line-height: 1.7; margin-bottom: 1.2rem;
+}
+.mc-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.mc-tag {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 100px; padding: 4px 12px;
+  font-size: 0.72rem; color: rgba(255,255,255,0.55);
+  font-weight: 500;
+}
+.mod-card-foot {
+  padding: 1rem 1.6rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mc-dur {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; color: rgba(255,255,255,0.35);
+}
+.mc-ir {
+  font-size: 0.78rem; font-weight: 700;
+  color: var(--mc);
+  display: flex; align-items: center; gap: 4px;
+  transition: gap 0.2s;
+}
+.mod-card:hover .mc-ir { gap: 8px; }
+
+/* ─── SESIONES ──────────────────────────────────────────── */
+.sesiones-sec {
+  background: #0d0f11;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.sesiones-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.5rem; margin-top: 3rem;
+}
+.ses-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px; padding: 2rem;
+}
+.ses-card-head {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.5rem; padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.ses-num {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--rojo);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; font-weight: 800; color: white;
+  flex-shrink: 0;
+}
+.ses-meta strong {
+  display: block; color: white; font-size: 0.95rem; font-weight: 700;
+  margin-bottom: 4px;
+}
+.ses-meta span {
+  font-size: 0.78rem; color: rgba(255,255,255,0.4);
+}
+.ses-items { display: flex; flex-direction: column; gap: 0.6rem; }
+.ses-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0.8rem 1rem;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+}
+.ses-item-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--si-c);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; flex-shrink: 0;
+}
+.ses-item-name {
+  flex: 1; font-size: 0.83rem; color: rgba(255,255,255,0.75);
+  font-weight: 500;
+}
+.ses-item-tool {
+  font-size: 0.68rem; color: rgba(255,255,255,0.3);
+  font-family: 'DM Mono', monospace;
+}
+.ses-item-time {
+  font-size: 0.68rem; color: rgba(255,255,255,0.25);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ─── CÓMO FUNCIONA ─────────────────────────────────────── */
+.como-sec { background: var(--negro); }
+.como-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem; margin-top: 3rem;
+}
+.como-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px; padding: 1.5rem;
+  transition: all 0.2s;
+}
+.como-item:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+}
+.como-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  margin-bottom: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+.como-n {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; color: var(--rojo);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.como-item h4 {
+  font-size: 0.9rem; font-weight: 700; color: white;
+  margin-bottom: 0.5rem; line-height: 1.4;
+}
+.como-item p {
+  font-size: 0.8rem; color: rgba(255,255,255,0.45); line-height: 1.7;
+}
+
+/* ─── FACILITADOR ───────────────────────────────────────── */
+.fac-sec {
+  background: #0d0f11;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.fac-inner {
+  display: grid; grid-template-columns: 360px 1fr;
+  gap: 4rem; align-items: start;
+}
+.fac-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px; overflow: hidden;
+  position: sticky; top: 88px;
+}
+.fac-card-top {
+  background: var(--rojo);
+  padding: 2rem; text-align: center;
+  position: relative;
+}
+.fac-avatar {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 3px solid rgba(255,255,255,0.3);
+  margin: 0 auto 1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+}
+.fac-name {
+  font-size: 1rem; font-weight: 800; color: white;
+  margin-bottom: 0.3rem;
+}
+.fac-role {
+  font-size: 0.78rem; color: rgba(255,255,255,0.65); line-height: 1.5;
+}
+.fac-card-body { padding: 1.5rem; }
+.fac-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+.fac-tag {
+  background: rgba(255,255,255,0.06);
+  border-radius: 100px; padding: 4px 12px;
+  font-size: 0.72rem; color: rgba(255,255,255,0.55);
+}
+.fac-stats {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.6rem;
+}
+.fac-stat {
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px; padding: 0.8rem 0.5rem;
+  text-align: center;
+}
+.fac-stat-n {
+  font-size: 1.3rem; font-weight: 800; color: white;
+  line-height: 1;
+}
+.fac-stat-n em { color: var(--rojo); font-style: normal; }
+.fac-stat-l {
+  font-size: 0.62rem; color: rgba(255,255,255,0.35);
+  margin-top: 4px; line-height: 1.4;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.fac-content {}
+.fac-quote {
+  background: rgba(222,42,53,0.1);
+  border-left: 3px solid var(--rojo);
+  border-radius: 0 10px 10px 0;
+  padding: 1rem 1.2rem;
+  font-size: 0.88rem; color: rgba(255,255,255,0.7);
+  font-style: italic; line-height: 1.7;
+  margin-bottom: 2rem;
+}
+.fac-bio {
+  font-size: 0.88rem; color: rgba(255,255,255,0.55);
+  line-height: 1.9; margin-bottom: 1.5rem;
+}
+.fac-detail-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-top: 2rem;
+}
+.fac-detail {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px; padding: 1rem;
+}
+.fac-detail-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; margin-bottom: 0.7rem;
+}
+.fac-detail h5 {
+  font-size: 0.75rem; font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+.fac-detail p {
+  font-size: 0.8rem; color: rgba(255,255,255,0.65); line-height: 1.5;
+}
+.fac-libro {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px; padding: 1rem 1.2rem;
+  display: flex; align-items: center; gap: 1rem;
+  margin-top: 1.5rem;
+}
+.fac-libro-icon {
+  width: 44px; height: 56px; border-radius: 6px;
+  background: linear-gradient(135deg, #de2a35, #8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+}
+.fac-libro-text h5 {
+  font-size: 0.78rem; font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+.fac-libro-text p {
+  font-size: 0.85rem; font-weight: 600; color: white;
+}
+.fac-libro-text span {
+  font-size: 0.75rem; color: rgba(255,255,255,0.4);
+}
+
+/* ─── ACCESO ────────────────────────────────────────────── */
+.acceso-sec {
+  background: var(--negro);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.acceso-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem; margin-top: 3rem;
+}
+.acceso-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px; padding: 1.5rem;
+  transition: border-color 0.2s;
+}
+.acceso-item:hover { border-color: rgba(222,42,53,0.3); }
+.acceso-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  margin-bottom: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.acc-n {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; color: var(--rojo);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.acceso-item h4 {
+  font-size: 0.9rem; font-weight: 700; color: white;
+  margin-bottom: 0.5rem;
+}
+.acceso-item p {
+  font-size: 0.8rem; color: rgba(255,255,255,0.45); line-height: 1.7;
+}
+
+/* ─── CTA BOTTOM ────────────────────────────────────────── */
+.cta-sec {
+  background: var(--rojo);
+  padding: 4rem 2.5rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-sec::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.cta-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 2; }
+.cta-sec h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800; color: white; margin-bottom: 0.8rem;
+}
+.cta-sec p {
+  font-size: 1rem; color: rgba(255,255,255,0.75);
+  margin-bottom: 2rem; line-height: 1.7;
+}
+.btn-white {
+  background: white; color: var(--rojo);
+  padding: 14px 32px; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 700;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+
+/* ─── FOOTER ────────────────────────────────────────────── */
+footer {
+  background: #080a0c;
+  padding: 2rem 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-inner {
+  max-width: 1160px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-text {
+  font-size: 0.78rem; color: rgba(255,255,255,0.3); line-height: 1.5;
+}
+.footer-text strong { color: rgba(255,255,255,0.5); }
+
+/* ─── CANVA-STYLE ICON BACKGROUNDS ─────────────────────── */
+.ic-red   { background: linear-gradient(135deg,#ff6b6b,#de2a35); }
+.ic-orange{ background: linear-gradient(135deg,#ffa040,#ff6b35); }
+.ic-purple{ background: linear-gradient(135deg,#a78bfa,#8b5cf6); }
+.ic-blue  { background: linear-gradient(135deg,#60c8ff,#0ea5e9); }
+.ic-green { background: linear-gradient(135deg,#4ade80,#10b981); }
+.ic-teal  { background: linear-gradient(135deg,#2dd4bf,#0d9488); }
+.ic-pink  { background: linear-gradient(135deg,#f472b6,#ec4899); }
+.ic-indigo{ background: linear-gradient(135deg,#818cf8,#6366f1); }
+
+/* ─── ANIMATIONS ────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 6px var(--rojo); }
+  50%     { box-shadow: 0 0 14px var(--rojo); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-panel { display: none; }
+  .sesiones-grid { grid-template-columns: 1fr; }
+  .fac-inner { grid-template-columns: 1fr; }
+  .fac-card { position: static; }
+  nav .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a class="nav-ube" href="#">
+      <span class="nav-ube-badge">UBE</span>
+      <span class="nav-ube-name">Universidad Bolivariana<br>del Ecuador</span>
+    </a>
+    <div class="nav-divider"></div>
+    <span class="nav-program">IA para Enseñar Mejor</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#modulos">Módulos</a></li>
+    <li><a href="#sesiones">Sesiones</a></li>
+    <li><a href="#facilitador">Facilitador</a></li>
+    <li><a href="#acceso">Acceso</a></li>
+    <li><a href="#kit" class="nav-cta">Kit de Prompts</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag">
+        <div class="hero-tag-dot"></div>
+        <span>Formación Docente · Carrera de Ciencias de la Educación</span>
+      </div>
+      <h1 class="hero-h1">
+        IA para<br>
+        <span class="accent">Enseñar</span><br>
+        <span class="light">Mejor.</span>
+      </h1>
+      <p class="hero-p">
+        Cinco flujos de trabajo reales con Inteligencia Artificial para docentes universitarios. Sin instalaciones. Sin tecnicismos. Con tus propios materiales desde el primer día.
+      </p>
+      <div class="hero-chips">
+        <div class="hero-chip"><div class="dot" style="background:#10b981"></div> Febrero – Marzo 2025</div>
+        <div class="hero-chip"><div class="dot" style="background:#0ea5e9"></div> 4 horas · 2 sesiones</div>
+        <div class="hero-chip"><div class="dot" style="background:#8b5cf6"></div> +30 docentes</div>
+        <div class="hero-chip"><div class="dot" style="background:var(--rojo)"></div> 80% práctica</div>
+      </div>
+      <div class="hero-btns">
+        <a href="#modulos" class="btn-red">Ver los 5 módulos →</a>
+        <a href="#kit" class="btn-ghost">Kit de Prompts ↓</a>
+      </div>
+    </div>
+
+    <!-- Panel derecho estilo Platzi -->
+    <div class="hero-panel">
+      <div class="hero-card">
+        <div class="hcard-header">
+          <span class="hcard-title">Programa completo</span>
+          <span class="hcard-badge">● Activo</span>
+        </div>
+        <div class="mod-list">
+          <a href="#" class="mod-row" style="--mc:var(--m1);--mc-l:var(--m1l)">
+            <div class="mod-icon-wrap">🔍</div>
+            <div class="mod-info">
+              <div class="mod-name">Diagnóstico Cualitativo</div>
+              <div class="mod-tool">Claude AI</div>
+            </div>
+            <span class="mod-dur">45'</span>
+          </a>
+          <a href="#" class="mod-row" style="--mc:var(--m2);--mc-l:var(--m2l)">
+            <div class="mod-icon-wrap">📊</div>
+            <div class="mod-info">
+              <div class="mod-name">Analítica de Notas</div>
+              <div class="mod-tool">Gemini + Canvas</div>
+            </div>
+            <span class="mod-dur">45'</span>
+          </a>
+          <a href="#" class="mod-row" style="--mc:var(--m3);--mc-l:var(--m3l)">
+            <div class="mod-icon-wrap">🎙️</div>
+            <div class="mod-info">
+              <div class="mod-name">PDF → Podcast · Cómic · Memes</div>
+              <div class="mod-tool">NotebookLM + Claude</div>
+            </div>
+            <span class="mod-dur">45'</span>
+          </a>
+          <a href="#" class="mod-row" style="--mc:var(--m4);--mc-l:var(--m4l)">
+            <div class="mod-icon-wrap">🎬</div>
+            <div class="mod-info">
+              <div class="mod-name">Clase → Google Forms</div>
+              <div class="mod-tool">Whisper + ChatGPT</div>
+            </div>
+            <span class="mod-dur">45'</span>
+          </a>
+          <a href="#" class="mod-row" style="--mc:var(--m5);--mc-l:var(--m5l)">
+            <div class="mod-icon-wrap">✍️</div>
+            <div class="mod-info">
+              <div class="mod-name">Materiales Avanzados</div>
+              <div class="mod-tool">ChatGPT + Claude</div>
+            </div>
+            <span class="mod-dur">45'</span>
+          </a>
+        </div>
+        <div class="hcard-footer">
+          <div class="hstat"><div class="hstat-n">4<em>h</em></div><div class="hstat-l">Duración</div></div>
+          <div class="hstat"><div class="hstat-n">5</div><div class="hstat-l">Módulos</div></div>
+          <div class="hstat"><div class="hstat-n">80<em>%</em></div><div class="hstat-l">Práctica</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLUJO NARRATIVO -->
+<section class="sec flujo-sec reveal">
+  <div class="sec-inner">
+    <div class="sec-tag">La narrativa del taller</div>
+    <div class="sec-h2">Cada módulo responde la pregunta<br>que dejó abierta el anterior</div>
+    <div class="flujo-chain">
+      <div class="flujo-item" style="--fi-c:var(--m1);--fi-cl:var(--m1l)">
+        <div class="fi-num">M1</div>
+        <div class="fi-icon">🔍</div>
+        <div class="fi-q">¿Qué no entiende mi grupo?</div>
+        <div class="fi-tool">Claude AI · Diagnóstico</div>
+        <div class="flujo-arrow">›</div>
+      </div>
+      <div class="flujo-item" style="--fi-c:var(--m2);--fi-cl:var(--m2l)">
+        <div class="fi-num">M2</div>
+        <div class="fi-icon">📊</div>
+        <div class="fi-q">¿Quiénes están en riesgo académico?</div>
+        <div class="fi-tool">Gemini · Analítica</div>
+        <div class="flujo-arrow">›</div>
+      </div>
+      <div class="flujo-item" style="--fi-c:var(--m3);--fi-cl:var(--m3l)">
+        <div class="fi-num">M3</div>
+        <div class="fi-icon">🎙️</div>
+        <div class="fi-q">¿Cómo les explico mejor el contenido?</div>
+        <div class="fi-tool">NotebookLM · Contenido</div>
+        <div class="flujo-arrow">›</div>
+      </div>
+      <div class="flujo-item" style="--fi-c:var(--m4);--fi-cl:var(--m4l)">
+        <div class="fi-num">M4</div>
+        <div class="fi-icon">🎬</div>
+        <div class="fi-q">¿Y lo que ya grabé en clase?</div>
+        <div class="fi-tool">Whisper · Transcripción</div>
+        <div class="flujo-arrow">›</div>
+      </div>
+      <div class="flujo-item" style="--fi-c:var(--m5);--fi-cl:var(--m5l)">
+        <div class="fi-num">M5</div>
+        <div class="fi-icon">✍️</div>
+        <div class="fi-q">¿Cómo diseño materiales nuevos?</div>
+        <div class="fi-tool">ChatGPT + Claude</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULOS -->
+<section class="sec modulos-sec" id="modulos">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-tag">5 módulos independientes · 45 min c/u</div>
+      <div class="sec-h2">Los flujos de trabajo del programa</div>
+      <p class="sec-sub">Cada módulo puede dictarse de forma autónoma o en el programa completo. Todos funcionan desde el navegador, sin instalaciones.</p>
+    </div>
+    <div class="modulos-grid">
+
+      <a href="#" class="mod-card reveal" style="--mc:var(--m1);--mc-l:var(--m1l)">
+        <div class="mod-card-top"></div>
+        <div class="mod-card-body">
+          <div class="mod-card-head">
+            <div class="mc-icon">🔍</div>
+            <div class="mc-meta">
+              <div class="mc-sesion">Sesión 1 · Módulo 1</div>
+              <div class="mc-name">Diagnóstico Cualitativo del Grupo</div>
+            </div>
+          </div>
+          <p class="mc-desc">Sube fragmentos de trabajos escritos de tus estudiantes y recibe un mapa de comprensión grupal: errores sistemáticos, nivel argumentativo y recomendaciones para tu próxima clase.</p>
+          <div class="mc-tags">
+            <span class="mc-tag">🤖 Claude AI</span>
+            <span class="mc-tag">📝 Análisis textual</span>
+            <span class="mc-tag">🎯 Básico</span>
+          </div>
+        </div>
+        <div class="mod-card-foot">
+          <span class="mc-dur">🕐 45 minutos</span>
+          <span class="mc-ir">Ir al módulo →</span>
+        </div>
+      </a>
+
+      <a href="#" class="mod-card reveal" style="--mc:var(--m2);--mc-l:var(--m2l)">
+        <div class="mod-card-top"></div>
+        <div class="mod-card-body">
+          <div class="mod-card-head">
+            <div class="mc-icon">📊</div>
+            <div class="mc-meta">
+              <div class="mc-sesion">Sesión 1 · Módulo 2</div>
+              <div class="mc-name">Analítica de Notas con Gemini</div>
+            </div>
+          </div>
+          <p class="mc-desc">Exporta el libro de calificaciones de Moodle como CSV y genera un dashboard interactivo con Canvas de Gemini: distribución, riesgo académico y correlaciones de desempeño.</p>
+          <div class="mc-tags">
+            <span class="mc-tag">✨ Gemini + Canvas</span>
+            <span class="mc-tag">📈 Dashboard</span>
+            <span class="mc-tag">🎯 Básico</span>
+          </div>
+        </div>
+        <div class="mod-card-foot">
+          <span class="mc-dur">🕐 45 minutos</span>
+          <span class="mc-ir">Ir al módulo →</span>
+        </div>
+      </a>
+
+      <a href="#" class="mod-card reveal" style="--mc:var(--m3);--mc-l:var(--m3l)">
+        <div class="mod-card-top"></div>
+        <div class="mod-card-body">
+          <div class="mod-card-head">
+            <div class="mc-icon">🎙️</div>
+            <div class="mc-meta">
+              <div class="mc-sesion">Sesión 2 · Módulo 3</div>
+              <div class="mc-name">PDF a Podcast · Cómic · Memes</div>
+            </div>
+          </div>
+          <p class="mc-desc">Transforma tus lecturas de cátedra en un podcast de dos voces, un guion de historieta pedagógica y una colección de memes didácticos para distintos momentos de tu clase.</p>
+          <div class="mc-tags">
+            <span class="mc-tag">🎓 NotebookLM</span>
+            <span class="mc-tag">🖼️ Contenido visual</span>
+            <span class="mc-tag">🎯 Básico</span>
+          </div>
+        </div>
+        <div class="mod-card-foot">
+          <span class="mc-dur">🕐 45 minutos</span>
+          <span class="mc-ir">Ir al módulo →</span>
+        </div>
+      </a>
+
+      <a href="#" class="mod-card reveal" style="--mc:var(--m4);--mc-l:var(--m4l)">
+        <div class="mod-card-top"></div>
+        <div class="mod-card-body">
+          <div class="mod-card-head">
+            <div class="mc-icon">🎬</div>
+            <div class="mc-meta">
+              <div class="mc-sesion">Sesión 2 · Módulo 4</div>
+              <div class="mc-name">Clase Grabada a Google Forms</div>
+            </div>
+          </div>
+          <p class="mc-desc">Transcribe un fragmento de tu clase con Whisper (sin instalar nada) y convierte la transcripción en una evaluación formativa de Google Forms con calificación automática, lista para Moodle.</p>
+          <div class="mc-tags">
+            <span class="mc-tag">🎤 Whisper</span>
+            <span class="mc-tag">📋 Google Forms</span>
+            <span class="mc-tag">🎯 Básico</span>
+          </div>
+        </div>
+        <div class="mod-card-foot">
+          <span class="mc-dur">🕐 45 minutos</span>
+          <span class="mc-ir">Ir al módulo →</span>
+        </div>
+      </a>
+
+      <a href="#" class="mod-card reveal" style="--mc:var(--m5);--mc-l:var(--m5l)">
+        <div class="mod-card-top"></div>
+        <div class="mod-card-body">
+          <div class="mod-card-head">
+            <div class="mc-icon">✍️</div>
+            <div class="mc-meta">
+              <div class="mc-sesion">Sesión 2 · Módulo 5</div>
+              <div class="mc-name">Diseño de Materiales Avanzado</div>
+            </div>
+          </div>
+          <p class="mc-desc">Encadena ChatGPT y Claude: genera estructura y variantes rápidas con ChatGPT, luego profundiza con argumentación pedagógica densa en Claude. El producto final supera a cualquiera de los dos por separado.</p>
+          <div class="mc-tags">
+            <span class="mc-tag">💬 ChatGPT</span>
+            <span class="mc-tag">🤖 Claude AI</span>
+            <span class="mc-tag">🎯 Intermedio</span>
+          </div>
+        </div>
+        <div class="mod-card-foot">
+          <span class="mc-dur">🕐 45 minutos</span>
+          <span class="mc-ir">Ir al módulo →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- SESIONES -->
+<section class="sec sesiones-sec" id="sesiones">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-tag">Estructura del programa</div>
+      <div class="sec-h2">2 sesiones · 4 horas en total</div>
+      <p class="sec-sub">Cada sesión tiene su propio arco narrativo. Entre sesiones: un compromiso de exploración autónoma.</p>
+    </div>
+    <div class="sesiones-grid reveal">
+      <div class="ses-card">
+        <div class="ses-card-head">
+          <div class="ses-num">1</div>
+          <div class="ses-meta">
+            <strong>Del diagnóstico al dato</strong>
+            <span>2 horas · Apertura + Módulos 1 y 2</span>
+          </div>
+        </div>
+        <div class="ses-items">
+          <div class="ses-item">
+            <div class="ses-item-icon ic-indigo">⚡</div>
+            <span class="ses-item-name">Apertura Conceptual</span>
+            <span class="ses-item-tool">TensorFlow Projector</span>
+            <span class="ses-item-time">0:00</span>
+          </div>
+          <div class="ses-item">
+            <div class="ses-item-icon ic-green" style="--si-c:#d1f2eb">🔍</div>
+            <span class="ses-item-name">M1 · Diagnóstico Cualitativo</span>
+            <span class="ses-item-tool">Claude AI</span>
+            <span class="ses-item-time">0:10</span>
+          </div>
+          <div class="ses-item">
+            <div class="ses-item-icon ic-blue" style="--si-c:#d6eaf8">📊</div>
+            <span class="ses-item-name">M2 · Analítica de Notas</span>
+            <span class="ses-item-tool">Gemini + Canvas</span>
+            <span class="ses-item-time">1:00</span>
+          </div>
+          <div class="ses-item" style="opacity:0.5">
+            <div class="ses-item-icon" style="background:rgba(255,255,255,0.06)">📝</div>
+            <span class="ses-item-name" style="font-style:italic">Cierre + Compromiso intermedio</span>
+            <span class="ses-item-time">1:45</span>
+          </div>
+        </div>
+      </div>
+      <div class="ses-card">
+        <div class="ses-card-head">
+          <div class="ses-num">2</div>
+          <div class="ses-meta">
+            <strong>Del contenido al recurso aumentado</strong>
+            <span>2 horas · Módulos 3, 4 y 5</span>
+          </div>
+        </div>
+        <div class="ses-items">
+          <div class="ses-item" style="opacity:0.5">
+            <div class="ses-item-icon" style="background:rgba(255,255,255,0.06)">🔁</div>
+            <span class="ses-item-name" style="font-style:italic">Reconexión · ¿Qué exploraste?</span>
+            <span class="ses-item-time">0:00</span>
+          </div>
+          <div class="ses-item">
+            <div class="ses-item-icon ic-purple" style="--si-c:#e8daef">🎙️</div>
+            <span class="ses-item-name">M3 · PDF a Podcast · Cómic · Memes</span>
+            <span class="ses-item-tool">NotebookLM</span>
+            <span class="ses-item-time">0:05</span>
+          </div>
+          <div class="ses-item">
+            <div class="ses-item-icon ic-orange" style="--si-c:#fdebd0">🎬</div>
+            <span class="ses-item-name">M4 · Clase a Google Forms</span>
+            <span class="ses-item-tool">Whisper + GPT</span>
+            <span class="ses-item-time">1:00</span>
+          </div>
+          <div class="ses-item">
+            <div class="ses-item-icon ic-teal" style="--si-c:#d0ece7">✍️</div>
+            <span class="ses-item-name">M5 · Materiales Avanzados + Cierre</span>
+            <span class="ses-item-tool">ChatGPT + Claude</span>
+            <span class="ses-item-time">1:50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="sec como-sec" id="como">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-tag">Tu espacio de trabajo</div>
+      <div class="sec-h2">¿Cómo usar este sitio?</div>
+    </div>
+    <div class="como-grid">
+      <div class="como-item reveal">
+        <div class="como-icon ic-red">📋</div>
+        <div class="como-n">Paso 01</div>
+        <h4>Completa tu ficha de compromiso</h4>
+        <p>Ve a "Antes de Empezar" y llena el formulario. Tu compromiso queda registrado con fecha y asignatura.</p>
+      </div>
+      <div class="como-item reveal">
+        <div class="como-icon ic-blue">📖</div>
+        <div class="como-n">Paso 02</div>
+        <h4>Navega módulo por módulo</h4>
+        <p>Cada página tiene el flujo completo, los prompts listos para copiar y las instrucciones del reto.</p>
+      </div>
+      <div class="como-item reveal">
+        <div class="como-icon ic-green">📁</div>
+        <div class="como-n">Paso 03</div>
+        <h4>Sube tu entregable a Drive</h4>
+        <p>Al finalizar cada reto, sube tu producto a tu subcarpeta personal. Tienes una por módulo.</p>
+      </div>
+      <div class="como-item reveal">
+        <div class="como-icon ic-purple">👥</div>
+        <div class="como-n">Paso 04</div>
+        <h4>Explora los entregables del grupo</h4>
+        <p>La carpeta de cada módulo muestra los productos de todos. Inspírate con los enfoques de tus colegas.</p>
+      </div>
+      <div class="como-item reveal">
+        <div class="como-icon ic-orange">📈</div>
+        <div class="como-n">Paso 05</div>
+        <h4>Reporta tu implementación</h4>
+        <p>Al mes del taller regresa y completa el formulario de impacto para la Dirección Académica.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FACILITADOR -->
+<section class="sec fac-sec" id="facilitador">
+  <div class="sec-inner">
+    <div class="fac-inner reveal">
+      <div class="fac-card">
+        <div class="fac-card-top">
+          <div class="fac-avatar">🎓</div>
+          <div class="fac-name">Mg. Hendy Maier<br>Pérez Barrera</div>
+          <div class="fac-role">Docente-Investigador<br>Carrera de Ciencias de la Educación<br>Universidad Bolivariana del Ecuador</div>
+        </div>
+        <div class="fac-card-body">
+          <div class="fac-tags">
+            <span class="fac-tag">Cálculo Diferencial</span>
+            <span class="fac-tag">Python</span>
+            <span class="fac-tag">GeoGebra</span>
+            <span class="fac-tag">IA Educativa</span>
+            <span class="fac-tag">Entornos Virtuales</span>
+            <span class="fac-tag">Moodle</span>
+          </div>
+          <div class="fac-stats">
+            <div class="fac-stat"><div class="fac-stat-n">11<em>+</em></div><div class="fac-stat-l">Años docencia</div></div>
+            <div class="fac-stat"><div class="fac-stat-n">2</div><div class="fac-stat-l">Maestrías</div></div>
+            <div class="fac-stat"><div class="fac-stat-n">5</div><div class="fac-stat-l">Flujos IA</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fac-content">
+        <div class="sec-tag">Tu facilitador</div>
+        <div class="sec-h2" style="margin-bottom:1.5rem">Más de 11 años<br>en educación superior</div>
+
+        <div class="fac-quote">
+          "La IA más poderosa no es la que genera el texto más elaborado, sino la que ayuda al docente a hacerse las preguntas correctas sobre su práctica. Cada flujo de este taller nació de una pregunta real frente al aula."
+        </div>
+
+        <p class="fac-bio">
+          Magíster en Bioinformática y en Ciencias de la Educación con mención en Matemáticas. Ingeniero en Sistemas Computacionales con más de 11 años de experiencia en educación superior universitaria. Especialista en educación en entornos virtuales, combina el rigor matemático con la innovación pedagógica integrando Python, GeoGebra e Inteligencia Artificial en la enseñanza del cálculo diferencial e integral en ingeniería.
+        </p>
+
+        <div class="fac-detail-grid">
+          <div class="fac-detail">
+            <div class="fac-detail-icon ic-red">🎯</div>
+            <h5>Enfoque pedagógico</h5>
+            <p>Humanista-constructivista mediado por tecnología. La IA amplifica al docente; nunca lo reemplaza.</p>
+          </div>
+          <div class="fac-detail">
+            <div class="fac-detail-icon ic-blue">🌐</div>
+            <h5>Educación en entornos virtuales</h5>
+            <p>Diseño de experiencias de aprendizaje en Moodle, Google Workspace y plataformas LMS institucionales.</p>
+          </div>
+          <div class="fac-detail">
+            <div class="fac-detail-icon ic-green">🔬</div>
+            <h5>Investigación en curso</h5>
+            <p>Estrategias de enseñanza del cálculo en ingeniería combinando visualización computacional e IA generativa.</p>
+          </div>
+          <div class="fac-detail">
+            <div class="fac-detail-icon ic-purple">🧠</div>
+            <h5>Reflexión metacognitiva</h5>
+            <p>Creo profundamente que antes de enseñar cualquier herramienta, el docente debe entender cómo aprende él mismo.</p>
+          </div>
+        </div>
+
+        <div class="fac-libro">
+          <div class="fac-libro-icon">📚</div>
+          <div class="fac-libro-text">
+            <h5>Libro favorito</h5>
+            <p>El Poder de las Palabras</p>
+            <span>Mariano Sigman · Sobre lenguaje, cognición y cómo las palabras transforman el pensamiento</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESO -->
+<section class="sec acceso-sec" id="acceso">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-tag">Antes de comenzar</div>
+      <div class="sec-h2">Lo que necesitas para<br>aprovechar el programa</div>
+    </div>
+    <div class="acceso-grid">
+      <div class="acceso-item reveal">
+        <div class="acceso-icon ic-red">🔐</div>
+        <div class="acc-n">Requisito 01</div>
+        <h4>Cuenta personal de Google activa</h4>
+        <p>Debes acceder con tu cuenta de Google para ver el contenido, usar Gemini, NotebookLM y subir entregables a Drive. El sitio es privado.</p>
+      </div>
+      <div class="acceso-item reveal">
+        <div class="acceso-icon ic-blue">💻</div>
+        <div class="acc-n">Requisito 02</div>
+        <h4>Computadora o tablet con internet</h4>
+        <p>Todas las herramientas funcionan desde el navegador. Sin instalaciones. Chrome o Edge recomendados.</p>
+      </div>
+      <div class="acceso-item reveal">
+        <div class="acceso-icon ic-orange">📂</div>
+        <div class="acc-n">Requisito 03</div>
+        <h4>Materiales de tu asignatura</h4>
+        <p>Trae fragmentos de trabajos de estudiantes, un PDF de tu cátedra y si tienes, un audio o video de una clase grabada. Los retos se hacen con tus materiales reales.</p>
+      </div>
+      <div class="acceso-item reveal">
+        <div class="acceso-icon ic-green">🌱</div>
+        <div class="acc-n">Requisito 04</div>
+        <h4>Apertura a explorar y equivocarte</h4>
+        <p>La IA no siempre genera lo que esperamos la primera vez. Tu criterio pedagógico es lo que convierte un borrador de la IA en un recurso de calidad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="kit">
+  <div class="cta-inner reveal">
+    <h2>Empieza con la Apertura Conceptual</h2>
+    <p>Antes del primer módulo, entiende cómo la IA interpreta el lenguaje pedagógico. 10 minutos que cambian la forma en que escribes prompts para siempre.</p>
+    <a href="#" class="btn-white">Ir a la Apertura Conceptual →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="nav-ube-badge">UBE</span>
+      <div class="footer-text">
+        <strong>Universidad Bolivariana del Ecuador</strong><br>
+        Carrera de Ciencias de la Educación
+      </div>
+    </div>
+    <div class="footer-text" style="text-align:right">
+      <strong>IA para Enseñar Mejor · 2025</strong><br>
+      Acceso restringido a participantes del programa
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

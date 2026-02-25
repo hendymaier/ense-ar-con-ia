@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antes de Empezar — IA para Enseñar Mejor</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rojo: #de2a35;
+  --rojo-dark: #b5202a;
+  --gris: #4b4f52;
+  --negro: #121416;
+  --negro2: #0d0f11;
+  --verde: #10b981;
+  --azul: #0ea5e9;
+  --naranja: #f59e0b;
+  --morado: #8b5cf6;
+  --blanco: #ffffff;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--negro);
+  color: var(--blanco);
+  line-height: 1.6;
+}
+
+/* NAV */
+nav {
+  background: rgba(18,20,22,0.97);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 0 2rem; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  backdrop-filter: blur(12px);
+}
+.nav-left { display: flex; align-items: center; gap: 12px; }
+.nav-badge { background: var(--rojo); color: white; font-weight: 800; font-size: 0.85rem; padding: 4px 9px; border-radius: 5px; }
+.nav-sep { width: 1px; height: 24px; background: rgba(255,255,255,0.1); }
+.nav-prog { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links a {
+  color: rgba(255,255,255,0.55); text-decoration: none;
+  font-size: 0.78rem; font-weight: 500;
+  padding: 6px 12px; border-radius: 7px; transition: all 0.2s;
+}
+.nav-links a:hover { background: rgba(255,255,255,0.07); color: white; }
+.nav-links a.active { background: rgba(222,42,53,0.15); color: #ff8a80; }
+
+/* HERO DE PÁGINA */
+.page-hero {
+  background: linear-gradient(135deg, #121416 0%, #0d0f11 100%);
+  padding: 3.5rem 2rem 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 90% 50%, rgba(222,42,53,0.07) 0%, transparent 60%);
+}
+.page-hero-inner {
+  max-width: 900px; margin: 0 auto;
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap;
+}
+.page-breadcrumb {
+  font-size: 0.7rem; color: rgba(255,255,255,0.3);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 6px;
+}
+.page-breadcrumb span { color: rgba(255,255,255,0.5); }
+.page-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800; line-height: 1.15;
+  margin-bottom: 0.7rem;
+}
+.page-title em { color: var(--rojo); font-style: normal; }
+.page-sub {
+  font-size: 0.9rem; color: rgba(255,255,255,0.5);
+  max-width: 500px; line-height: 1.8;
+}
+.page-steps-badge {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  flex-shrink: 0;
+}
+.psb-item {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 0.7rem 1.1rem;
+  font-size: 0.78rem;
+}
+.psb-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--rojo); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 800; flex-shrink: 0;
+}
+.psb-item.done .psb-num { background: var(--verde); }
+.psb-text { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+.psb-text strong { color: white; font-weight: 600; display: block; }
+
+/* MAIN */
+.main { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+/* SECTION TITLE */
+.sec-label {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 1.5rem;
+}
+.sec-label-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.sec-label h2 { font-size: 1.1rem; font-weight: 700; color: white; }
+.sec-label span { font-size: 0.78rem; color: rgba(255,255,255,0.4); display: block; margin-top: 2px; }
+.sec-divider {
+  height: 1px; background: rgba(255,255,255,0.07);
+  margin: 2.5rem 0;
+}
+
+/* TARJETAS DE REQUISITO */
+.req-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem; margin-bottom: 2rem;
+}
+.req-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px; padding: 1.3rem;
+  transition: border-color 0.2s;
+}
+.req-card:hover { border-color: rgba(255,255,255,0.13); }
+.req-card-top {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;
+}
+.req-icon {
+  width: 40px; height: 40px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.req-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; color: var(--rojo);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.req-card h4 { font-size: 0.88rem; font-weight: 700; color: white; }
+.req-card p { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+.req-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 100px; padding: 3px 10px; margin-top: 0.7rem;
+  font-size: 0.7rem; color: #6ee7b7; font-weight: 600;
+}
+.req-tag.warn {
+  background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.2);
+  color: #fcd34d;
+}
+
+/* HERRAMIENTAS GRID */
+.tools-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.tool-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px; padding: 1.2rem 1.4rem;
+  display: flex; flex-direction: column; gap: 0.8rem;
+  transition: all 0.2s; text-decoration: none; color: inherit;
+}
+.tool-card:hover {
+  border-color: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05);
+  transform: translateY(-2px);
+}
+.tool-card-top { display: flex; align-items: center; gap: 10px; }
+.tool-icon {
+  width: 40px; height: 40px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.tool-name { font-size: 0.9rem; font-weight: 700; color: white; }
+.tool-url { font-size: 0.7rem; font-family: 'DM Mono', monospace; color: rgba(255,255,255,0.3); }
+.tool-desc { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.tool-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 100px; padding: 3px 10px;
+  font-size: 0.68rem; font-weight: 600; width: fit-content;
+}
+.badge-free { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); color: #6ee7b7; }
+.badge-google { background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); color: #7dd3fc; }
+.badge-req { background: rgba(222,42,53,0.1); border: 1px solid rgba(222,42,53,0.2); color: #fca5a5; }
+
+/* INSTRUCCIONES NAVEGACIÓN */
+.nav-guide {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.ng-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px; padding: 1.1rem;
+}
+.ng-step {
+  font-family: 'DM Mono', monospace; font-size: 0.65rem;
+  color: var(--rojo); text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.ng-item h4 { font-size: 0.85rem; font-weight: 700; color: white; margin-bottom: 0.4rem; }
+.ng-item p { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+/* FORM EMBED SECTION */
+.form-section {
+  background: rgba(222,42,53,0.06);
+  border: 1px solid rgba(222,42,53,0.2);
+  border-radius: 18px; padding: 2rem;
+  margin-top: 0.5rem;
+}
+.form-section-head {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+}
+.form-section-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--rojo);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+.form-section-meta strong { display: block; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 4px; }
+.form-section-meta p { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.form-placeholder {
+  background: rgba(255,255,255,0.03);
+  border: 2px dashed rgba(222,42,53,0.3);
+  border-radius: 12px; padding: 3rem 2rem;
+  text-align: center;
+}
+.form-placeholder p {
+  font-size: 0.85rem; color: rgba(255,255,255,0.3);
+  margin-bottom: 0.5rem;
+}
+.form-placeholder code {
+  font-family: 'DM Mono', monospace; font-size: 0.75rem;
+  color: rgba(222,42,53,0.6);
+  background: rgba(222,42,53,0.08); padding: 3px 8px; border-radius: 5px;
+}
+
+/* GLOSARIO */
+.glosario-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.8rem;
+}
+.glos-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px; padding: 1rem 1.2rem;
+}
+.glos-term {
+  font-family: 'DM Mono', monospace; font-size: 0.78rem;
+  color: var(--azul); font-weight: 500; margin-bottom: 0.4rem;
+}
+.glos-def {
+  font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.6;
+}
+
+/* NOTA */
+.nota {
+  border-radius: 10px; padding: 1rem 1.2rem;
+  font-size: 0.82rem; line-height: 1.7;
+  display: flex; gap: 10px; align-items: flex-start;
+  margin-top: 1rem;
+}
+.nota-warn { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); color: rgba(255,255,255,0.65); }
+.nota-info { background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.2); color: rgba(255,255,255,0.65); }
+.nota-green { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); color: rgba(255,255,255,0.65); }
+.nota strong { color: #fcd34d; }
+.nota-info strong { color: #7dd3fc; }
+.nota-green strong { color: #6ee7b7; }
+.nota-icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+
+/* BTN */
+.btn-red {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--rojo); color: white;
+  padding: 11px 24px; border-radius: 9px;
+  font-size: 0.88rem; font-weight: 600;
+  text-decoration: none; transition: all 0.2s;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(222,42,53,0.25);
+}
+.btn-red:hover { background: var(--rojo-dark); transform: translateY(-1px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: rgba(255,255,255,0.65);
+  padding: 11px 24px; border-radius: 9px;
+  font-size: 0.88rem; font-weight: 500;
+  text-decoration: none; transition: all 0.2s;
+  border: 1px solid rgba(255,255,255,0.13);
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.28); color: white; }
+
+/* ICON GRADIENTS */
+.ic-red    { background: linear-gradient(135deg,#ff6b6b,#de2a35); }
+.ic-orange { background: linear-gradient(135deg,#ffa040,#ff6b35); }
+.ic-blue   { background: linear-gradient(135deg,#60c8ff,#0ea5e9); }
+.ic-green  { background: linear-gradient(135deg,#4ade80,#10b981); }
+.ic-purple { background: linear-gradient(135deg,#c4b5fd,#8b5cf6); }
+.ic-teal   { background: linear-gradient(135deg,#2dd4bf,#0d9488); }
+.ic-yellow { background: linear-gradient(135deg,#fde68a,#f59e0b); }
+.ic-pink   { background: linear-gradient(135deg,#f9a8d4,#ec4899); }
+
+/* FOOTER */
+footer {
+  background: #080a0c;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-size: 0.75rem; color: rgba(255,255,255,0.25);
+}
+
+@media (max-width: 768px) {
+  .page-hero-inner { flex-direction: column; }
+  .page-steps-badge { display: none; }
+  nav .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <span class="nav-badge">UBE</span>
+    <div class="nav-sep"></div>
+    <span class="nav-prog">IA para Enseñar Mejor</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#" class="active">Antes de Empezar</a></li>
+    <li><a href="#">Módulos</a></li>
+    <li><a href="#">Kit</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="page-breadcrumb">
+        Inicio <span>›</span> Antes de Empezar
+      </div>
+      <h1 class="page-title">Antes de<br><em>Empezar</em></h1>
+      <p class="page-sub">Todo lo que necesitas tener listo antes del primer módulo. Lee esta página completa — te ahorra tiempo y confusiones durante el taller.</p>
+    </div>
+    <div class="page-steps-badge">
+      <div class="psb-item">
+        <div class="psb-num">1</div>
+        <div class="psb-text"><strong>Revisa los requisitos</strong>cuenta y herramientas</div>
+      </div>
+      <div class="psb-item">
+        <div class="psb-num">2</div>
+        <div class="psb-text"><strong>Conoce las herramientas</strong>5 plataformas del taller</div>
+      </div>
+      <div class="psb-item">
+        <div class="psb-num">3</div>
+        <div class="psb-text"><strong>Lee el glosario mínimo</strong>10 términos clave</div>
+      </div>
+      <div class="psb-item">
+        <div class="psb-num">4</div>
+        <div class="psb-text"><strong>Completa tu compromiso</strong>formulario final</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main">
+
+  <!-- ── 1. REQUISITOS ─────────────────────────── -->
+  <div class="sec-label">
+    <div class="sec-label-icon ic-red">✅</div>
+    <div>
+      <h2>Requisitos para participar</h2>
+      <span>Verifica que tienes todo antes del día del taller</span>
+    </div>
+  </div>
+
+  <div class="req-grid">
+    <div class="req-card">
+      <div class="req-card-top">
+        <div class="req-icon ic-blue">🔐</div>
+        <div>
+          <div class="req-num">Requisito 01</div>
+          <h4>Cuenta personal de Google activa</h4>
+        </div>
+      </div>
+      <p>Necesitas una cuenta Gmail activa (@gmail.com). La usarás para acceder a Gemini, NotebookLM, Google Forms y para subir tus entregables a la carpeta Drive del taller.</p>
+      <span class="req-tag">✓ Gmail / Google Workspace personal</span>
+    </div>
+
+    <div class="req-card">
+      <div class="req-card-top">
+        <div class="req-icon ic-green">💻</div>
+        <div>
+          <div class="req-num">Requisito 02</div>
+          <h4>Computadora o tablet con internet</h4>
+        </div>
+      </div>
+      <p>Todas las herramientas funcionan desde el navegador. Sin instalaciones. Se recomienda Chrome o Edge actualizados para la mejor experiencia con todas las plataformas.</p>
+      <span class="req-tag">✓ Sin instalaciones requeridas</span>
+    </div>
+
+    <div class="req-card">
+      <div class="req-card-top">
+        <div class="req-icon ic-orange">📂</div>
+        <div>
+          <div class="req-num">Requisito 03</div>
+          <h4>Materiales propios de tu asignatura</h4>
+        </div>
+      </div>
+      <p>Los retos de cada módulo se hacen con tus propios materiales reales. Trae lo siguiente preparado en tu computadora:</p>
+      <p style="margin-top:0.6rem;font-size:0.78rem;color:rgba(255,255,255,0.6)">
+        • 3–5 fragmentos de trabajos escritos de estudiantes (PDF o texto)<br>
+        • 1 PDF de lectura de tu asignatura<br>
+        • Opcionalmente: audio o video de una clase grabada (MP3 / MP4)
+      </p>
+      <span class="req-tag warn">⚠ Trae esto el día del taller</span>
+    </div>
+
+    <div class="req-card">
+      <div class="req-card-top">
+        <div class="req-icon ic-purple">🌱</div>
+        <div>
+          <div class="req-num">Requisito 04</div>
+          <h4>Apertura a explorar y equivocarte</h4>
+        </div>
+      </div>
+      <p>La IA no siempre genera lo que esperamos la primera vez — eso es parte del aprendizaje. Tu criterio pedagógico es lo que transforma un borrador de la IA en un recurso de calidad.</p>
+      <span class="req-tag">✓ No se requiere experiencia previa</span>
+    </div>
+  </div>
+
+  <div class="nota nota-info">
+    <span class="nota-icon">ℹ️</span>
+    <span><strong>¿No tienes archivos de estudiantes disponibles?</strong> No te preocupes. El facilitador tiene materiales de ejemplo para cada módulo que puedes usar si no tienes los tuyos listos el día del taller.</span>
+  </div>
+
+  <div class="sec-divider"></div>
+
+  <!-- ── 2. HERRAMIENTAS ────────────────────────── -->
+  <div class="sec-label">
+    <div class="sec-label-icon ic-blue">🛠️</div>
+    <div>
+      <h2>Las 5 herramientas del programa</h2>
+      <span>Todas gratuitas · Todas desde el navegador · Cero instalaciones</span>
+    </div>
+  </div>
+
+  <div class="tools-grid">
+    <a href="https://claude.ai" target="_blank" class="tool-card">
+      <div class="tool-card-top">
+        <div class="tool-icon ic-green">🤖</div>
+        <div>
+          <div class="tool-name">Claude AI</div>
+          <div class="tool-url">claude.ai</div>
+        </div>
+      </div>
+      <p class="tool-desc">Asistente de IA de Anthropic. Lo usamos en el M1 para análisis cualitativo de trabajos escritos y en el M5 para profundidad pedagógica.</p>
+      <span class="tool-badge badge-free">✓ Gratuito</span>
+    </a>
+
+    <a href="https://gemini.google.com" target="_blank" class="tool-card">
+      <div class="tool-card-top">
+        <div class="tool-icon ic-blue">✨</div>
+        <div>
+          <div class="tool-name">Gemini + Canvas</div>
+          <div class="tool-url">gemini.google.com</div>
+        </div>
+      </div>
+      <p class="tool-desc">IA de Google con capacidad de análisis de archivos y generación de dashboards interactivos. M2: analítica de notas desde CSV de Moodle.</p>
+      <span class="tool-badge badge-google">✓ Gratuito con cuenta Google</span>
+    </a>
+
+    <a href="https://notebooklm.google.com" target="_blank" class="tool-card">
+      <div class="tool-card-top">
+        <div class="tool-icon ic-purple">🎓</div>
+        <div>
+          <div class="tool-name">NotebookLM</div>
+          <div class="tool-url">notebooklm.google.com</div>
+        </div>
+      </div>
+      <p class="tool-desc">Herramienta de Google para procesar documentos y generar podcasts de dos voces automáticamente. M3: PDF a audio didáctico en español.</p>
+      <span class="tool-badge badge-google">✓ Gratuito con cuenta Google</span>
+    </a>
+
+    <a href="https://huggingface.co/spaces/openai/whisper" target="_blank" class="tool-card">
+      <div class="tool-card-top">
+        <div class="tool-icon ic-orange">🎤</div>
+        <div>
+          <div class="tool-name">Whisper (HuggingFace)</div>
+          <div class="tool-url">huggingface.co/spaces/openai/whisper</div>
+        </div>
+      </div>
+      <p class="tool-desc">Motor de transcripción de audio de OpenAI, disponible sin cuenta desde HuggingFace. M4: transcripción automática de fragmentos de clase.</p>
+      <span class="tool-badge badge-free">✓ Sin cuenta requerida</span>
+    </a>
+
+    <a href="https://chat.openai.com" target="_blank" class="tool-card">
+      <div class="tool-card-top">
+        <div class="tool-icon ic-teal" style="background:linear-gradient(135deg,#2dd4bf,#0d9488)">💬</div>
+        <div>
+          <div class="tool-name">ChatGPT</div>
+          <div class="tool-url">chat.openai.com</div>
+        </div>
+      </div>
+      <p class="tool-desc">IA conversacional de OpenAI. Lo usamos en M4 (convertir transcripción en Google Forms) y en M5 (generación rápida de estructuras).</p>
+      <span class="tool-badge badge-free">✓ Gratuito con cuenta</span>
+    </a>
+  </div>
+
+  <div class="nota nota-warn" style="margin-top:1.2rem">
+    <span class="nota-icon">⚠️</span>
+    <span><strong>Crea las cuentas antes del taller.</strong> Claude, Gemini, NotebookLM y ChatGPT requieren registro. Tómate 10 minutos antes del día del taller para crear las que no tengas. El único que no requiere cuenta es Whisper.</span>
+  </div>
+
+  <div class="sec-divider"></div>
+
+  <!-- ── 3. CÓMO NAVEGAR ────────────────────────── -->
+  <div class="sec-label">
+    <div class="sec-label-icon ic-teal" style="background:linear-gradient(135deg,#2dd4bf,#0d9488)">🧭</div>
+    <div>
+      <h2>Cómo usar este sitio durante el taller</h2>
+      <span>5 pasos para aprovechar al máximo el espacio digital</span>
+    </div>
+  </div>
+
+  <div class="nav-guide">
+    <div class="ng-item">
+      <div class="ng-step">Paso 01</div>
+      <h4>Llena la ficha de compromiso</h4>
+      <p>Al final de esta página encontrarás el formulario. Complétalo antes de empezar el primer módulo.</p>
+    </div>
+    <div class="ng-item">
+      <div class="ng-step">Paso 02</div>
+      <h4>Navega módulo por módulo</h4>
+      <p>Cada página tiene el flujo completo, los prompts listos para copiar y las instrucciones del reto.</p>
+    </div>
+    <div class="ng-item">
+      <div class="ng-step">Paso 03</div>
+      <h4>Copia los prompts directamente</h4>
+      <p>No necesitas escribir nada a mano. Copia el prompt de la página, personaliza los campos en corchetes y pégalo en la herramienta.</p>
+    </div>
+    <div class="ng-item">
+      <div class="ng-step">Paso 04</div>
+      <h4>Sube tu entregable a Drive</h4>
+      <p>Al terminar cada reto, sube tu producto a tu subcarpeta personal. Están al final de cada página de módulo.</p>
+    </div>
+    <div class="ng-item">
+      <div class="ng-step">Paso 05</div>
+      <h4>Reporta tu implementación</h4>
+      <p>Al mes del taller, regresa a "Kit & Seguimiento" y completa el formulario de impacto para la Dirección Académica.</p>
+    </div>
+  </div>
+
+  <div class="sec-divider"></div>
+
+  <!-- ── 4. GLOSARIO ───────────────────────────── -->
+  <div class="sec-label">
+    <div class="sec-label-icon ic-yellow">📖</div>
+    <div>
+      <h2>Glosario mínimo</h2>
+      <span>10 términos que aparecen durante el taller — en lenguaje docente, sin tecnicismos</span>
+    </div>
+  </div>
+
+  <div class="glosario-grid">
+    <div class="glos-item">
+      <div class="glos-term">Prompt</div>
+      <div class="glos-def">La instrucción que le das a la IA. Es equivalente a la consigna que le darías a un estudiante muy capaz pero muy literal. Cuanto más preciso y pedagógico es el prompt, mejor es el resultado.</div>
+    </div>
+    <div class="glos-item">
+      <div class="glos-term">LLM (Modelo de Lenguaje)</div>
+      <div class="glos-def">El motor detrás de Claude, ChatGPT y Gemini. Es un sistema entrenado con enormes cantidades de texto que predice la respuesta más probable a tu prompt.</div>
+    </div>
+    <div class="glos-item">
+      <div class="glos-term">Token</div>
+      <div class="glos-def">La unidad mínima con la que la IA procesa texto. Aproximadamente una palabra o sílaba. Los modelos tienen un límite de tokens por conversación — su "ventana de contexto".</div>
+    </div>
+    <div class="glos-item">
+      <div class="glos-term">Embedding / Vector</div>
+      <div class="glos-def">Representación numérica de una palabra o frase. Permite a la IA entender que "evaluación" y "rúbrica" están relacionadas, aunque no sean sinónimos. Lo verás en la Apertura Conceptual.</div>
+    </div>
+    <div class="glos-item">
+      <div class="glos-term">Alucinación</div>
+      <div class="glos-def">Cuando la IA inventa información que suena verosímil pero es incorrecta. No es un error de cálculo — es una predicción lingüística errada. Por eso siempre validas el contenido generado.</div>
+    </div>
+    <div class="glos-item">
+      <div class="glos-term">Contexto / Ventana de contexto</div>
+      <div class="glos-def">Todo lo que la IA "recuerda" dentro de una conversación. Si cierras la ventana y abres una nueva, la IA no recuerda lo anterior. El contexto se reinicia.</div>
+    </div>
+    <div class="glos-item">
+      <div class="glos-term">Canvas (Gemini)</div>
+      <div class="glos-def">Herramienta de Gemini que genera dashboards interactivos y visualizaciones a partir de datos. La usamos en M2 para analizar el libro de calificaciones.</div>
+    </div>
+    <div class="glos-item">
+      <div class="glos-term">Audio Overview (NotebookLM)</div>
+      <div class="glos-def">La función de NotebookLM que convierte tus documentos en un podcast de dos voces generado automáticamente. Descargable como MP3.</div>
+    </div>
+    <div class="glos-item">
+      <div class="glos-term">Freemium</div>
+      <div class="glos-def">Modelo de acceso con versión gratuita con límites y versión de pago sin límites. Todas las herramientas del taller funcionan correctamente en la versión gratuita.</div>
+    </div>
+    <div class="glos-item">
+      <div class="glos-term">Multimodalidad</div>
+      <div class="glos-def">Capacidad de la IA de procesar no solo texto sino también imágenes, audio, PDFs y otros formatos. Claude, Gemini y ChatGPT son multimodales.</div>
+    </div>
+  </div>
+
+  <div class="sec-divider"></div>
+
+  <!-- ── 5. FICHA DE COMPROMISO ─────────────────── -->
+  <div class="sec-label">
+    <div class="sec-label-icon ic-red">📝</div>
+    <div>
+      <h2>Ficha de Compromiso</h2>
+      <span>Completa este formulario antes del primer módulo · 3 minutos</span>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-head">
+      <div class="form-section-icon">📋</div>
+      <div class="form-section-meta">
+        <strong>Ficha de Compromiso — IA para Enseñar Mejor UBE 2025</strong>
+        <p>Tu compromiso queda registrado con nombre, asignatura y fecha estimada de implementación. A los 30 días recibirás un recordatorio para reportar cómo te fue.</p>
+      </div>
+    </div>
+
+    <!-- ══ REEMPLAZA ESTO CON TU IFRAME DE GOOGLE FORMS ══
+         Pasos:
+         1. Abre tu Google Form
+         2. Clic en "Enviar" → ícono de "<>" (Insertar HTML)
+         3. Copia el código iframe que aparece
+         4. Reemplaza el bloque .form-placeholder de abajo con ese iframe
+         Ejemplo de cómo quedará:
+         <iframe src="https://docs.google.com/forms/d/e/TU_ID/viewform?embedded=true"
+                 width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">
+           Cargando…
+         </iframe>
+    -->
+    <div class="form-placeholder">
+      <p>📋 Aquí va el formulario de Google Forms</p>
+      <p style="margin-top:0.5rem">Reemplaza este bloque con el iframe de tu Google Form.</p>
+      <p style="margin-top:0.8rem"><code>&lt;iframe src="https://docs.google.com/forms/d/e/TU_ID/viewform?embedded=true" width="100%" height="900" frameborder="0"&gt;&lt;/iframe&gt;</code></p>
+    </div>
+
+  </div>
+
+  <div class="nota nota-green" style="margin-top:1.2rem">
+    <span class="nota-icon">✅</span>
+    <span><strong>Después de completar el formulario</strong> — ve a la <a href="#" style="color:#6ee7b7">Apertura Conceptual</a> para comenzar el programa. Tendrás acceso permanente a este sitio durante y después del taller.</span>
+  </div>
+
+  <!-- BOTONES NAVEGACIÓN -->
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.07)">
+    <a href="#" class="btn-ghost">← Volver al Inicio</a>
+    <a href="#" class="btn-red">Ir a la Apertura Conceptual →</a>
+  </div>
+
+</div>
+
+<footer>
+  Universidad Bolivariana del Ecuador · Carrera de Ciencias de la Educación · IA para Enseñar Mejor 2025
+</footer>
+
+</body>
+</html>

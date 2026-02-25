@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kit y Seguimiento · IA para Enseñar Mejor</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--rojo:#de2a35;--rojo-dark:#b5202a;--negro:#121416;--verde:#10b981;--azul:#0ea5e9;--morado:#8b5cf6}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:'Sora',sans-serif;background:var(--negro);color:#fff;line-height:1.6}
+nav{background:rgba(18,20,22,.97);border-bottom:1px solid rgba(255,255,255,.07);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.nav-badge{background:var(--rojo);color:#fff;font-weight:800;font-size:.85rem;padding:4px 9px;border-radius:5px;margin-right:10px}
+.nav-sep{width:1px;height:24px;background:rgba(255,255,255,.1)}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.78rem;font-weight:500;padding:6px 12px;border-radius:7px;transition:all .2s}
+.nav-links a:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav-links a.active{background:rgba(222,42,53,.15);color:#ff8a80}
+.page-hero{padding:3.5rem 2rem 3rem;border-bottom:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;background:linear-gradient(135deg,#121416,#0d0f11)}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(222,42,53,.07) 0%,transparent 60%)}
+.page-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:2;text-align:center}
+.page-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(222,42,53,.1);border:1px solid rgba(222,42,53,.2);border-radius:100px;padding:4px 14px;margin-bottom:1rem;font-size:.72rem;font-weight:600;color:#ff8a80;text-transform:uppercase;letter-spacing:.08em}
+.page-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;margin-bottom:.8rem}
+.page-title em{color:var(--rojo);font-style:normal}
+.page-sub{font-size:.92rem;color:rgba(255,255,255,.5);max-width:580px;margin:0 auto;line-height:1.8}
+.main{max-width:900px;margin:0 auto;padding:3rem 2rem 5rem}
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
+.sec-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.sec-label h2{font-size:1.1rem;font-weight:700;color:#fff}
+.sec-label p{font-size:.78rem;color:rgba(255,255,255,.4);margin-top:2px}
+.divider{height:1px;background:rgba(255,255,255,.07);margin:2.5rem 0}
+/* LOGROS */
+.logros-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-bottom:1.5rem}
+.logro-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.2rem;display:flex;gap:1rem;align-items:flex-start}
+.logro-icon{font-size:1.5rem;flex-shrink:0}
+.logro-title{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:3px}
+.logro-desc{font-size:.76rem;color:rgba(255,255,255,.45);line-height:1.6}
+/* PROMPTS KIT */
+.kit-grid{display:flex;flex-direction:column;gap:.8rem}
+.kit-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:13px;overflow:hidden}
+.kit-header{display:flex;align-items:center;gap:12px;padding:.9rem 1.2rem;cursor:pointer;user-select:none}
+.kit-header:hover{background:rgba(255,255,255,.03)}
+.kit-num{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:#fff;flex-shrink:0}
+.kit-meta{flex:1}
+.kit-meta strong{display:block;font-size:.85rem;font-weight:700;color:#fff}
+.kit-meta span{font-size:.74rem;color:rgba(255,255,255,.4)}
+.kit-tool{font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:100px;flex-shrink:0}
+.kit-chevron{font-size:.75rem;color:rgba(255,255,255,.25);transition:transform .2s;flex-shrink:0}
+.kit-item.open .kit-chevron{transform:rotate(180deg)}
+.kit-body{display:none;padding:0 1.2rem 1.2rem}
+.kit-item.open .kit-body{display:block}
+.prompt-box{background:#0d0f11;border:1px solid rgba(255,255,255,.1);border-radius:10px;overflow:hidden;margin-top:.6rem}
+.prompt-header{padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07)}
+.prompt-label{font-size:.68rem;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em}
+.copy-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);border-radius:5px;padding:3px 10px;font-size:.68rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif}
+.copy-btn.copied{color:#6ee7b7;background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.2)}
+.prompt-content{padding:1rem;font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.9;font-family:'DM Mono',monospace;white-space:pre-wrap}
+/* DESCARGA */
+.descarga-box{background:rgba(222,42,53,.07);border:1px solid rgba(222,42,53,.2);border-radius:16px;padding:1.8rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.descarga-icon{font-size:2.5rem;flex-shrink:0}
+.descarga-meta{flex:1}
+.descarga-meta strong{display:block;font-size:1rem;font-weight:700;color:#fff;margin-bottom:.3rem}
+.descarga-meta p{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.6}
+.btn-descarga{display:inline-flex;align-items:center;gap:8px;background:var(--rojo);color:#fff;padding:11px 22px;border-radius:9px;font-size:.88rem;font-weight:600;text-decoration:none;white-space:nowrap}
+.btn-descarga:hover{background:var(--rojo-dark)}
+/* SEGUIMIENTO */
+.seguimiento-box{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:16px;padding:2rem}
+.seg-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.seg-icon{width:52px;height:52px;border-radius:14px;background:var(--verde);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.seg-meta strong{display:block;font-size:1rem;font-weight:700;color:#fff;margin-bottom:3px}
+.seg-meta p{font-size:.82rem;color:rgba(255,255,255,.45)}
+.seg-timeline{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem}
+.seg-item{display:flex;gap:1rem;align-items:flex-start;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.seg-item:last-child{border-bottom:none}
+.seg-day{width:80px;font-family:'DM Mono',monospace;font-size:.7rem;color:var(--verde);font-weight:700;flex-shrink:0;padding-top:2px}
+.seg-text{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.6}
+.seg-text strong{color:#fff}
+.form-placeholder{background:rgba(255,255,255,.02);border:2px dashed rgba(16,185,129,.2);border-radius:10px;padding:2rem;text-align:center}
+.form-placeholder p{font-size:.82rem;color:rgba(255,255,255,.3);margin-bottom:.4rem}
+.form-placeholder code{font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(16,185,129,.5);background:rgba(16,185,129,.08);padding:2px 7px;border-radius:4px}
+/* CIERRE */
+.cierre{background:var(--rojo);border-radius:16px;padding:2.5rem;text-align:center;margin-top:2rem}
+.cierre h2{font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:.8rem}
+.cierre p{font-size:.88rem;color:rgba(255,255,255,.75);max-width:500px;margin:0 auto 1.5rem;line-height:1.8}
+.btn-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--rojo);padding:12px 28px;border-radius:9px;font-size:.9rem;font-weight:700;text-decoration:none}
+.btn-white:hover{background:#f0f0f0}
+.nota{border-radius:10px;padding:1rem 1.2rem;font-size:.82rem;line-height:1.7;display:flex;gap:10px;margin-top:1rem}
+.nota-green{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:rgba(255,255,255,.65)}
+.nota-green strong{color:#6ee7b7}
+footer{background:#080a0c;border-top:1px solid rgba(255,255,255,.06);padding:1.5rem 2rem;text-align:center;font-size:.75rem;color:rgba(255,255,255,.25)}
+@media(max-width:768px){nav .nav-links{display:none}.descarga-box{flex-direction:column}}
+</style>
+</head>
+<body>
+<nav>
+  <div style="display:flex;align-items:center"><span class="nav-badge">UBE</span><div class="nav-sep" style="margin:0 12px"></div><span style="font-size:.8rem;color:rgba(255,255,255,.5)">IA para Enseñar Mejor</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li><li><a href="antes-de-empezar.html">Antes</a></li><li><a href="apertura.html">Apertura</a></li>
+    <li><a href="modulo1.html">M1</a></li><li><a href="modulo2.html">M2</a></li><li><a href="modulo3.html">M3</a></li>
+    <li><a href="modulo4.html">M4</a></li><li><a href="modulo5.html">M5</a></li><li><a href="kit.html" class="active">Kit</a></li>
+  </ul>
+</nav>
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-tag">🏁 Cierre del Taller</div>
+    <h1 class="page-title">Kit de<br><em>Implementación</em><br>+ Seguimiento</h1>
+    <p class="page-sub">Todo lo que necesitas para aplicar lo aprendido desde la primera semana. Tus 10 prompts listos para usar, el documento Word descargable y el formulario de reporte de impacto a 30 días.</p>
+  </div>
+</section>
+<div class="main">
+
+  <!-- LOGROS -->
+  <div class="sec-label">
+    <div class="sec-icon" style="background:linear-gradient(135deg,#fde68a,#f59e0b)">🏆</div>
+    <div><h2>Lo que lograste hoy</h2><p>5 competencias reales construidas con tus materiales</p></div>
+  </div>
+  <div class="logros-grid">
+    <div class="logro-card"><div class="logro-icon">🔍</div><div><div class="logro-title">Diagnóstico cualitativo</div><div class="logro-desc">Analizaste trabajos reales de estudiantes con Claude y obtuviste un mapa de comprensión grupal.</div></div></div>
+    <div class="logro-card"><div class="logro-icon">📊</div><div><div class="logro-title">Analítica de notas</div><div class="logro-desc">Transformaste tu libro de calificaciones de Moodle en un dashboard visual interactivo con Gemini.</div></div></div>
+    <div class="logro-card"><div class="logro-icon">🎙️</div><div><div class="logro-title">Recursos multimodales</div><div class="logro-desc">Convertiste una lectura de cátedra en podcast, guion de historieta o memes pedagógicos.</div></div></div>
+    <div class="logro-card"><div class="logro-icon">🎬</div><div><div class="logro-title">Evaluación desde clase</div><div class="logro-desc">Transcribiste tu propia voz con Whisper y construiste un Google Forms con calificación automática.</div></div></div>
+    <div class="logro-card"><div class="logro-icon">✍️</div><div><div class="logro-title">Materiales en cadena</div><div class="logro-desc">Usaste ChatGPT + Claude en secuencia para diseñar una rúbrica o secuencia didáctica de calidad.</div></div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- KIT DE PROMPTS -->
+  <div class="sec-label">
+    <div class="sec-icon" style="background:linear-gradient(135deg,#60c8ff,#0ea5e9)">📋</div>
+    <div><h2>Kit completo — 10 prompts listos para usar</h2><p>Haz clic en cada uno para ver y copiar el prompt</p></div>
+  </div>
+
+  <div class="kit-grid">
+    <div class="kit-item open">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#117a65">P1</div>
+        <div class="kit-meta"><strong>Diagnóstico cualitativo del grupo</strong><span>Analiza trabajos escritos de estudiantes</span></div>
+        <span class="kit-tool" style="background:rgba(17,122,101,.15);border:1px solid rgba(17,122,101,.25);color:#6ee7b7">Claude</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P1 · Claude AI</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">Eres un experto en evaluación formativa. Analiza los trabajos adjuntos de [ASIGNATURA] e identifica: errores conceptuales frecuentes, nivel argumentativo del grupo (Bloom), vocabulario disciplinar ausente o mal usado, y 3 recomendaciones pedagógicas concretas para la próxima clase. Sé específico, cita fragmentos textuales. Responde en español.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-item">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#1a5276">P2</div>
+        <div class="kit-meta"><strong>Dashboard de notas</strong><span>Analítica desde CSV de Moodle</span></div>
+        <span class="kit-tool" style="background:rgba(26,82,118,.15);border:1px solid rgba(26,82,118,.25);color:#7dd3fc">Gemini</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P2 · Gemini + Canvas</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">Analiza el CSV adjunto de calificaciones de [ASIGNATURA]. Crea un dashboard interactivo con: distribución de notas (aprobados / en riesgo / reprobados), comparación entre actividades evaluativas, tabla de estudiantes en riesgo y resumen ejecutivo con 5 conclusiones pedagógicas. Responde en español.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-item">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#6c3483">P3b</div>
+        <div class="kit-meta"><strong>Historieta pedagógica</strong><span>Guion de cómic desde lectura de cátedra</span></div>
+        <span class="kit-tool" style="background:rgba(108,52,131,.15);border:1px solid rgba(108,52,131,.25);color:#c4b5fd">Claude/GPT</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P3b · Claude o ChatGPT</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">Crea el guion de una historieta pedagógica de 6 viñetas sobre [TEMA] para estudiantes de [ASIGNATURA]. Dos estudiantes latinoamericanos como protagonistas. Cada viñeta: descripción visual, diálogos (máx 2 bocadillos), concepto pedagógico ilustrado. Arco narrativo: problema → exploración → comprensión.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-item">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#6c3483">P3c</div>
+        <div class="kit-meta"><strong>Memes pedagógicos</strong><span>5 memes didácticos desde tus contenidos</span></div>
+        <span class="kit-tool" style="background:rgba(108,52,131,.15);border:1px solid rgba(108,52,131,.25);color:#c4b5fd">Claude/GPT</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P3c · Claude o ChatGPT</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">Crea 5 memes pedagógicos sobre [TEMA de ASIGNATURA]. Para cada uno: formato base (Drake, Expanding Brain, etc.), texto zona superior, texto zona inferior, concepto pedagógico que refuerza, nivel Bloom, momento de uso en clase. Humor de situación, pedagógicamente defendible.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-item">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#784212">P4</div>
+        <div class="kit-meta"><strong>Clase a Google Forms</strong><span>Evaluación formativa desde transcripción</span></div>
+        <span class="kit-tool" style="background:rgba(120,66,18,.15);border:1px solid rgba(120,66,18,.25);color:#fcd34d">ChatGPT</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P4 · ChatGPT</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">A partir de esta transcripción de clase de [ASIGNATURA], genera 8 preguntas para Google Forms (4 opción múltiple, 2 respuesta corta, 2 párrafo). Para cada pregunta: texto, opciones, respuesta correcta, puntaje, retroalimentación correcta e incorrecta. Incluye título y descripción del formulario.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-item">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#154360">P5a-1</div>
+        <div class="kit-meta"><strong>Rúbrica — estructura (ChatGPT)</strong><span>Paso 1 de la cadena</span></div>
+        <span class="kit-tool" style="background:rgba(21,67,96,.15);border:1px solid rgba(21,67,96,.25);color:#93c5fd">ChatGPT</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P5a Paso 1 · ChatGPT</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">Crea una rúbrica holística para evaluar [TIPO DE TRABAJO] en [ASIGNATURA] universitaria. 5 criterios, 4 niveles (Excelente/Satisfactorio/En desarrollo/Insuficiente), descriptores conductuales específicos, peso porcentual por criterio. Formato tabla Markdown.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-item">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#154360">P5a-2</div>
+        <div class="kit-meta"><strong>Rúbrica — profundidad (Claude)</strong><span>Paso 2 de la cadena</span></div>
+        <span class="kit-tool" style="background:rgba(17,122,101,.15);border:1px solid rgba(17,122,101,.25);color:#6ee7b7">Claude</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P5a Paso 2 · Claude</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">Analiza críticamente esta rúbrica desde pedagogía constructivista: revisa descriptores ambiguos, verifica alineación curricular con [ASIGNATURA], reescribe el nivel Insuficiente de forma diagnóstica, entrega versión mejorada completa y 3 recomendaciones para usarla formativamente. [PEGAR RÚBRICA]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-item">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#154360">P5b-1</div>
+        <div class="kit-meta"><strong>Secuencia — estructura (ChatGPT)</strong><span>Paso 1 de la cadena</span></div>
+        <span class="kit-tool" style="background:rgba(21,67,96,.15);border:1px solid rgba(21,67,96,.25);color:#93c5fd">ChatGPT</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P5b Paso 1 · ChatGPT</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">Diseña el esqueleto de una secuencia didáctica de [DURACIÓN] para enseñar [TEMA] en [ASIGNATURA] universitaria. Tabla Markdown con: Momento | Duración | Actividad | Recurso | Agrupación. Incluye apertura, desarrollo y cierre. Al menos 1 actividad colaborativa y 1 momento de retroalimentación entre pares.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-item">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#154360">P5b-2</div>
+        <div class="kit-meta"><strong>Secuencia — sustento (Claude)</strong><span>Paso 2 de la cadena</span></div>
+        <span class="kit-tool" style="background:rgba(17,122,101,.15);border:1px solid rgba(17,122,101,.25);color:#6ee7b7">Claude</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P5b Paso 2 · Claude</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">Enriquece esta secuencia didáctica para [TEMA / ASIGNATURA] con: justificación pedagógica por momento (Vigotsky, Bloom, Ausubel), preguntas generadoras para pensamiento de orden superior, señales de comprensión observables, adaptaciones para diversidad. Entrega secuencia final integrada. [PEGAR SECUENCIA]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kit-item">
+      <div class="kit-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="kit-num" style="background:#de2a35">P+</div>
+        <div class="kit-meta"><strong>Prompt bonus — retroalimentación escrita</strong><span>Para comentarios formativos en trabajos</span></div>
+        <span class="kit-tool" style="background:rgba(222,42,53,.12);border:1px solid rgba(222,42,53,.2);color:#fca5a5">Claude</span>
+        <span class="kit-chevron">▼</span>
+      </div>
+      <div class="kit-body">
+        <div class="prompt-box">
+          <div class="prompt-header"><span class="prompt-label">P+ Bonus · Claude</span><button class="copy-btn" onclick="copiarPrompt(this)">Copiar</button></div>
+          <div class="prompt-content">Genera retroalimentación escrita formativa para este trabajo de [ASIGNATURA]: [PEGAR TRABAJO]. La retroalimentación debe: (1) reconocer 2 fortalezas específicas del trabajo, (2) identificar 2 áreas de mejora con ejemplos concretos del texto, (3) sugerir 3 acciones específicas para la próxima entrega. Tono: colega pedagógico, no evaluador. 200–300 palabras. Responde en español.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DESCARGA WORD -->
+  <div class="sec-label">
+    <div class="sec-icon" style="background:linear-gradient(135deg,#ff6b6b,#de2a35)">📥</div>
+    <div><h2>Documento de referencia</h2><p>Descarga el programa completo del taller en Word</p></div>
+  </div>
+  <div class="descarga-box">
+    <div class="descarga-icon">📄</div>
+    <div class="descarga-meta">
+      <strong>Taller IA para Enseñar Mejor — UBE 2025</strong>
+      <p>Programa completo con todos los prompts, flujos de trabajo, estructura de módulos y bibliografía de referencia. Para imprimir o guardar como referencia offline.</p>
+    </div>
+    <a href="#" class="btn-descarga">⬇️ Descargar Word</a>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SEGUIMIENTO 30 DÍAS -->
+  <div class="sec-label">
+    <div class="sec-icon" style="background:linear-gradient(135deg,#4ade80,#10b981)">📅</div>
+    <div><h2>Plan de implementación — 30 días</h2><p>Tu hoja de ruta post-taller</p></div>
+  </div>
+  <div class="seguimiento-box">
+    <div class="seg-header">
+      <div class="seg-icon">🗓️</div>
+      <div class="seg-meta">
+        <strong>Compromiso de implementación progresiva</strong>
+        <p>Una herramienta nueva por semana. Sin saturación, con intención pedagógica.</p>
+      </div>
+    </div>
+    <div class="seg-timeline">
+      <div class="seg-item"><div class="seg-day">Semana 1</div><div class="seg-text"><strong>Diagnóstico con Claude (P1).</strong> Analiza los trabajos de tu próxima entrega con el Prompt P1. Compara el diagnóstico IA con el tuyo propio.</div></div>
+      <div class="seg-item"><div class="seg-day">Semana 2</div><div class="seg-text"><strong>Dashboard de notas (P2).</strong> Exporta el CSV de Moodle después de la primera evaluación del ciclo y genera el dashboard con Gemini.</div></div>
+      <div class="seg-item"><div class="seg-day">Semana 3</div><div class="seg-text"><strong>Recurso multimodal (P3b o P3c).</strong> Transforma una lectura obligatoria en podcast (NotebookLM) o memes pedagógicos (Claude/ChatGPT).</div></div>
+      <div class="seg-item"><div class="seg-day">Semana 4</div><div class="seg-text"><strong>Reporte de impacto.</strong> Completa el formulario de seguimiento abajo. Tu experiencia ayuda a la Dirección Académica a tomar decisiones sobre la integración de IA en la carrera.</div></div>
+    </div>
+
+    <!-- FORM SEGUIMIENTO -->
+    <div class="form-placeholder">
+      <p>📋 Formulario de Reporte de Impacto — 30 días</p>
+      <p style="margin-top:.4rem">Reemplaza este bloque con el iframe de tu Google Form de seguimiento.</p>
+      <p style="margin-top:.7rem"><code>&lt;iframe src="https://docs.google.com/forms/d/e/TU_ID_SEGUIMIENTO/viewform?embedded=true" width="100%" height="900" frameborder="0"&gt;&lt;/iframe&gt;</code></p>
+    </div>
+  </div>
+
+  <div class="nota nota-green" style="margin-top:1.5rem">
+    <span>✅</span>
+    <span><strong>Tu carpeta Drive del taller</strong> permanece activa durante el ciclo académico. Puedes volver a subir versiones mejoradas de tus entregables y acceder a los materiales del facilitador en cualquier momento.</span>
+  </div>
+
+  <!-- CIERRE -->
+  <div class="cierre">
+    <h2>Gracias por participar</h2>
+    <p>La IA más poderosa no es la que genera el texto más elaborado — es la que ayuda al docente a hacerse las preguntas correctas sobre su práctica.</p>
+    <a href="index.html" class="btn-white">← Volver al Inicio</a>
+  </div>
+
+</div>
+<footer>Universidad Bolivariana del Ecuador · Carrera de Ciencias de la Educación · IA para Enseñar Mejor 2025</footer>
+<script>
+function copiarPrompt(btn){const c=btn.closest('.prompt-box').querySelector('.prompt-content').innerText;navigator.clipboard.writeText(c).catch(()=>{});btn.textContent='✓ Copiado';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copiar prompt';btn.classList.remove('copied')},2500)}
+</script>
+</body>
+</html>
