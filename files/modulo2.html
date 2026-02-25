@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Módulo 2 — Analítica de Notas · IA para Enseñar Mejor</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--rojo:#de2a35;--mc:#1a5276;--mcl:#d6eaf8;--negro:#121416;--verde:#10b981;--azul:#0ea5e9}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:'Sora',sans-serif;background:var(--negro);color:#fff;line-height:1.6}
+nav{background:rgba(18,20,22,.97);border-bottom:1px solid rgba(255,255,255,.07);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.nav-badge{background:var(--rojo);color:#fff;font-weight:800;font-size:.85rem;padding:4px 9px;border-radius:5px;margin-right:10px}
+.nav-sep{width:1px;height:24px;background:rgba(255,255,255,.1)}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.78rem;font-weight:500;padding:6px 12px;border-radius:7px;transition:all .2s}
+.nav-links a:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav-links a.active{background:rgba(26,82,118,.2);color:#7dd3fc}
+.page-hero{padding:3.5rem 2rem 3rem;border-bottom:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;background:linear-gradient(135deg,#121416,#0d0f11)}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 80% 50%,rgba(26,82,118,.12) 0%,transparent 60%)}
+.page-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:2}
+.breadcrumb{font-size:.7rem;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;margin-bottom:.8rem;display:flex;align-items:center;gap:6px}
+.breadcrumb a{color:rgba(255,255,255,.4);text-decoration:none}
+.mod-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(26,82,118,.15);border:1px solid rgba(26,82,118,.35);border-radius:100px;padding:4px 14px;margin-bottom:1rem;font-size:.72rem;font-weight:600;color:#7dd3fc;text-transform:uppercase;letter-spacing:.08em}
+.page-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;margin-bottom:.8rem}
+.page-title em{color:#7dd3fc;font-style:normal}
+.page-sub{font-size:.92rem;color:rgba(255,255,255,.5);max-width:580px;line-height:1.8;margin-bottom:1.5rem}
+.hero-chips{display:flex;flex-wrap:wrap;gap:.6rem}
+.chip{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:5px 14px;font-size:.76rem;color:rgba(255,255,255,.6)}
+.chip .dot{width:6px;height:6px;border-radius:50%}
+.main{max-width:900px;margin:0 auto;padding:3rem 2rem 5rem}
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
+.sec-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.sec-label h2{font-size:1.1rem;font-weight:700;color:#fff}
+.sec-label p{font-size:.78rem;color:rgba(255,255,255,.4);margin-top:2px}
+.divider{height:1px;background:rgba(255,255,255,.07);margin:2.5rem 0}
+.flujo{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.5rem}
+.flujo-step{display:flex;gap:1rem;padding:1rem 1.3rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:13px}
+.flujo-step:hover{border-color:rgba(26,82,118,.3)}
+.fs-num{width:34px;height:34px;border-radius:10px;background:var(--mc);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#fff;flex-shrink:0}
+.fs-title{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+.fs-desc{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.7}
+.fs-tool{display:inline-flex;align-items:center;gap:5px;background:rgba(26,82,118,.12);border:1px solid rgba(26,82,118,.25);border-radius:100px;padding:3px 10px;font-size:.7rem;color:#7dd3fc;margin-top:.4rem}
+.prompt-box{background:#0d0f11;border:1px solid rgba(26,82,118,.3);border-radius:14px;overflow:hidden;margin:.8rem 0}
+.prompt-header{background:rgba(26,82,118,.1);padding:.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(26,82,118,.2)}
+.prompt-label{font-size:.72rem;font-weight:700;color:#7dd3fc;text-transform:uppercase;letter-spacing:.08em}
+.copy-btn{background:rgba(26,82,118,.2);border:1px solid rgba(26,82,118,.3);color:#7dd3fc;border-radius:6px;padding:4px 12px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif}
+.copy-btn.copied{color:#fff;background:var(--mc)}
+.prompt-content{padding:1.2rem;font-size:.82rem;color:rgba(255,255,255,.8);line-height:1.9;font-family:'DM Mono',monospace;white-space:pre-wrap}
+.reto-box{background:rgba(26,82,118,.06);border:1px solid rgba(26,82,118,.2);border-radius:16px;padding:1.8rem;margin:.5rem 0}
+.reto-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.3rem}
+.reto-icon{width:48px;height:48px;border-radius:13px;background:var(--mc);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.reto-meta strong{display:block;font-size:1rem;font-weight:700;color:#fff;margin-bottom:3px}
+.reto-meta span{font-size:.8rem;color:rgba(255,255,255,.45)}
+.rs{display:flex;gap:10px;font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:.5rem}
+.rs-n{width:20px;height:20px;border-radius:50%;background:rgba(26,82,118,.3);color:#7dd3fc;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.drive-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,82,118,.15);border:1px solid rgba(26,82,118,.25);color:#7dd3fc;padding:9px 20px;border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .2s;margin-top:1rem}
+.nota{border-radius:10px;padding:1rem 1.2rem;font-size:.82rem;line-height:1.7;display:flex;gap:10px;margin-top:1rem}
+.nota-info{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);color:rgba(255,255,255,.65)}
+.nota-green{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:rgba(255,255,255,.65)}
+.nota-info strong{color:#7dd3fc}.nota-green strong{color:#6ee7b7}
+.nav-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.07)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:rgba(255,255,255,.65);padding:11px 24px;border-radius:9px;font-size:.88rem;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.13);transition:all .2s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.28);color:#fff}
+.btn-mc{display:inline-flex;align-items:center;gap:8px;background:var(--mc);color:#fff;padding:11px 24px;border-radius:9px;font-size:.88rem;font-weight:600;text-decoration:none;transition:all .2s}
+.btn-mc:hover{background:#154360;transform:translateY(-1px)}
+footer{background:#080a0c;border-top:1px solid rgba(255,255,255,.06);padding:1.5rem 2rem;text-align:center;font-size:.75rem;color:rgba(255,255,255,.25)}
+@media(max-width:768px){nav .nav-links{display:none}}
+</style>
+</head>
+<body>
+<nav>
+  <div style="display:flex;align-items:center">
+    <span class="nav-badge">UBE</span>
+    <div class="nav-sep" style="margin:0 12px"></div>
+    <span style="font-size:.8rem;color:rgba(255,255,255,.5)">IA para Enseñar Mejor</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="antes-de-empezar.html">Antes</a></li>
+    <li><a href="apertura.html">Apertura</a></li>
+    <li><a href="modulo1.html">M1</a></li>
+    <li><a href="modulo2.html" class="active">M2</a></li>
+    <li><a href="modulo3.html">M3</a></li>
+    <li><a href="modulo4.html">M4</a></li>
+    <li><a href="modulo5.html">M5</a></li>
+    <li><a href="kit.html">Kit</a></li>
+  </ul>
+</nav>
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Inicio</a> <span>›</span> Módulo 2</div>
+    <div class="mod-tag">📊 Módulo 2 · Sesión 1</div>
+    <h1 class="page-title">Analítica de<br><em>Notas</em> con Gemini</h1>
+    <p class="page-sub">Exporta el libro de calificaciones de Moodle como CSV, súbelo a Gemini y genera un dashboard interactivo con distribución de notas, estudiantes en riesgo y correlaciones de desempeño.</p>
+    <div class="hero-chips">
+      <div class="chip"><div class="dot" style="background:#0ea5e9"></div> Gemini + Canvas</div>
+      <div class="chip"><div class="dot" style="background:var(--rojo)"></div> 45 minutos</div>
+      <div class="chip"><div class="dot" style="background:#10b981"></div> Sesión 1</div>
+      <div class="chip"><div class="dot" style="background:#f59e0b"></div> Nivel básico</div>
+    </div>
+  </div>
+</section>
+<div class="main">
+  <div class="sec-label">
+    <div class="sec-icon" style="background:linear-gradient(135deg,#60c8ff,#0ea5e9)">🎯</div>
+    <div><h2>¿Qué vas a lograr?</h2></div>
+  </div>
+  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem">
+    <p style="font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.9">Transformar un archivo CSV de calificaciones en un dashboard visual interactivo que te permite identificar de un vistazo: distribución del grupo, estudiantes en riesgo académico, actividades con bajo desempeño generalizado y correlaciones entre diferentes evaluaciones. <strong style="color:#fff">De datos crudos a decisiones pedagógicas en menos de 5 minutos.</strong></p>
+  </div>
+  <div class="divider"></div>
+  <div class="sec-label">
+    <div class="sec-icon" style="background:linear-gradient(135deg,#60c8ff,#0ea5e9)">⚙️</div>
+    <div><h2>Flujo de trabajo</h2><p>Desde Moodle hasta el dashboard visual</p></div>
+  </div>
+  <div class="flujo">
+    <div class="flujo-step">
+      <div class="fs-num">1</div>
+      <div class="fs-body">
+        <div class="fs-title">Exporta el libro de calificaciones de Moodle como CSV</div>
+        <div class="fs-desc">En Moodle: Calificaciones → Exportar → Hoja de cálculo Excel o CSV. Selecciona el grupo y todas las actividades evaluativas. Descarga el archivo.</div>
+        <span class="fs-tool">📥 Moodle → Calificaciones → Exportar → CSV</span>
+      </div>
+    </div>
+    <div class="flujo-step">
+      <div class="fs-num">2</div>
+      <div class="fs-body">
+        <div class="fs-title">Abre Gemini y activa Canvas</div>
+        <div class="fs-desc">Ve a gemini.google.com → nueva conversación → asegúrate de que el modo Canvas esté disponible (aparece como opción al lado del campo de texto).</div>
+        <span class="fs-tool">🌐 gemini.google.com</span>
+      </div>
+    </div>
+    <div class="flujo-step">
+      <div class="fs-num">3</div>
+      <div class="fs-body">
+        <div class="fs-title">Sube el archivo CSV y pega el prompt P2</div>
+        <div class="fs-desc">Arrastra el CSV al chat de Gemini, luego copia y pega el Prompt P2 de la sección siguiente. Personaliza el nombre de tu asignatura.</div>
+      </div>
+    </div>
+    <div class="flujo-step">
+      <div class="fs-num">4</div>
+      <div class="fs-body">
+        <div class="fs-title">Explora el dashboard y captura los insights</div>
+        <div class="fs-desc">Gemini generará un dashboard interactivo. Explora cada sección, identifica los estudiantes en riesgo y guarda capturas de los gráficos más relevantes.</div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="sec-label">
+    <div class="sec-icon" style="background:linear-gradient(135deg,#2dd4bf,#0d9488)">📋</div>
+    <div><h2>Prompt P2 — Analítica con Dashboard</h2></div>
+  </div>
+  <div class="prompt-box">
+    <div class="prompt-header">
+      <span class="prompt-label">📊 P2 · Gemini + Canvas — Dashboard de Notas</span>
+      <button class="copy-btn" onclick="copiarPrompt(this)">Copiar prompt</button>
+    </div>
+    <div class="prompt-content">Analiza el archivo CSV adjunto que contiene el libro de calificaciones de mi asignatura [NOMBRE DE LA ASIGNATURA] con [NÚMERO] estudiantes.
+
+Crea un dashboard interactivo que visualice los resultados obtenidos del análisis de datos académicos. El panel debe incluir:
+
+1. DISTRIBUCIÓN DE NOTAS: Histograma con la distribución de calificaciones finales. Identifica la escala de notas (0-10 o 0-100) y clasifica en: aprobados, en riesgo (nota entre el mínimo y 2 puntos sobre el mínimo) y reprobados.
+
+2. COMPARACIÓN ENTRE ACTIVIDADES EVALUATIVAS: Gráfico de barras comparando el promedio de cada actividad/tarea/examen. Identifica cuáles tienen el desempeño más bajo del grupo.
+
+3. ESTUDIANTES EN RIESGO ACADÉMICO: Tabla con los estudiantes cuya nota actual los coloca en riesgo de reprobar. Incluye su promedio actual y cuántos puntos necesitan para aprobar.
+
+4. CORRELACIONES ENTRE DESEMPEÑOS: Mapa de calor o gráfico de dispersión mostrando si hay relación entre el desempeño en distintas actividades.
+
+5. RESUMEN EJECUTIVO PEDAGÓGICO: 5 conclusiones concretas para orientar decisiones didácticas en las próximas semanas.
+
+Organiza la información en secciones claras. Usa visualizaciones comprensibles para docentes universitarios. Responde en español.</div>
+  </div>
+  <div class="nota nota-info">
+    <span>ℹ️</span>
+    <span><strong>Si no tienes el CSV de Moodle:</strong> El facilitador tiene un CSV de ejemplo en la carpeta de materiales de Drive. Úsalo para practicar el flujo y luego repite con tus datos reales.</span>
+  </div>
+  <div class="divider"></div>
+  <div class="sec-label">
+    <div class="sec-icon" style="background:linear-gradient(135deg,#ff6b6b,#de2a35)">⚡</div>
+    <div><h2>Reto del Módulo 2</h2></div>
+  </div>
+  <div class="reto-box">
+    <div class="reto-header">
+      <div class="reto-icon">📊</div>
+      <div class="reto-meta">
+        <strong>Genera el dashboard de tu grupo real</strong>
+        <span>30 minutos · Entregable: captura del dashboard o PDF exportado</span>
+      </div>
+    </div>
+    <div class="rs"><div class="rs-n">1</div><span>Exporta el CSV de calificaciones desde Moodle (o usa el ejemplo del facilitador).</span></div>
+    <div class="rs"><div class="rs-n">2</div><span>Abre Gemini → sube el CSV → pega el Prompt P2 personalizado.</span></div>
+    <div class="rs"><div class="rs-n">3</div><span>Explora el dashboard. Identifica al menos 3 estudiantes en riesgo y 1 actividad con bajo desempeño.</span></div>
+    <div class="rs"><div class="rs-n">4</div><span>Exporta o captura el dashboard. Guárdalo en PDF.</span></div>
+    <div class="rs"><div class="rs-n">5</div><span>Sube el archivo a tu carpeta personal en Drive.</span></div>
+    <a href="#" class="drive-btn">📁 Subir mi entregable a Drive →</a>
+  </div>
+  <div class="nota nota-green">
+    <span>✅</span>
+    <span><strong>Conexión al Módulo 3:</strong> Ya tienes el diagnóstico cualitativo (M1) y cuantitativo (M2) de tu grupo. En el M3 aprenderás a transformar tus lecturas de cátedra en recursos de apoyo para los estudiantes que más lo necesitan.</span>
+  </div>
+  <div class="nav-btns">
+    <a href="modulo1.html" class="btn-ghost">← Módulo 1</a>
+    <a href="modulo3.html" class="btn-mc">Módulo 3 →</a>
+  </div>
+</div>
+<footer>Universidad Bolivariana del Ecuador · Carrera de Ciencias de la Educación · IA para Enseñar Mejor 2025</footer>
+<script>function copiarPrompt(btn){const c=btn.closest('.prompt-box').querySelector('.prompt-content').innerText;navigator.clipboard.writeText(c).catch(()=>{});btn.textContent='✓ Copiado';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copiar prompt';btn.classList.remove('copied')},2500)}</script>
+</body>
+</html>
