@@ -6,179 +6,267 @@
 <title>Módulo 1 — Diagnóstico del Foro · IA para Enseñar Mejor</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--rojo:#de2a35;--rojo-dark:#b5202a;--mc:#117A65;--negro:#121416;--negro2:#0d0f11;--verde:#10b981;--azul:#0ea5e9}
+/* ── RESET & VARIABLES ───────────────────────────── */
+:root{--rojo:#de2a35;--mc:#117A65;--negro:#121416;--panel:#0d0f11;--border:rgba(255,255,255,.07);--text-muted:rgba(255,255,255,.45)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Sora',sans-serif;background:var(--negro);color:#fff;line-height:1.6}
-nav{background:rgba(18,20,22,.97);border-bottom:1px solid rgba(255,255,255,.07);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
-.nav-badge{background:var(--rojo);color:#fff;font-weight:800;font-size:.85rem;padding:4px 9px;border-radius:5px;margin-right:10px}
-.nav-sep{width:1px;height:24px;background:rgba(255,255,255,.1)}
-.nav-links{display:flex;gap:4px;list-style:none}
-.nav-links a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.78rem;font-weight:500;padding:6px 12px;border-radius:7px;transition:all .2s}
+body{font-family:'Sora',sans-serif;background:var(--negro);color:#fff;line-height:1.6;overflow-x:hidden}
+
+/* ── NAV ─────────────────────────────────────────── */
+nav{background:rgba(13,15,17,.97);border-bottom:1px solid var(--border);padding:0 1.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;z-index:200;backdrop-filter:blur(14px)}
+.nav-badge{background:var(--rojo);color:#fff;font-weight:800;font-size:.8rem;padding:3px 8px;border-radius:5px;margin-right:10px;letter-spacing:.03em}
+.nav-left{display:flex;align-items:center}
+.nav-title{font-size:.78rem;color:rgba(255,255,255,.4);font-weight:500}
+.nav-links{display:flex;gap:2px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.75rem;font-weight:600;padding:5px 10px;border-radius:6px;transition:all .2s;letter-spacing:.02em}
 .nav-links a:hover{background:rgba(255,255,255,.07);color:#fff}
-.nav-links a.active{background:rgba(17,122,101,.2);color:#6ee7b7}
-.page-hero{background:linear-gradient(135deg,#121416 0%,#0d0f11 100%);padding:3.5rem 2rem 3rem;border-bottom:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden}
-.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 80% 50%,rgba(17,122,101,.1) 0%,transparent 60%)}
-.page-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:2}
-.breadcrumb{font-size:.7rem;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;margin-bottom:.8rem;display:flex;align-items:center;gap:6px}
-.breadcrumb a{color:rgba(255,255,255,.4);text-decoration:none}
-.mod-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(17,122,101,.15);border:1px solid rgba(17,122,101,.3);border-radius:100px;padding:4px 14px;margin-bottom:1rem;font-size:.72rem;font-weight:600;color:#6ee7b7;text-transform:uppercase;letter-spacing:.08em}
-.page-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;margin-bottom:.8rem}
-.page-title em{color:var(--mc);font-style:normal}
-.page-sub{font-size:.92rem;color:rgba(255,255,255,.5);max-width:600px;line-height:1.8;margin-bottom:1.5rem}
-.hero-chips{display:flex;flex-wrap:wrap;gap:.6rem}
-.chip{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:5px 14px;font-size:.76rem;color:rgba(255,255,255,.6)}
-.chip .dot{width:6px;height:6px;border-radius:50%}
-.main{max-width:900px;margin:0 auto;padding:3rem 2rem 5rem}
-.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
-.sec-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.sec-label h2{font-size:1.1rem;font-weight:700;color:#fff}
-.sec-label p{font-size:.78rem;color:rgba(255,255,255,.4);margin-top:2px}
-.divider{height:1px;background:rgba(255,255,255,.07);margin:2.5rem 0}
+.nav-links a.active{background:rgba(17,122,101,.18);color:#6ee7b7}
+
+/* ── PLATZI LAYOUT ───────────────────────────────── */
+.platzi-wrap{display:grid;grid-template-columns:1fr 480px;height:calc(100vh - 58px);position:fixed;top:58px;left:0;right:0;bottom:0}
+
+/* ── COLUMNA IZQUIERDA — contenido ──────────────── */
+.content-col{border-right:1px solid var(--border);overflow-y:auto;height:100%;scroll-behavior:smooth}
+
+/* HERO del módulo */
+.mod-hero{background:linear-gradient(135deg,#0a1a14 0%,#0d1410 40%,#0d0f11 100%);border-bottom:1px solid rgba(17,122,101,.25);position:relative;overflow:hidden;padding:2.8rem 2.5rem 0;box-shadow:0 1px 0 rgba(17,122,101,.15)}
+.mod-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 80% at 95% 20%,rgba(17,122,101,.14) 0%,transparent 55%),radial-gradient(ellipse 35% 50% at 5% 90%,rgba(222,42,53,.07) 0%,transparent 55%);pointer-events:none}
+.mod-hero-left{position:relative;z-index:2;padding-bottom:2rem}
+.mod-hero-right{display:none}
+.mod-breadcrumb{font-size:.67rem;color:rgba(255,255,255,.25);font-family:'DM Mono',monospace;margin-bottom:1rem;display:flex;align-items:center;gap:5px}
+.mod-breadcrumb a{color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s}
+.mod-breadcrumb a:hover{color:rgba(255,255,255,.6)}
+.mod-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(17,122,101,.15);border:1px solid rgba(17,122,101,.28);border-radius:100px;padding:5px 16px;margin-bottom:1.1rem;font-size:.68rem;font-weight:700;color:#6ee7b7;text-transform:uppercase;letter-spacing:.09em}
+.mod-title{font-size:clamp(2.4rem,4vw,3.6rem);font-weight:800;line-height:1.02;margin-bottom:1rem;letter-spacing:-.03em}
+.mod-title em{color:var(--mc);font-style:normal}
+.mod-sub{font-size:.95rem;color:rgba(255,255,255,.48);max-width:680px;line-height:1.9;margin-bottom:1.5rem}
+/* Stats band dentro del hero */
+
+.mod-chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.5rem}
+.chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:100px;padding:5px 14px;font-size:.72rem;color:rgba(255,255,255,.5);transition:all .2s}
+.chip:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.75)}
+.chip .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* SECCIONES del contenido */
+.content-body{padding:1.8rem 2.5rem 5rem;max-width:860px}
+
+.sec-label{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.sec-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.sec-label h2{font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-.01em}
+.sec-label p{font-size:.73rem;color:rgba(255,255,255,.38);margin-top:2px}
+.divider{height:1px;background:var(--border);margin:1.5rem 0}
 .ic-green{background:linear-gradient(135deg,#4ade80,#10b981)}
-.ic-red{background:linear-gradient(135deg,#ff6b6b,#de2a35)}
-.ic-blue{background:linear-gradient(135deg,#60c8ff,#0ea5e9)}
 .ic-teal{background:linear-gradient(135deg,#2dd4bf,#0d9488)}
+.ic-blue{background:linear-gradient(135deg,#60c8ff,#0ea5e9)}
+.ic-red{background:linear-gradient(135deg,#ff6b6b,#de2a35)}
 .ic-orange{background:linear-gradient(135deg,#ffa040,#f59e0b)}
 .ic-purple{background:linear-gradient(135deg,#c4b5fd,#8b5cf6)}
-/* DIMENSIONES */
-.dim-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.8rem;margin-bottom:1.5rem}
-.dim-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:1.1rem;display:flex;gap:.9rem;align-items:flex-start;transition:border-color .2s}
-.dim-card:hover{border-color:rgba(17,122,101,.25)}
-.dim-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
-.dim-title{font-size:.84rem;font-weight:700;color:#fff;margin-bottom:3px}
-.dim-desc{font-size:.76rem;color:rgba(255,255,255,.45);line-height:1.6}
-/* DRIVE SECTION */
-.drive-section{background:rgba(17,122,101,.06);border:1px solid rgba(17,122,101,.2);border-radius:16px;padding:1.5rem;margin:.5rem 0}
-.drive-section-title{font-size:.78rem;font-weight:700;color:#6ee7b7;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem;display:flex;align-items:center;gap:7px}
-.drive-section p{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:1rem}
-.drive-btn{display:inline-flex;align-items:center;gap:9px;background:rgba(17,122,101,.18);border:1px solid rgba(17,122,101,.3);color:#6ee7b7;padding:10px 22px;border-radius:9px;font-size:.84rem;font-weight:600;text-decoration:none;transition:all .2s}
+
+/* OBJETIVO */
+.objetivo-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:1.4rem 1.6rem;margin-bottom:1.2rem;font-size:.95rem;color:rgba(255,255,255,.72);line-height:1.95}
+.objetivo-box strong{color:#fff}
+
+/* 5 DIMENSIONES */
+.dim-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.75rem;margin-bottom:1.2rem}
+.dim-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1rem;display:flex;flex-direction:column;gap:.6rem;transition:all .2s;min-height:120px}
+.dim-card:hover{border-color:rgba(17,122,101,.3);background:rgba(17,122,101,.04);transform:translateY(-1px)}
+.dim-card-top{display:flex;align-items:center;gap:.6rem}
+.dim-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.dim-title{font-size:.82rem;font-weight:700;color:#fff}
+.dim-desc{font-size:.73rem;color:rgba(255,255,255,.42);line-height:1.6}
+
+/* MATERIALES + NOTA */
+.drive-section{background:rgba(17,122,101,.06);border:1px solid rgba(17,122,101,.2);border-radius:13px;padding:1.3rem;margin-bottom:.8rem}
+.drive-section-title{font-size:.72rem;font-weight:700;color:#6ee7b7;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem;display:flex;align-items:center;gap:6px}
+.drive-section p{font-size:.8rem;color:var(--text-muted);line-height:1.7;margin-bottom:.9rem}
+.drive-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(17,122,101,.18);border:1px solid rgba(17,122,101,.3);color:#6ee7b7;padding:9px 20px;border-radius:8px;font-size:.8rem;font-weight:600;text-decoration:none;transition:all .2s}
 .drive-btn:hover{background:rgba(17,122,101,.3);transform:translateY(-1px)}
+.nota{border-radius:9px;padding:.9rem 1.1rem;font-size:.79rem;line-height:1.7;display:flex;gap:9px;margin-bottom:.8rem}
+.nota-info{background:rgba(14,165,233,.07);border:1px solid rgba(14,165,233,.18);color:rgba(255,255,255,.65)}
+.nota-warn{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);color:rgba(255,255,255,.65)}
+.nota-green{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.18);color:rgba(255,255,255,.65)}
+.nota-info strong{color:#7dd3fc}
+.nota-warn strong{color:#fcd34d}
+.nota-green strong{color:#6ee7b7}
+
 /* FLUJO */
-.flujo{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.5rem}
-.flujo-step{display:flex;gap:1rem;padding:1rem 1.3rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:13px;transition:border-color .2s}
+.flujo{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.2rem}
+.flujo-step{display:flex;gap:.9rem;padding:.9rem 1.1rem;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:11px;transition:border-color .2s}
 .flujo-step:hover{border-color:rgba(17,122,101,.3)}
-.fs-num{width:34px;height:34px;border-radius:10px;background:var(--mc);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#fff;flex-shrink:0}
-.fs-title{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:.25rem}
-.fs-desc{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.7}
-.fs-tool{display:inline-flex;align-items:center;gap:5px;background:rgba(17,122,101,.12);border:1px solid rgba(17,122,101,.2);border-radius:100px;padding:3px 10px;font-size:.7rem;color:#6ee7b7;margin-top:.4rem}
+.fs-num{width:30px;height:30px;border-radius:9px;background:var(--mc);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:#fff;flex-shrink:0}
+.fs-title{font-size:.92rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+.fs-desc{font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.7}
+.fs-tool{display:inline-flex;align-items:center;gap:4px;background:rgba(17,122,101,.1);border:1px solid rgba(17,122,101,.18);border-radius:100px;padding:2px 9px;font-size:.67rem;color:#6ee7b7;margin-top:.35rem}
+
 /* PROMPT */
-.prompt-box{background:#0d0f11;border:1px solid rgba(17,122,101,.3);border-radius:14px;overflow:hidden;margin:.8rem 0}
-.prompt-header{background:rgba(17,122,101,.1);padding:.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(17,122,101,.2)}
-.prompt-label{font-size:.72rem;font-weight:700;color:#6ee7b7;text-transform:uppercase;letter-spacing:.08em}
-.copy-btn{background:rgba(17,122,101,.2);border:1px solid rgba(17,122,101,.3);color:#6ee7b7;border-radius:6px;padding:4px 12px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s}
+.prompt-box{background:#0a0c0e;border:1px solid rgba(17,122,101,.3);border-radius:12px;overflow:hidden;margin:.7rem 0}
+.prompt-header{background:rgba(17,122,101,.1);padding:.7rem 1.1rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(17,122,101,.2)}
+.prompt-label{font-size:.68rem;font-weight:700;color:#6ee7b7;text-transform:uppercase;letter-spacing:.08em}
+.copy-btn{background:rgba(17,122,101,.2);border:1px solid rgba(17,122,101,.3);color:#6ee7b7;border-radius:5px;padding:3px 11px;font-size:.68rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s}
 .copy-btn:hover{background:rgba(17,122,101,.35)}
 .copy-btn.copied{color:#fff;background:var(--mc)}
-.prompt-content{padding:1.2rem;font-size:.82rem;color:rgba(255,255,255,.8);line-height:1.9;font-family:'DM Mono',monospace;white-space:pre-wrap}
+.prompt-content{padding:1.1rem;font-size:.78rem;color:rgba(255,255,255,.8);line-height:1.9;font-family:'DM Mono',monospace;white-space:pre-wrap}
+
 /* RETO */
-.reto-box{background:rgba(17,122,101,.06);border:1px solid rgba(17,122,101,.2);border-radius:16px;padding:1.8rem;margin:.5rem 0}
-.reto-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.3rem}
-.reto-icon{width:48px;height:48px;border-radius:13px;background:var(--mc);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
-.reto-meta strong{display:block;font-size:1rem;font-weight:700;color:#fff;margin-bottom:3px}
-.reto-meta span{font-size:.8rem;color:rgba(255,255,255,.45)}
-.rs{display:flex;gap:10px;font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:.5rem}
-.rs-n{width:20px;height:20px;border-radius:50%;background:rgba(17,122,101,.3);color:#6ee7b7;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.entregable{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:1rem 1.2rem;display:flex;align-items:center;gap:12px;margin:1rem 0}
-.ent-icon{font-size:1.3rem}
-.ent-text strong{display:block;font-size:.85rem;font-weight:700;color:#fff;margin-bottom:2px}
-.ent-text span{font-size:.78rem;color:rgba(255,255,255,.45)}
-/* NOTAS */
-.nota{border-radius:10px;padding:1rem 1.2rem;font-size:.82rem;line-height:1.7;display:flex;gap:10px;margin-top:1rem}
-.nota-info{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);color:rgba(255,255,255,.65)}
-.nota-green{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:rgba(255,255,255,.65)}
-.nota-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:rgba(255,255,255,.65)}
-.nota-info strong{color:#7dd3fc}
-.nota-green strong{color:#6ee7b7}
-.nota-warn strong{color:#fcd34d}
-/* REFLEXION */
-.reflexion{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.5rem;margin:.5rem 0}
-.reflexion h3{font-size:.9rem;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
-.ref-q{display:flex;gap:10px;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6}
+.reto-box{background:rgba(17,122,101,.06);border:1px solid rgba(17,122,101,.2);border-radius:13px;padding:1.6rem;margin:.5rem 0}
+.reto-header{display:flex;align-items:center;gap:.9rem;margin-bottom:1.1rem}
+.reto-icon{width:44px;height:44px;border-radius:12px;background:var(--mc);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.reto-meta strong{display:block;font-size:.95rem;font-weight:700;color:#fff;margin-bottom:2px}
+.reto-meta span{font-size:.76rem;color:var(--text-muted)}
+.rs{display:flex;gap:9px;font-size:.8rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:.45rem}
+.rs-n{width:18px;height:18px;border-radius:50%;background:rgba(17,122,101,.3);color:#6ee7b7;font-size:.62rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.entregable{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:10px;margin:1rem 0}
+
+/* REFLEXIÓN */
+.reflexion{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:12px;padding:1.3rem;margin:.5rem 0}
+.reflexion h3{font-size:.86rem;font-weight:700;color:rgba(255,255,255,.65);margin-bottom:.9rem}
+.ref-q{display:flex;gap:9px;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.79rem;color:rgba(255,255,255,.5);line-height:1.6}
 .ref-q:last-child{border-bottom:none}
-.ref-n{width:20px;height:20px;border-radius:6px;background:rgba(17,122,101,.15);color:#6ee7b7;font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ref-n{width:18px;height:18px;border-radius:5px;background:rgba(17,122,101,.15);color:#6ee7b7;font-size:.62rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+
 /* NAV BTNS */
-.nav-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.07)}
-.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:rgba(255,255,255,.65);padding:11px 24px;border-radius:9px;font-size:.88rem;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.13);transition:all .2s}
-.btn-ghost:hover{border-color:rgba(255,255,255,.28);color:#fff}
-.btn-mc{display:inline-flex;align-items:center;gap:8px;background:var(--mc);color:#fff;padding:11px 24px;border-radius:9px;font-size:.88rem;font-weight:600;text-decoration:none;transition:all .2s;box-shadow:0 4px 16px rgba(17,122,101,.25)}
+.nav-btns{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:2rem;padding-top:1.8rem;border-top:1px solid var(--border)}
+.btn-ghost{display:inline-flex;align-items:center;gap:7px;background:transparent;color:rgba(255,255,255,.6);padding:10px 22px;border-radius:8px;font-size:.84rem;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.12);transition:all .2s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.25);color:#fff}
+.btn-mc{display:inline-flex;align-items:center;gap:7px;background:var(--mc);color:#fff;padding:10px 22px;border-radius:8px;font-size:.84rem;font-weight:600;text-decoration:none;transition:all .2s}
 .btn-mc:hover{background:#0e6655;transform:translateY(-1px)}
-footer{background:#080a0c;border-top:1px solid rgba(255,255,255,.06);padding:1.5rem 2rem;text-align:center;font-size:.75rem;color:rgba(255,255,255,.25)}
-/* FACILITATOR ROW */
-.facilitator-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:.5rem 0 0}
-.facilitator-left{display:flex;flex-direction:column}
-.facilitator-right{display:flex;flex-direction:column}
-/* CHAT BOX */
-.foro-box{background:#0d0f11;border:1px solid rgba(255,255,255,.08);border-radius:16px;display:flex;flex-direction:column;height:520px;overflow:hidden}
-.foro-header{padding:.8rem 1rem;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:.5rem;flex-wrap:wrap}
+
+/* ── COLUMNA DERECHA — FORO estilo Platzi ────────── */
+.foro-col{position:sticky;top:58px;height:calc(100vh - 58px);display:flex;flex-direction:column;background:var(--panel);border-left:1px solid var(--border);overflow:hidden}
+
+.foro-header{padding:.9rem 1.1rem;background:rgba(255,255,255,.025);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:.5rem;flex-wrap:wrap}
 .foro-header-left{display:flex;align-items:center;gap:.6rem}
-.foro-title{font-size:.82rem;font-weight:700;color:#fff}
-.foro-count{font-size:.7rem;color:rgba(255,255,255,.35);background:rgba(255,255,255,.06);padding:2px 8px;border-radius:100px}
+.foro-title{font-size:.85rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px}
+.foro-count{font-size:.68rem;color:rgba(255,255,255,.38);background:rgba(255,255,255,.07);padding:2px 9px;border-radius:100px;font-weight:500}
 .foro-tabs{display:flex;gap:.3rem}
-.ftab{background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.45);border-radius:6px;padding:4px 10px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s}
-.ftab.active{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff}
-.foro-lista{flex:1;overflow-y:auto;padding:.7rem;display:flex;flex-direction:column;gap:.6rem}
-.foro-lista::-webkit-scrollbar{width:3px}
-.foro-lista::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
-.foro-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center}
-/* PREGUNTA CARD */
-.foro-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:.9rem 1rem;transition:border-color .2s}
-.foro-card:hover{border-color:rgba(255,255,255,.13)}
+.ftab{background:transparent;border:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.38);border-radius:7px;padding:4px 11px;font-size:.69rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s}
+.ftab:hover{border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.7)}
+.ftab.active{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.2);color:#fff}
+
+.foro-lista{flex:1;overflow-y:auto;padding:.65rem;display:flex;flex-direction:column;gap:.55rem}
+.foro-lista::-webkit-scrollbar{width:4px}
+.foro-lista::-webkit-scrollbar-track{background:transparent}
+.foro-lista::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
+/* Global scrollbar dark */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#0a0c0e}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.18)}
+.foro-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;gap:.4rem}
+.foro-empty-icon{font-size:2rem}
+.foro-empty-text{font-size:.78rem;color:rgba(255,255,255,.3)}
+
+/* CARDS */
+.foro-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:11px;padding:.9rem 1rem;transition:all .2s;cursor:default}
+.foro-card:hover{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.04)}
 .foro-card-top{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.6rem}
-.foro-user-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;flex-shrink:0;text-transform:uppercase}
-.foro-card-meta{flex:1}
-.foro-card-nombre{font-size:.78rem;font-weight:700;color:#fff}
-.foro-card-tiempo{font-size:.68rem;color:rgba(255,255,255,.3);margin-top:1px}
-.foro-card-texto{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.65;margin-bottom:.7rem}
-.foro-card-actions{display:flex;align-items:center;gap:.8rem}
-.foro-vote-btn{display:flex;align-items:center;gap:4px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:3px 9px;font-size:.7rem;color:rgba(255,255,255,.45);cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s}
-.foro-vote-btn:hover,.foro-vote-btn.voted{background:rgba(222,42,53,.1);border-color:rgba(222,42,53,.25);color:#ff8a80}
-.foro-vote-btn.voted{color:#ff8a80}
-.foro-reply-btn{background:transparent;border:none;color:rgba(255,255,255,.35);font-size:.7rem;cursor:pointer;font-family:'Sora',sans-serif;transition:color .2s;padding:3px 6px}
-.foro-reply-btn:hover{color:rgba(255,255,255,.7)}
+.foro-user-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:#fff;flex-shrink:0;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.foro-card-nombre{font-size:.78rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.foro-card-tiempo{font-size:.65rem;color:rgba(255,255,255,.25);margin-top:2px}
+.foro-card-texto{font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.65;margin-bottom:.65rem;padding-left:.05rem}
+.foro-card-texto img{max-width:100%;border-radius:6px;margin:4px 0;display:block}
+.foro-card-texto b,.foro-card-texto strong{font-weight:700;color:#fff}
+.foro-card-texto i,.foro-card-texto em{font-style:italic}
+.foro-card-texto code{background:rgba(255,255,255,.08);padding:1px 4px;border-radius:3px;font-family:'DM Mono',monospace;font-size:.75em;color:#6ee7b7}
+.foro-card-texto ul{padding-left:1rem;margin:3px 0}
+.foro-card-actions{display:flex;align-items:center;gap:.7rem}
+.foro-vote-btn{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:3px 10px;font-size:.7rem;color:rgba(255,255,255,.45);cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;font-weight:600}
+.foro-vote-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.8)}
+.foro-vote-btn.voted{background:rgba(222,42,53,.12);border-color:rgba(222,42,53,.3);color:#ff8a80}
+.foro-reply-btn{display:flex;align-items:center;gap:3px;background:transparent;border:none;color:rgba(255,255,255,.35);font-size:.7rem;cursor:pointer;font-family:'Sora',sans-serif;transition:color .2s;padding:3px 6px;font-weight:500}
+.foro-reply-btn:hover{color:rgba(255,255,255,.75)}
+.foro-resp-fac{font-size:.58rem;background:rgba(17,122,101,.2);border:1px solid rgba(17,122,101,.3);color:#6ee7b7;padding:1px 6px;border-radius:100px;font-weight:600}
+
 /* RESPUESTAS */
-.foro-respuestas{margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;gap:.45rem}
-.foro-resp-item{display:flex;gap:.5rem;align-items:flex-start}
-.foro-resp-dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0}
-.foro-resp-bubble{background:rgba(255,255,255,.04);border-radius:8px;padding:.5rem .75rem;flex:1}
-.foro-resp-nombre{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:2px;display:flex;align-items:center;gap:.4rem}
-.foro-resp-fac{font-size:.6rem;background:rgba(17,122,101,.2);border:1px solid rgba(17,122,101,.3);color:#6ee7b7;padding:1px 6px;border-radius:100px}
-.foro-resp-texto{font-size:.75rem;color:rgba(255,255,255,.6);line-height:1.55}
-/* REPLY INPUT */
-.foro-reply-form{margin-top:.5rem;display:none;gap:.4rem;flex-direction:column}
+.foro-respuestas{margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;gap:.4rem}
+.foro-resp-item{display:flex;gap:.45rem;align-items:flex-start}
+.foro-resp-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:#fff;flex-shrink:0}
+.foro-resp-bubble{background:rgba(255,255,255,.03);border-radius:7px;padding:.45rem .7rem;flex:1}
+.foro-resp-nombre{font-size:.67rem;font-weight:700;color:rgba(255,255,255,.65);margin-bottom:2px;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap}
+.foro-resp-texto{font-size:.72rem;color:rgba(255,255,255,.58);line-height:1.5}
+.foro-resp-texto img{max-width:100%;border-radius:5px;margin:3px 0;display:block}
+
+/* REPLY FORM */
+.foro-reply-form{margin-top:.45rem;display:none;flex-direction:column;gap:.35rem}
 .foro-reply-form.open{display:flex}
-.foro-reply-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 10px;color:#fff;font-size:.76rem;font-family:'Sora',sans-serif;outline:none;resize:none;line-height:1.5;transition:border-color .2s}
+.foro-reply-input{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:7px;padding:6px 9px;color:#fff;font-size:.73rem;font-family:'Sora',sans-serif;outline:none;resize:none;line-height:1.5;transition:border-color .2s}
 .foro-reply-input:focus{border-color:rgba(17,122,101,.4)}
 .foro-reply-input::placeholder{color:rgba(255,255,255,.2)}
-.foro-reply-actions{display:flex;gap:.5rem;align-items:center}
-.foro-reply-nombre-inp{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:5px 9px;color:#fff;font-size:.72rem;font-family:'Sora',sans-serif;outline:none;width:130px}
+.foro-reply-actions{display:flex;gap:.4rem;align-items:center}
+.foro-reply-nombre-inp{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:5px;padding:4px 8px;color:#fff;font-size:.7rem;font-family:'Sora',sans-serif;outline:none;width:110px}
 .foro-reply-nombre-inp::placeholder{color:rgba(255,255,255,.2)}
-.foro-reply-submit{background:var(--mc);border:none;color:#fff;border-radius:7px;padding:5px 14px;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;margin-left:auto}
-.foro-reply-submit:hover{background:#0e6655}
-.foro-reply-cancel{background:transparent;border:none;color:rgba(255,255,255,.3);font-size:.7rem;cursor:pointer;font-family:'Sora',sans-serif}
+.foro-reply-submit{background:var(--mc);border:none;color:#fff;border-radius:6px;padding:4px 12px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;margin-left:auto}
+.foro-reply-cancel{background:transparent;border:none;color:rgba(255,255,255,.28);font-size:.67rem;cursor:pointer;font-family:'Sora',sans-serif}
+
 /* COMPOSE */
-.foro-compose{padding:.7rem;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(255,255,255,.02)}
-.foro-compose-top{margin-bottom:.4rem}
-.foro-nombre-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:7px;padding:6px 10px;color:#fff;font-size:.76rem;font-family:'Sora',sans-serif;outline:none;width:160px;transition:border-color .2s}
+.foro-compose{padding:.65rem;border-top:1px solid var(--border);flex-shrink:0;background:rgba(255,255,255,.015)}
+.foro-compose-top{margin-bottom:.35rem}
+.foro-nombre-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:5px 9px;color:#fff;font-size:.74rem;font-family:'Sora',sans-serif;outline:none;width:150px;transition:border-color .2s}
 .foro-nombre-input:focus{border-color:rgba(17,122,101,.4)}
 .foro-nombre-input::placeholder{color:rgba(255,255,255,.25)}
-.foro-textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:8px 11px;color:#fff;font-size:.8rem;font-family:'Sora',sans-serif;outline:none;resize:none;min-height:58px;transition:border-color .2s;line-height:1.55;box-sizing:border-box}
-.foro-textarea:focus{border-color:rgba(17,122,101,.4)}
-.foro-textarea::placeholder{color:rgba(255,255,255,.2)}
+/* TOOLBAR */
+.editor-toolbar{display:flex;align-items:center;gap:2px;padding:.35rem .4rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-bottom:none;border-radius:8px 8px 0 0}
+.etool{background:transparent;border:none;color:rgba(255,255,255,.45);width:26px;height:26px;border-radius:4px;cursor:pointer;font-size:.78rem;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:'Sora',sans-serif}
+.etool:hover{background:rgba(255,255,255,.09);color:#fff}
+.etool-sep{width:1px;height:14px;background:rgba(255,255,255,.1);margin:0 2px}
+/* EDITOR */
+.foro-editor{min-height:60px;max-height:140px;overflow-y:auto;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:0 0 8px 8px;padding:7px 10px;color:#fff;font-size:.77rem;font-family:'Sora',sans-serif;line-height:1.55;outline:none;transition:border-color .2s}
+.foro-editor:focus{border-color:rgba(17,122,101,.4)}
+.foro-editor:empty::before{content:attr(data-placeholder);color:rgba(255,255,255,.2);pointer-events:none;display:block}
+.foro-editor img{max-width:100%;max-height:100px;border-radius:5px;margin:3px 0;display:block}
 .foro-compose-bot{display:flex;align-items:center;justify-content:space-between;margin-top:.4rem}
-.foro-hint{font-size:.67rem;color:rgba(255,255,255,.25)}
-.foro-send-btn{display:flex;align-items:center;gap:6px;background:var(--mc);border:none;color:#fff;border-radius:8px;padding:7px 16px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s}
-.foro-send-btn:hover{background:#0e6655}
-.foro-send-btn:disabled{opacity:.4;cursor:not-allowed}
-@media(max-width:768px){nav .nav-links{display:none}.dim-grid{grid-template-columns:1fr}.facilitator-row{grid-template-columns:1fr}}
+.foro-hint{font-size:.64rem;color:rgba(255,255,255,.22)}
+.foro-send-btn{display:flex;align-items:center;gap:6px;background:var(--mc);border:none;color:#fff;border-radius:8px;padding:8px 18px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;box-shadow:0 2px 10px rgba(17,122,101,.3);letter-spacing:.01em}
+.foro-send-btn:hover{background:#0e6655;transform:translateY(-1px);box-shadow:0 4px 14px rgba(17,122,101,.4)}
+.foro-send-btn:active{transform:translateY(0)}
+.foro-send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+
+footer{background:#080a0c;border-top:1px solid var(--border);padding:1.2rem 2.5rem;font-size:.72rem;color:rgba(255,255,255,.22)}
+
+/* HERO INNER GRID */
+.mod-hero-inner{position:relative;z-index:2;min-height:320px;display:flex;flex-direction:column;justify-content:space-between}
+.mod-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;margin-bottom:2rem;flex:1}
+
+/* OBJETIVOS VISUALES */
+.mod-hero-objetivos{background:rgba(255,255,255,.03);border:1px solid rgba(17,122,101,.15);border-radius:14px;padding:1.3rem 1.4rem;height:100%;box-sizing:border-box}
+.obj-header{margin-bottom:.9rem}
+.obj-label{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em}
+.obj-list{display:flex;flex-direction:column;gap:.6rem}
+.obj-item{display:flex;align-items:flex-start;gap:.7rem;font-size:.86rem;color:rgba(255,255,255,.65);line-height:1.6}
+.obj-check{width:20px;height:20px;border-radius:6px;background:rgba(17,122,101,.2);border:1px solid rgba(17,122,101,.35);color:#6ee7b7;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+
+/* BARRA DE PROGRESO */
+.mod-progress{border-top:1px solid rgba(255,255,255,.07);padding:1.5rem 0 1.8rem}
+.prog-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem}
+.prog-label span:first-child{font-size:.72rem;color:rgba(255,255,255,.35);font-family:'DM Mono',monospace}
+.prog-pct{font-size:.72rem;color:#6ee7b7;font-weight:700;font-family:'DM Mono',monospace}
+.prog-track{height:4px;background:rgba(255,255,255,.07);border-radius:100px;margin-bottom:.9rem;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--mc),#0d9488);border-radius:100px;transition:width .6s ease}
+.prog-steps{display:flex;gap:0}
+.prog-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:.35rem;text-decoration:none;transition:all .2s;padding:.3rem 0}
+.prog-step span{font-size:.67rem;font-weight:700;color:rgba(255,255,255,.25);font-family:'DM Mono',monospace;transition:color .2s}
+.prog-step:hover span{color:rgba(255,255,255,.55)}
+.prog-step.active span{color:#6ee7b7}
+.prog-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.12);transition:all .2s;position:relative}
+.prog-dot.active{background:var(--mc);border-color:var(--mc);box-shadow:0 0 0 3px rgba(17,122,101,.25)}
+.prog-step:hover .prog-dot:not(.active){background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.25)}
+
+@media(max-width:900px){
+  .platzi-wrap{grid-template-columns:1fr}
+  .foro-col{position:static;height:auto;min-height:500px;border-left:none;border-top:1px solid var(--border)}
+  nav .nav-links{display:none}
+  .mod-hero-grid{grid-template-columns:1fr}
+  .mod-hero-objetivos{display:none}
+}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <div style="display:flex;align-items:center">
+  <div class="nav-left">
     <span class="nav-badge">UBE</span>
-    <div class="nav-sep" style="margin:0 12px"></div>
-    <span style="font-size:.8rem;color:rgba(255,255,255,.5)">IA para Enseñar Mejor</span>
+    <span class="nav-title">IA para Enseñar Mejor</span>
   </div>
   <ul class="nav-links">
     <li><a href="index.html">Inicio</a></li>
@@ -193,209 +281,196 @@ footer{background:#080a0c;border-top:1px solid rgba(255,255,255,.06);padding:1.5
   </ul>
 </nav>
 
-<!-- HERO -->
-<section class="page-hero">
-  <div class="page-hero-inner">
-    <div class="breadcrumb"><a href="index.html">Inicio</a> <span>›</span> Módulo 1</div>
-    <div class="mod-tag">🔍 Módulo 1 · Sesión 1</div>
-    <h1 class="page-title">Diagnóstico<br><em>Cualitativo</em><br>del Foro</h1>
-    <p class="page-sub">Exporta los mensajes del foro de discusión académica de Moodle como CSV y obtén un diagnóstico grupal en cinco dimensiones: calidad argumentativa, interacción entre pares, errores conceptuales, participación diferenciada y vocabulario disciplinar.</p>
-    <div class="hero-chips">
-      <div class="chip"><div class="dot" style="background:#10b981"></div> Claude AI</div>
-      <div class="chip"><div class="dot" style="background:var(--rojo)"></div> 45 minutos</div>
-      <div class="chip"><div class="dot" style="background:#0ea5e9"></div> Sesión 1</div>
-      <div class="chip"><div class="dot" style="background:#f59e0b"></div> Nivel básico</div>
-    </div>
-  </div>
-</section>
+<!-- LAYOUT PLATZI -->
+<div class="platzi-wrap">
 
-<div class="main">
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- IZQUIERDA — contenido del módulo           -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="content-col">
 
-  <!-- OBJETIVO -->
-  <div class="sec-label">
-    <div class="sec-icon ic-green">🎯</div>
-    <div><h2>¿Qué vas a lograr?</h2><p>Problema pedagógico que resuelve este módulo</p></div>
-  </div>
-  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem">
-    <p style="font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.9">Los foros de discusión académica en Moodle contienen información pedagógica valiosa que normalmente no se analiza con sistematicidad. Leer todos los mensajes para detectar patrones de comprensión, errores conceptuales y participación puede tomar horas. Claude procesa el CSV completo del foro y devuelve en segundos un diagnóstico de cinco dimensiones que orienta tu próxima intervención docente. <strong style="color:#fff">Tú decides qué hacer con ese diagnóstico — la IA diagnostica, el docente decide.</strong></p>
-  </div>
+    <!-- HERO -->
+    <div class="mod-hero">
+      <div class="mod-hero-inner">
 
-  <!-- 5 DIMENSIONES -->
-  <div class="sec-label">
-    <div class="sec-icon ic-teal">📐</div>
-    <div><h2>Las 5 dimensiones del diagnóstico</h2><p>Claude analiza el foro desde estos ángulos simultáneamente</p></div>
-  </div>
-  <div class="dim-grid">
-    <div class="dim-card">
-      <div class="dim-icon ic-blue">🧠</div>
-      <div>
-        <div class="dim-title">Calidad argumentativa</div>
-        <div class="dim-desc">¿Los aportes tienen tesis, evidencia y conclusión? ¿Qué nivel de la taxonomía de Bloom predomina en el grupo?</div>
-      </div>
-    </div>
-    <div class="dim-card">
-      <div class="dim-icon ic-green">🤝</div>
-      <div>
-        <div class="dim-title">Interacción entre pares</div>
-        <div class="dim-desc">¿Los estudiantes se responden entre sí o solo al docente? ¿Hay diálogo genuino o monólogos paralelos?</div>
-      </div>
-    </div>
-    <div class="dim-card">
-      <div class="dim-icon ic-red">⚠️</div>
-      <div>
-        <div class="dim-title">Errores conceptuales</div>
-        <div class="dim-desc">¿Qué conceptos del tema se están usando incorrectamente? ¿Cuáles están ausentes cuando deberían aparecer?</div>
-      </div>
-    </div>
-    <div class="dim-card">
-      <div class="dim-icon ic-orange">👥</div>
-      <div>
-        <div class="dim-title">Participación diferenciada</div>
-        <div class="dim-desc">¿Quiénes participan mucho, poco o nada? ¿Hay estudiantes en riesgo de desconexión académica?</div>
-      </div>
-    </div>
-    <div class="dim-card">
-      <div class="dim-icon ic-purple">📚</div>
-      <div>
-        <div class="dim-title">Vocabulario disciplinar</div>
-        <div class="dim-desc">¿Usan los términos técnicos de la asignatura correctamente? ¿Cuáles están siendo mal usados o evitados?</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- MATERIALES DEL FACILITADOR + CHAT -->
-  <div class="sec-label">
-    <div class="sec-icon ic-teal">📁</div>
-    <div><h2>Materiales del facilitador</h2><p>CSV de ejemplo para practicar durante el taller</p></div>
-  </div>
-
-  <div class="facilitator-row">
-    <!-- IZQUIERDA: carpeta Drive -->
-    <div class="facilitator-left">
-      <div class="drive-section" style="margin:0;height:100%;display:flex;flex-direction:column;justify-content:space-between">
-        <div>
-          <div class="drive-section-title">📂 Carpeta compartida — Módulo 1</div>
-          <p>El facilitador ha subido un archivo CSV de ejemplo con mensajes reales de un foro académico universitario. Úsalo para practicar el flujo completo si aún no tienes tu propio CSV exportado desde Moodle. También encontrarás una guía de exportación paso a paso.</p>
-        </div>
-        <div>
-          <a href="https://drive.google.com/drive/folders/1WcGT3MPtsdcwaMJA9M8wCQQ4HLquI4AK?usp=sharing" target="_blank" class="drive-btn">
-            📥 Abrir carpeta del facilitador
-          </a>
-          <div class="nota nota-info" style="margin-top:.9rem">
-            <span>ℹ️</span>
-            <span><strong>¿Cómo exportar tu CSV desde Moodle?</strong> Entra a tu curso → Foro → abre el foro de discusión → en el menú de Administración selecciona "Exportar" o descárgalo desde Informes → Actividad del foro → Exportar a hoja de cálculo.</span>
+        <!-- FILA SUPERIOR: título izquierda + objetivos derecha -->
+        <div class="mod-hero-grid">
+          <div class="mod-hero-left">
+            <div class="mod-breadcrumb"><a href="index.html">Inicio</a> › Módulo 1</div>
+            <div class="mod-tag">🔍 Módulo 1 · Sesión 1</div>
+            <h1 class="mod-title">Diagnóstico<br><em>Cualitativo</em><br>del Foro</h1>
+            <p class="mod-sub">Exporta el CSV del foro de Moodle y obtén en minutos un diagnóstico pedagógico en cinco dimensiones.</p>
+            <div class="mod-chips">
+              <div class="chip"><div class="dot" style="background:#10b981"></div> Claude AI</div>
+              <div class="chip"><div class="dot" style="background:var(--rojo)"></div> 45 minutos</div>
+              <div class="chip"><div class="dot" style="background:#0ea5e9"></div> Sesión 1 de 5</div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- DERECHA: foro de preguntas estilo Platzi -->
-    <div class="facilitator-right">
-      <div class="foro-box">
-
-        <div class="foro-header">
-          <div class="foro-header-left">
-            <span class="foro-title">💬 Preguntas del módulo</span>
-            <span class="foro-count" id="foroCount">0 preguntas</span>
-          </div>
-          <div class="foro-tabs">
-            <button class="ftab active" onclick="cambiarTab(this,'recientes')">Recientes</button>
-            <button class="ftab" onclick="cambiarTab(this,'votados')">Más votadas</button>
+          <!-- OBJETIVOS VISUALES -->
+          <div class="mod-hero-objetivos">
+            <div class="obj-header">
+              <span class="obj-label">🎯 Al terminar este módulo podrás:</span>
+            </div>
+            <div class="obj-list">
+              <div class="obj-item">
+                <div class="obj-check">✓</div>
+                <span>Exportar el foro de Moodle como CSV en menos de 2 minutos</span>
+              </div>
+              <div class="obj-item">
+                <div class="obj-check">✓</div>
+                <span>Usar el Prompt P1 para analizar argumentación, participación y errores conceptuales</span>
+              </div>
+              <div class="obj-item">
+                <div class="obj-check">✓</div>
+                <span>Validar el diagnóstico con tu criterio docente y detectar limitaciones de la IA</span>
+              </div>
+              <div class="obj-item">
+                <div class="obj-check">✓</div>
+                <span>Generar un entregable en PDF listo para subir al Drive del taller</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- LISTA DE PREGUNTAS -->
-        <div class="foro-lista" id="foroLista">
-          <div class="foro-empty" id="foroEmpty">
-            <div style="font-size:1.8rem;margin-bottom:.5rem">🙋</div>
-            <div style="font-size:.82rem;color:rgba(255,255,255,.35)">Sé el primero en preguntar</div>
+        <!-- BARRA DE PROGRESO DEL TALLER -->
+        <div class="mod-progress">
+          <div class="prog-label">
+            <span>Progreso del taller</span>
+            <span class="prog-pct">1 / 5 módulos</span>
           </div>
-        </div>
-
-        <!-- INPUT NUEVA PREGUNTA -->
-        <div class="foro-compose">
-          <div class="foro-compose-top">
-            <input id="foroNombre" class="foro-nombre-input" placeholder="Tu nombre…" maxlength="40" />
+          <div class="prog-track">
+            <div class="prog-fill" style="width:20%"></div>
           </div>
-          <div class="foro-compose-mid">
-            <textarea id="foroPregunta" class="foro-textarea" placeholder="Escribe tu pregunta o comentario sobre el Módulo 1…" rows="2" onkeydown="handleForoKey(event)"></textarea>
-          </div>
-          <div class="foro-compose-bot">
-            <span class="foro-hint">El facilitador y tus colegas pueden responder</span>
-            <button class="foro-send-btn" onclick="publicarPregunta()" id="foroSendBtn">
-              Publicar
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </button>
+          <div class="prog-steps">
+            <a href="modulo1.html" class="prog-step active" title="M1 — Diagnóstico del Foro">
+              <div class="prog-dot active"></div>
+              <span>M1</span>
+            </a>
+            <a href="modulo2.html" class="prog-step" title="M2 — Dashboard de notas">
+              <div class="prog-dot"></div>
+              <span>M2</span>
+            </a>
+            <a href="modulo3.html" class="prog-step" title="M3 — Retroalimentación">
+              <div class="prog-dot"></div>
+              <span>M3</span>
+            </a>
+            <a href="modulo4.html" class="prog-step" title="M4 — Planificación">
+              <div class="prog-dot"></div>
+              <span>M4</span>
+            </a>
+            <a href="modulo5.html" class="prog-step" title="M5 — Evaluación">
+              <div class="prog-dot"></div>
+              <span>M5</span>
+            </a>
           </div>
         </div>
 
       </div>
     </div>
-  </div>
 
-  <div class="divider"></div>
+    <!-- CUERPO -->
+    <div class="content-body">
 
-  <!-- FLUJO -->
-  <div class="sec-label">
-    <div class="sec-icon ic-blue">⚙️</div>
-    <div><h2>Flujo de trabajo</h2><p>Del CSV del foro al diagnóstico pedagógico completo</p></div>
-  </div>
-  <div class="flujo">
-    <div class="flujo-step">
-      <div class="fs-num">1</div>
-      <div>
-        <div class="fs-title">Obtén el CSV del foro de Moodle</div>
-        <div class="fs-desc">Exporta el CSV de tu foro de discusión desde Moodle, o descarga el archivo de ejemplo de la carpeta del facilitador (enlace arriba). El CSV debe contener como mínimo: nombre del estudiante, fecha, asunto y cuerpo del mensaje.</div>
-        <span class="fs-tool">📥 Moodle → Foro → Exportar · o carpeta del facilitador</span>
+      <!-- OBJETIVO -->
+      <div class="sec-label">
+        <div class="sec-icon ic-green">🎯</div>
+        <div><h2>¿Qué vas a lograr?</h2><p>Problema pedagógico que resuelve este módulo</p></div>
       </div>
-    </div>
-    <div class="flujo-step">
-      <div class="fs-num">2</div>
-      <div>
-        <div class="fs-title">Abre Claude AI y sube el archivo</div>
-        <div class="fs-desc">Ve a claude.ai → nueva conversación → arrastra el CSV directamente al campo de texto. Claude acepta archivos CSV y los procesa completos sin que tengas que copiar y pegar el contenido.</div>
-        <span class="fs-tool">🌐 claude.ai — cuenta gratuita</span>
+      <div class="objetivo-box">
+        Los foros de discusión académica en Moodle contienen información pedagógica valiosa que normalmente no se analiza con sistematicidad. Leer todos los mensajes para detectar patrones de comprensión, errores conceptuales y participación puede tomar horas. Claude procesa el CSV completo del foro y devuelve en segundos un diagnóstico de cinco dimensiones que orienta tu próxima intervención docente. <strong>Tú decides qué hacer — la IA diagnostica, el docente decide.</strong>
       </div>
-    </div>
-    <div class="flujo-step">
-      <div class="fs-num">3</div>
-      <div>
-        <div class="fs-title">Copia y pega el Prompt P1</div>
-        <div class="fs-desc">Usa el prompt de la sección siguiente. Personaliza únicamente los campos entre corchetes [ ] con el nombre de tu asignatura, el tema del foro y el nivel. El resto del prompt está optimizado — no lo modifiques en esta primera sesión.</div>
-      </div>
-    </div>
-    <div class="flujo-step">
-      <div class="fs-num">4</div>
-      <div>
-        <div class="fs-title">Lee el diagnóstico y valida con tu criterio docente</div>
-        <div class="fs-desc">Claude devuelve el diagnóstico en 5 secciones más una síntesis de acción. Léelo críticamente — tú conoces a tus estudiantes mejor que la IA. Marca con ✓ lo que coincide con tu percepción y con ⚠ lo que te sorprende o parece incorrecto.</div>
-      </div>
-    </div>
-    <div class="flujo-step">
-      <div class="fs-num">5</div>
-      <div>
-        <div class="fs-title">Guarda el resultado y súbelo a tu carpeta Drive</div>
-        <div class="fs-desc">Exporta el diagnóstico como PDF (Ctrl+P → Guardar como PDF) o cópialo a un Google Doc. Sube el archivo a tu carpeta personal del taller usando el botón al final de esta página.</div>
-        <span class="fs-tool">📁 Tu carpeta personal → Drive del taller</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="divider"></div>
+      <div class="divider"></div>
 
-  <!-- PROMPT P1 -->
-  <div class="sec-label">
-    <div class="sec-icon ic-teal">📋</div>
-    <div><h2>Prompt P1 — Diagnóstico del Foro</h2><p>Copia completo · Personaliza solo los campos en [ ]</p></div>
-  </div>
-  <div class="prompt-box">
-    <div class="prompt-header">
-      <span class="prompt-label">📋 P1 · Claude AI — Diagnóstico de Foro Académico</span>
-      <button class="copy-btn" onclick="copiarPrompt(this)">Copiar prompt</button>
-    </div>
-    <div class="prompt-content">Eres un experto en análisis de discurso académico y evaluación formativa universitaria. Analiza el archivo CSV adjunto que contiene los mensajes del foro de discusión de la asignatura [NOMBRE DE TU ASIGNATURA], correspondiente al tema "[TEMA DEL FORO]", con estudiantes de [NIVEL: primer/segundo/tercer ciclo] de la carrera de [NOMBRE DE LA CARRERA].
+      <!-- 5 DIMENSIONES -->
+      <div class="sec-label">
+        <div class="sec-icon ic-teal">📐</div>
+        <div><h2>Las 5 dimensiones del diagnóstico</h2><p>Claude analiza el foro desde estos ángulos simultáneamente</p></div>
+      </div>
+      <div class="dim-grid">
+        <div class="dim-card">
+          <div class="dim-card-top"><div class="dim-icon ic-blue">🧠</div><div class="dim-title">Calidad argumentativa</div></div>
+          <div class="dim-desc">¿Los aportes tienen tesis, evidencia y conclusión? Identifica el nivel de Bloom predominante en el grupo.</div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-card-top"><div class="dim-icon ic-green">🤝</div><div class="dim-title">Interacción entre pares</div></div>
+          <div class="dim-desc">¿Los estudiantes se responden entre sí o son monólogos paralelos sin diálogo genuino?</div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-card-top"><div class="dim-icon ic-red">⚠️</div><div class="dim-title">Errores conceptuales</div></div>
+          <div class="dim-desc">¿Qué conceptos del tema se usan incorrectamente o están ausentes cuando deberían aparecer?</div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-card-top"><div class="dim-icon ic-orange">👥</div><div class="dim-title">Participación diferenciada</div></div>
+          <div class="dim-desc">¿Quiénes participan poco o nada? Identifica estudiantes en riesgo de desconexión académica.</div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-card-top"><div class="dim-icon ic-purple">📚</div><div class="dim-title">Vocabulario disciplinar</div></div>
+          <div class="dim-desc">¿Usan los términos técnicos de la asignatura correctamente o los están evitando?</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- MATERIALES -->
+      <div class="sec-label">
+        <div class="sec-icon ic-teal">📁</div>
+        <div><h2>Materiales del facilitador</h2><p>CSV de ejemplo para practicar durante el taller</p></div>
+      </div>
+      <div class="drive-section">
+        <div class="drive-section-title">📂 Carpeta compartida — Módulo 1</div>
+        <p>El facilitador ha subido un archivo CSV de ejemplo con mensajes reales de un foro académico universitario. Úsalo si aún no tienes tu propio CSV exportado desde Moodle. También encontrarás una guía de exportación paso a paso.</p>
+        <a href="https://drive.google.com/drive/folders/1WcGT3MPtsdcwaMJA9M8wCQQ4HLquI4AK?usp=sharing" target="_blank" class="drive-btn">📥 Abrir carpeta del facilitador</a>
+      </div>
+      <div class="nota nota-info">
+        <span>ℹ️</span>
+        <span><strong>¿Cómo exportar tu CSV desde Moodle?</strong> Entra a tu curso → Foro → abre el foro → en el menú de Administración selecciona "Exportar" o descárgalo desde Informes → Actividad del foro → Exportar a hoja de cálculo.</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- FLUJO -->
+      <div class="sec-label">
+        <div class="sec-icon ic-blue">⚙️</div>
+        <div><h2>Flujo de trabajo</h2><p>Del CSV del foro al diagnóstico pedagógico completo</p></div>
+      </div>
+      <div class="flujo">
+        <div class="flujo-step">
+          <div class="fs-num">1</div>
+          <div><div class="fs-title">Obtén el CSV del foro de Moodle</div><div class="fs-desc">Exporta el CSV desde Moodle, o descarga el archivo de ejemplo del facilitador. El CSV debe contener: nombre, fecha, asunto y cuerpo del mensaje.</div><span class="fs-tool">📥 Moodle → Foro → Exportar</span></div>
+        </div>
+        <div class="flujo-step">
+          <div class="fs-num">2</div>
+          <div><div class="fs-title">Abre Claude AI y sube el archivo</div><div class="fs-desc">Ve a claude.ai → nueva conversación → arrastra el CSV directamente al chat. Claude lo procesa completo sin copiar y pegar.</div><span class="fs-tool">🌐 claude.ai — cuenta gratuita</span></div>
+        </div>
+        <div class="flujo-step">
+          <div class="fs-num">3</div>
+          <div><div class="fs-title">Copia y pega el Prompt P1</div><div class="fs-desc">Personaliza únicamente los campos en [ ] con tu asignatura, tema del foro y nivel. No modifiques el resto en esta primera sesión.</div></div>
+        </div>
+        <div class="flujo-step">
+          <div class="fs-num">4</div>
+          <div><div class="fs-title">Lee el diagnóstico y valida con tu criterio</div><div class="fs-desc">Claude devuelve 5 secciones + síntesis de acción. Marca ✓ lo que coincide y ⚠ lo que te sorprende — tú conoces a tus estudiantes mejor que la IA.</div></div>
+        </div>
+        <div class="flujo-step">
+          <div class="fs-num">5</div>
+          <div><div class="fs-title">Guarda y sube tu entregable</div><div class="fs-desc">Exporta como PDF (Ctrl+P → Guardar como PDF) o cópialo a un Google Doc. Sube a tu carpeta personal del taller.</div><span class="fs-tool">📁 Tu carpeta → Drive del taller</span></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- PROMPT -->
+      <div class="sec-label">
+        <div class="sec-icon ic-teal">📋</div>
+        <div><h2>Prompt P1 — Diagnóstico del Foro</h2><p>Copia completo · Personaliza solo los campos en [ ]</p></div>
+      </div>
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="prompt-label">📋 P1 · Claude AI — Diagnóstico de Foro Académico</span>
+          <button class="copy-btn" onclick="copiarPrompt(this)">Copiar prompt</button>
+        </div>
+        <div class="prompt-content">Eres un experto en análisis de discurso académico y evaluación formativa universitaria. Analiza el archivo CSV adjunto que contiene los mensajes del foro de discusión de la asignatura [NOMBRE DE TU ASIGNATURA], correspondiente al tema "[TEMA DEL FORO]", con estudiantes de [NIVEL: primer/segundo/tercer ciclo] de la carrera de [NOMBRE DE LA CARRERA].
 
 Genera un diagnóstico pedagógico estructurado en las siguientes cinco secciones:
 
@@ -409,9 +484,9 @@ Evalúa la solidez de los argumentos usando la taxonomía de Bloom. ¿Los aporte
 Identifica los 3–5 malentendidos conceptuales sobre [TEMA DEL FORO] que aparecen en más de un mensaje. Para cada error: describe el error con precisión, explica la concepción alternativa que lo origina, indica en cuántos mensajes aproximadamente aparece.
 
 4. PARTICIPACIÓN DIFERENCIADA
-Clasifica al grupo en tres perfiles (usa iniciales o descripción, sin revelar nombres completos):
+Clasifica al grupo en tres perfiles (usa iniciales, sin revelar nombres completos):
 - Participación alta: aportes extensos y frecuentes
-- Participación básica: participaron con aportes mínimos o de cortesía
+- Participación básica: participaron con aportes mínimos
 - No participaron o participación muy escasa
 Indica el porcentaje aproximado del grupo en cada categoría.
 
@@ -422,75 +497,130 @@ SÍNTESIS PARA ACCIÓN DOCENTE
 3 intervenciones pedagógicas concretas y priorizadas para la próxima semana, basadas exclusivamente en la evidencia del foro analizado.
 
 Responde en español. Sé específico y cita fragmentos textuales del CSV cuando sea relevante. No inventes información que no esté en los datos.</div>
-  </div>
+      </div>
 
-  <div class="nota nota-warn">
-    <span>⚠️</span>
-    <span><strong>Sobre la privacidad:</strong> El CSV contiene nombres de estudiantes reales. Claude no almacena ni comparte los datos que subes en cada sesión. Si prefieres mayor precaución, puedes reemplazar los nombres con códigos (E01, E02…) antes de subir el archivo — el análisis será igual de preciso.</span>
-  </div>
+      <div class="nota nota-warn">
+        <span>⚠️</span>
+        <span><strong>Sobre la privacidad:</strong> Claude no almacena los datos que subes en cada sesión. Si prefieres, puedes reemplazar los nombres con códigos (E01, E02…) antes de subir — el análisis será igual de preciso.</span>
+      </div>
 
-  <div class="divider"></div>
+      <div class="divider"></div>
 
-  <!-- RETO -->
-  <div class="sec-label">
-    <div class="sec-icon ic-red">⚡</div>
-    <div><h2>Reto del Módulo 1</h2><p>30 minutos de práctica con el foro real o el ejemplo del facilitador</p></div>
-  </div>
-  <div class="reto-box">
-    <div class="reto-header">
-      <div class="reto-icon">🔍</div>
-      <div class="reto-meta">
-        <strong>Genera el diagnóstico del foro de tu grupo</strong>
-        <span>Tiempo estimado: 30 minutos · Entregable: diagnóstico en PDF o Google Doc</span>
+      <!-- RETO -->
+      <div class="sec-label">
+        <div class="sec-icon ic-red">⚡</div>
+        <div><h2>Reto del Módulo 1</h2><p>30 minutos de práctica con tu foro real o el ejemplo</p></div>
+      </div>
+      <div class="reto-box">
+        <div class="reto-header">
+          <div class="reto-icon">🔍</div>
+          <div class="reto-meta">
+            <strong>Genera el diagnóstico del foro de tu grupo</strong>
+            <span>Tiempo estimado: 30 min · Entregable: PDF o Google Doc</span>
+          </div>
+        </div>
+        <div class="rs"><div class="rs-n">1</div><span>Descarga el CSV del foro desde Moodle, o usa el archivo de ejemplo del facilitador.</span></div>
+        <div class="rs"><div class="rs-n">2</div><span>Abre claude.ai → nueva conversación → arrastra el CSV al chat.</span></div>
+        <div class="rs"><div class="rs-n">3</div><span>Copia el Prompt P1, completa los campos en [ ] y envíalo.</span></div>
+        <div class="rs"><div class="rs-n">4</div><span>Lee el diagnóstico. Marca ✓ lo que coincide y ⚠ lo que te sorprende.</span></div>
+        <div class="rs"><div class="rs-n">5</div><span>Guarda como PDF y súbelo a la carpeta del taller.</span></div>
+        <div class="entregable">
+          <span style="font-size:1.2rem">📄</span>
+          <div>
+            <div style="font-size:.82rem;font-weight:700;color:#fff;margin-bottom:2px">Entregable del Módulo 1</div>
+            <div style="font-size:.74rem;color:var(--text-muted)">Diagnóstico del foro en PDF o Google Doc · Incluye tu validación con ✓ y ⚠</div>
+          </div>
+        </div>
+        <a href="https://drive.google.com/drive/folders/195jR_XyK0XeqqMIr8_SKJF_hUhwC_WmZ?usp=sharing" target="_blank" class="drive-btn">📁 Subir mi entregable a Drive →</a>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- REFLEXIÓN -->
+      <div class="sec-label">
+        <div class="sec-icon ic-purple">💬</div>
+        <div><h2>Reflexión de cierre</h2><p>Antes de pasar al Módulo 2</p></div>
+      </div>
+      <div class="reflexion">
+        <h3>🤔 Tres preguntas para consolidar:</h3>
+        <div class="ref-q"><div class="ref-n">1</div><span>¿El diagnóstico de Claude coincidió con tu lectura del foro? ¿Qué dimensión te reveló algo nuevo?</span></div>
+        <div class="ref-q"><div class="ref-n">2</div><span>¿Qué información del diagnóstico cambiaría tu planificación de la próxima semana?</span></div>
+        <div class="ref-q"><div class="ref-n">3</div><span>¿Qué limitaciones ves en usar IA para analizar un foro académico?</span></div>
+      </div>
+      <div class="nota nota-green">
+        <span>✅</span>
+        <span><strong>Módulo 2:</strong> Ya tienes el mapa cualitativo de tu grupo. En el M2 añades la capa cuantitativa: el libro de calificaciones convertido en dashboard visual con Gemini.</span>
+      </div>
+
+      <div class="nav-btns">
+        <a href="apertura.html" class="btn-ghost">← Apertura Conceptual</a>
+        <a href="modulo2.html" class="btn-mc">Módulo 2 →</a>
+      </div>
+    </div><!-- /content-body -->
+
+    <footer>Universidad Bolivariana del Ecuador · Carrera de Ciencias de la Educación · IA para Enseñar Mejor 2025</footer>
+  </div><!-- /content-col -->
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- DERECHA — FORO de preguntas (fijo)         -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="foro-col">
+
+    <div class="foro-header">
+      <div class="foro-header-left">
+        <span class="foro-title">💬 Preguntas</span>
+        <span class="foro-count" id="foroCount">0</span>
+      </div>
+      <div class="foro-tabs">
+        <button class="ftab active" onclick="cambiarTab(this,'recientes')">Nuevas</button>
+        <button class="ftab" onclick="cambiarTab(this,'votados')">Votadas</button>
       </div>
     </div>
-    <div class="rs"><div class="rs-n">1</div><span>Descarga el CSV del foro desde Moodle, o usa el archivo de ejemplo de la carpeta del facilitador.</span></div>
-    <div class="rs"><div class="rs-n">2</div><span>Abre claude.ai → nueva conversación → arrastra el CSV al chat.</span></div>
-    <div class="rs"><div class="rs-n">3</div><span>Copia el Prompt P1, completa los campos en [ ] con tu asignatura y tema del foro, y envíalo.</span></div>
-    <div class="rs"><div class="rs-n">4</div><span>Lee el diagnóstico. Marca con ✓ lo que coincide con tu percepción y con ⚠ lo que te sorprende o parece incorrecto.</span></div>
-    <div class="rs"><div class="rs-n">5</div><span>Guarda el resultado como PDF (Ctrl+P → Guardar como PDF) o cópialo a un Google Doc.</span></div>
-    <div class="rs"><div class="rs-n">6</div><span>Sube tu archivo a la carpeta del taller con el botón de abajo.</span></div>
 
-    <div class="entregable">
-      <div class="ent-icon">📄</div>
-      <div class="ent-text">
-        <strong>Entregable del Módulo 1</strong>
-        <span>Diagnóstico del foro en PDF o Google Doc · Incluye tu validación personal con ✓ y ⚠</span>
+    <div class="foro-lista" id="foroLista">
+      <div class="foro-empty" id="foroEmpty">
+        <div class="foro-empty-icon">🙋</div>
+        <div class="foro-empty-text">Sé el primero en preguntar</div>
       </div>
     </div>
 
-    <a href="https://drive.google.com/drive/folders/195jR_XyK0XeqqMIr8_SKJF_hUhwC_WmZ?usp=sharing" target="_blank" class="drive-btn">
-      📁 Subir mi entregable a Drive →
-    </a>
-  </div>
+    <div class="foro-compose">
+      <div class="foro-compose-top">
+        <input id="foroNombre" class="foro-nombre-input" placeholder="Tu nombre…" maxlength="40" />
+      </div>
+      <div class="editor-toolbar">
+        <button class="etool" title="Negrita" onclick="fmt('bold')"><b>B</b></button>
+        <button class="etool" title="Cursiva" onclick="fmt('italic')"><i>I</i></button>
+        <button class="etool" title="Lista" onclick="fmt('insertUnorderedList')">☰</button>
+        <button class="etool" title="Código" onclick="fmtCode()"><span style="font-family:monospace;font-size:.85em">&lt;/&gt;</span></button>
+        <div class="etool-sep"></div>
+        <button class="etool" title="Imagen" onclick="document.getElementById('imgUpload').click()">🖼</button>
+        <input type="file" id="imgUpload" accept="image/*" style="display:none" onchange="insertarImagen(this)">
+      </div>
+      <div id="foroEditor" class="foro-editor" contenteditable="true"
+           data-placeholder="Tu pregunta o comentario… (Ctrl+Enter)"
+           onkeydown="handleForoKey(event)"></div>
+      <div class="foro-compose-bot">
+        <span class="foro-hint">El facilitador y tus colegas pueden responder</span>
+        <button class="foro-send-btn" onclick="publicarPregunta()" id="foroSendBtn">
+          Publicar
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
 
-  <div class="divider"></div>
+  </div><!-- /foro-col -->
 
-  <!-- REFLEXIÓN -->
-  <div class="sec-label">
-    <div class="sec-icon ic-purple">💬</div>
-    <div><h2>Reflexión de cierre</h2><p>Antes de pasar al Módulo 2</p></div>
-  </div>
-  <div class="reflexion">
-    <h3>🤔 Tres preguntas para consolidar:</h3>
-    <div class="ref-q"><div class="ref-n">1</div><span>¿El diagnóstico de Claude coincidió con tu lectura del foro? ¿Qué dimensión te reveló algo que no habías notado?</span></div>
-    <div class="ref-q"><div class="ref-n">2</div><span>¿Qué información del diagnóstico cambiaría concretamente tu planificación de la próxima semana?</span></div>
-    <div class="ref-q"><div class="ref-n">3</div><span>¿Qué limitaciones ves en usar IA para analizar un foro académico? ¿Qué cosas importantes no puede capturar?</span></div>
-  </div>
+</div><!-- /platzi-wrap -->
 
-  <div class="nota nota-green">
-    <span>✅</span>
-    <span><strong>Conexión al Módulo 2:</strong> Ya tienes un mapa cualitativo de tu grupo a través de sus voces en el foro. En el M2 añadirás la capa cuantitativa: el libro de calificaciones de Moodle convertido en un dashboard visual interactivo con Gemini.</span>
-  </div>
 
-  <div class="nav-btns">
-    <a href="apertura.html" class="btn-ghost">← Apertura Conceptual</a>
-    <a href="modulo2.html" class="btn-mc">Módulo 2 →</a>
-  </div>
-</div>
-
-<footer>Universidad Bolivariana del Ecuador · Carrera de Ciencias de la Educación · IA para Enseñar Mejor 2025</footer>
 <script>
+// Reset scroll al cargar
+window.addEventListener('load', () => {
+  const col = document.querySelector('.content-col');
+  if (col) col.scrollTop = 0;
+});
+
 // ═══════════════════════════════════════════════════════
 // FORO MÓDULO 1 — conectado a Google Sheets via Apps Script
 // Pega tu URL de Apps Script aquí después de desplegarlo:
@@ -675,26 +805,105 @@ async function publicarRespuesta(id) {
   setTimeout(() => document.getElementById(`card-${id}`)?.scrollIntoView({behavior:'smooth',block:'nearest'}), 100);
 }
 
+// ── Editor rico ─────────────────────────────────────────
+function fmt(cmd) {
+  document.getElementById('foroEditor').focus();
+  document.execCommand(cmd, false, null);
+}
+function fmtCode() {
+  document.getElementById('foroEditor').focus();
+  const sel = window.getSelection();
+  const selected = sel.rangeCount ? sel.getRangeAt(0).toString() : 'código';
+  document.execCommand('insertHTML', false, `<code>${selected || 'código'}</code>`);
+}
+function insertarImagen(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // Mostrar preview inmediato mientras sube
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    // 1. Comprimir imagen
+    const compressed = await comprimirImagen(e.target.result, 900, 0.80);
+
+    // 2. Insertar preview en el editor con id temporal
+    const tempId = 'img_' + Date.now();
+    document.getElementById('foroEditor').focus();
+    document.execCommand('insertHTML', false,
+      `<br><img id="${tempId}" src="${compressed}" style="opacity:.5;border:2px dashed rgba(255,255,255,.2);border-radius:7px" /><br>`
+    );
+
+    // 3. Subir a ImgBB (API gratuita)
+    try {
+      const base64 = compressed.split(',')[1];
+      const form = new FormData();
+      form.append('image', base64);
+      const res = await fetch('https://api.imgbb.com/1/upload?key=2e4e742769b7ed4b7e037a5a55f8a931', {
+        method: 'POST', body: form
+      });
+      const data = await res.json();
+      if (data.success) {
+        // 4. Reemplazar src temporal con URL real
+        const imgEl = document.getElementById(tempId);
+        if (imgEl) {
+          imgEl.src = data.data.display_url;
+          imgEl.style.opacity = '1';
+          imgEl.style.border = 'none';
+          imgEl.removeAttribute('id');
+        }
+      } else {
+        // Si falla ImgBB, dejar base64 (funciona para texto corto)
+        const imgEl = document.getElementById(tempId);
+        if (imgEl) { imgEl.style.opacity='1'; imgEl.style.border='none'; imgEl.removeAttribute('id'); }
+      }
+    } catch {
+      const imgEl = document.getElementById(tempId);
+      if (imgEl) { imgEl.style.opacity='1'; imgEl.style.border='none'; imgEl.removeAttribute('id'); }
+    }
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+async function comprimirImagen(dataUrl, maxW, quality) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = dataUrl;
+  });
+}
+
 async function publicarPregunta() {
   const nombre = document.getElementById('foroNombre').value.trim() || 'Anónimo';
-  const textoEl = document.getElementById('foroPregunta');
-  const texto = textoEl.value.trim();
-  if (!texto) { textoEl.style.borderColor='rgba(222,42,53,.5)'; setTimeout(()=>textoEl.style.borderColor='',1500); return; }
+  const editor = document.getElementById('foroEditor');
+  const texto  = editor.innerHTML.replace(/<br\s*\/?>/gi,'').trim();
+  if (!texto) {
+    editor.style.borderColor = 'rgba(222,42,53,.5)';
+    setTimeout(() => editor.style.borderColor = '', 1500);
+    editor.focus(); return;
+  }
   const btn = document.getElementById('foroSendBtn');
   btn.disabled = true; btn.textContent = 'Publicando…';
   await apiPost({ action:'nueva_pregunta', nombre, texto });
-  textoEl.value = '';
+  editor.innerHTML = '';
   tabActual = 'recientes';
   document.querySelectorAll('.ftab').forEach((t,i) => t.classList.toggle('active', i===0));
-  // Esperar 1.2s para que Sheets confirme el guardado antes de recargar
   await new Promise(r => setTimeout(r, 1200));
   await cargarPreguntas();
-  btn.disabled = false; btn.innerHTML = 'Publicar <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+  btn.disabled = false;
+  btn.innerHTML = 'Publicar <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
   document.getElementById('foroLista').scrollTop = 0;
 }
 
 function handleForoKey(e) {
-  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) publicarPregunta();
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); publicarPregunta(); }
 }
 
 function cambiarTab(btn, tab) {
