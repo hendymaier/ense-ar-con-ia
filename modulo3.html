@@ -1,133 +1,591 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Módulo 3 — PDF a Podcast · IA para Enseñar Mejor</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 3 — PDF a Podcast, Cómic y Memes · IA para Enseñar Mejor</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--rojo:#de2a35;--mc:#6c3483;--mcl:#e8daef;--negro:#121416;--verde:#10b981}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{font-family:'Sora',sans-serif;background:var(--negro);color:#fff;line-height:1.6}
-nav{background:rgba(18,20,22,.97);border-bottom:1px solid rgba(255,255,255,.07);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
-.nav-badge{background:var(--rojo);color:#fff;font-weight:800;font-size:.85rem;padding:4px 9px;border-radius:5px;margin-right:10px}
-.nav-sep{width:1px;height:24px;background:rgba(255,255,255,.1)}
-.nav-links{display:flex;gap:4px;list-style:none}
-.nav-links a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.78rem;font-weight:500;padding:6px 12px;border-radius:7px;transition:all .2s}
-.nav-links a:hover{background:rgba(255,255,255,.07);color:#fff}
-.nav-links a.active{background:rgba(108,52,131,.2);color:#c4b5fd}
-.page-hero{padding:3.5rem 2rem 3rem;border-bottom:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;background:linear-gradient(135deg,#121416,#0d0f11)}
-.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 80% 50%,rgba(108,52,131,.12) 0%,transparent 60%)}
-.page-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:2}
-.breadcrumb{font-size:.7rem;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;margin-bottom:.8rem;display:flex;align-items:center;gap:6px}
-.breadcrumb a{color:rgba(255,255,255,.4);text-decoration:none}
-.mod-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(108,52,131,.15);border:1px solid rgba(108,52,131,.35);border-radius:100px;padding:4px 14px;margin-bottom:1rem;font-size:.72rem;font-weight:600;color:#c4b5fd;text-transform:uppercase;letter-spacing:.08em}
-.page-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;margin-bottom:.8rem}
-.page-title em{color:#c4b5fd;font-style:normal}
-.page-sub{font-size:.92rem;color:rgba(255,255,255,.5);max-width:580px;line-height:1.8;margin-bottom:1.5rem}
-.hero-chips{display:flex;flex-wrap:wrap;gap:.6rem}
-.chip{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:5px 14px;font-size:.76rem;color:rgba(255,255,255,.6)}
-.chip .dot{width:6px;height:6px;border-radius:50%}
-.main{max-width:900px;margin:0 auto;padding:3rem 2rem 5rem}
-.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
-.sec-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.sec-label h2{font-size:1.1rem;font-weight:700;color:#fff}
-.sec-label p{font-size:.78rem;color:rgba(255,255,255,.4);margin-top:2px}
-.divider{height:1px;background:rgba(255,255,255,.07);margin:2.5rem 0}
-.flujo{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.5rem}
-.flujo-step{display:flex;gap:1rem;padding:1rem 1.3rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:13px}
-.flujo-step:hover{border-color:rgba(108,52,131,.3)}
-.fs-num{width:34px;height:34px;border-radius:10px;background:var(--mc);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#fff;flex-shrink:0}
-.fs-title{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:.25rem}
-.fs-desc{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.7}
-.fs-tool{display:inline-flex;align-items:center;gap:5px;background:rgba(108,52,131,.12);border:1px solid rgba(108,52,131,.25);border-radius:100px;padding:3px 10px;font-size:.7rem;color:#c4b5fd;margin-top:.4rem}
-/* TABS */
-.tabs{display:flex;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap}
-.tab-btn{padding:8px 18px;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:rgba(255,255,255,.55);font-family:'Sora',sans-serif;transition:all .2s}
-.tab-btn.active{background:var(--mc);border-color:var(--mc);color:#fff}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.prompt-box{background:#0d0f11;border:1px solid rgba(108,52,131,.3);border-radius:14px;overflow:hidden;margin:.8rem 0}
-.prompt-header{background:rgba(108,52,131,.1);padding:.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(108,52,131,.2)}
-.prompt-label{font-size:.72rem;font-weight:700;color:#c4b5fd;text-transform:uppercase;letter-spacing:.08em}
-.copy-btn{background:rgba(108,52,131,.2);border:1px solid rgba(108,52,131,.3);color:#c4b5fd;border-radius:6px;padding:4px 12px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif}
-.copy-btn.copied{color:#fff;background:var(--mc)}
-.prompt-content{padding:1.2rem;font-size:.82rem;color:rgba(255,255,255,.8);line-height:1.9;font-family:'DM Mono',monospace;white-space:pre-wrap}
-.reto-box{background:rgba(108,52,131,.06);border:1px solid rgba(108,52,131,.2);border-radius:16px;padding:1.8rem;margin:.5rem 0}
-.reto-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.3rem}
-.reto-icon{width:48px;height:48px;border-radius:13px;background:var(--mc);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
-.reto-meta strong{display:block;font-size:1rem;font-weight:700;color:#fff;margin-bottom:3px}
-.reto-meta span{font-size:.8rem;color:rgba(255,255,255,.45)}
-.rs{display:flex;gap:10px;font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:.5rem}
-.rs-n{width:20px;height:20px;border-radius:50%;background:rgba(108,52,131,.3);color:#c4b5fd;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.drive-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(108,52,131,.15);border:1px solid rgba(108,52,131,.25);color:#c4b5fd;padding:9px 20px;border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .2s;margin-top:1rem}
-.nota{border-radius:10px;padding:1rem 1.2rem;font-size:.82rem;line-height:1.7;display:flex;gap:10px;margin-top:1rem}
-.nota-info{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);color:rgba(255,255,255,.65)}
-.nota-green{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:rgba(255,255,255,.65)}
-.nota-info strong{color:#7dd3fc}.nota-green strong{color:#6ee7b7}
-.nav-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.07)}
-.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:rgba(255,255,255,.65);padding:11px 24px;border-radius:9px;font-size:.88rem;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.13)}
-.btn-ghost:hover{border-color:rgba(255,255,255,.28);color:#fff}
-.btn-mc{display:inline-flex;align-items:center;gap:8px;background:var(--mc);color:#fff;padding:11px 24px;border-radius:9px;font-size:.88rem;font-weight:600;text-decoration:none}
-.btn-mc:hover{background:#5b2c6f;transform:translateY(-1px)}
-footer{background:#080a0c;border-top:1px solid rgba(255,255,255,.06);padding:1.5rem 2rem;text-align:center;font-size:.75rem;color:rgba(255,255,255,.25)}
-@media(max-width:768px){nav .nav-links{display:none}}
+/* ── VARIABLES ───────────────────────────────────── */
+:root {
+  --rojo: #de2a35;
+  --mc: #117A65;
+  --mc2: #0d9488;
+  --negro: #0d0f11;
+  --negro2: #121416;
+  --border: rgba(255,255,255,.07);
+  --muted: rgba(255,255,255,.4);
+  --nav-h: 60px;
+  --foro-w: 460px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* scrollbar oscura global */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0a0c0e; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.2); }
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--negro);
+  color: #fff;
+  line-height: 1.6;
+  /* padding-top = nav height, padding-right = foro width */
+  padding-top: var(--nav-h);
+  padding-right: var(--foro-w);
+}
+
+/* ── NAV fijo ────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  height: var(--nav-h);
+  background: rgba(10,12,14,.97);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.5rem;
+  backdrop-filter: blur(14px);
+}
+.nav-left { display: flex; align-items: center; gap: 10px; }
+.nav-badge { background: var(--rojo); color: #fff; font-weight: 800; font-size: .78rem; padding: 3px 8px; border-radius: 5px; }
+.nav-title { font-size: .75rem; color: rgba(255,255,255,.35); font-weight: 500; }
+.nav-links { display: flex; gap: 2px; list-style: none; }
+.nav-links a { color: rgba(255,255,255,.4); text-decoration: none; font-size: .74rem; font-weight: 600; padding: 5px 10px; border-radius: 6px; transition: all .2s; }
+.nav-links a:hover { background: rgba(255,255,255,.07); color: #fff; }
+.nav-links a.active { background: rgba(17,122,101,.18); color: #6ee7b7; }
+
+/* ── FORO PANEL fijo derecha ─────────────────────── */
+.foro-panel {
+  position: fixed;
+  top: var(--nav-h); right: 0; bottom: 0;
+  width: var(--foro-w);
+  background: #0a0c0e;
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 200;
+  overflow: hidden;
+}
+
+/* ── CONTENIDO PRINCIPAL (scrollea con el body) ──── */
+.main-content {
+  min-height: calc(100vh - var(--nav-h));
+}
+
+/* ── HERO ────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, #0a1813 0%, #0d1210 50%, #0d0f11 100%);
+  border-bottom: 1px solid rgba(17,122,101,.2);
+  padding: 3rem 2.5rem 0;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 100% at 95% 20%, rgba(17,122,101,.15) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 50% at 5% 90%, rgba(222,42,53,.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; width: 100%; }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+  margin-bottom: 2rem;
+}
+
+.breadcrumb { font-size: .67rem; color: rgba(255,255,255,.25); font-family: 'DM Mono', monospace; margin-bottom: .9rem; display: flex; align-items: center; gap: 5px; }
+.breadcrumb a { color: rgba(255,255,255,.28); text-decoration: none; transition: color .2s; }
+.breadcrumb a:hover { color: rgba(255,255,255,.6); }
+
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(17,122,101,.15); border: 1px solid rgba(17,122,101,.3);
+  border-radius: 100px; padding: 5px 16px; margin-bottom: 1.1rem;
+  font-size: .68rem; font-weight: 700; color: #6ee7b7;
+  text-transform: uppercase; letter-spacing: .09em;
+}
+.hero-title {
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 800; line-height: 1.02; letter-spacing: -.03em;
+  margin-bottom: 1rem; color: #fff;
+}
+.hero-title em { color: var(--mc); font-style: normal; }
+.hero-sub {
+  font-size: .92rem; color: rgba(255,255,255,.46);
+  line-height: 1.9; margin-bottom: 1.4rem; max-width: 500px;
+}
+.hero-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 100px; padding: 5px 13px;
+  font-size: .71rem; color: rgba(255,255,255,.5);
+}
+.chip-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+/* OBJETIVOS */
+.hero-obj-m1 { font-size: 7rem; font-weight: 900; color: rgba(17,122,101,.18); line-height: 1; text-align: right; letter-spacing: -.05em; margin-top: auto; padding-top: .4rem; pointer-events: none; }
+.hero-obj {
+  background: rgba(17,122,101,.08);
+  border: 1px solid rgba(17,122,101,.18);
+  border-radius: 14px; padding: 1.3rem 1.4rem;
+  height: 100%; display: flex; flex-direction: column;
+}
+.obj-title { font-size: .7rem; font-weight: 700; color: rgba(255,255,255,.38); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .9rem; }
+.obj-list { display: flex; flex-direction: column; gap: .65rem; }
+.obj-item { display: flex; align-items: flex-start; gap: .7rem; font-size: .85rem; color: rgba(255,255,255,.63); line-height: 1.6; }
+.obj-check {
+  width: 20px; height: 20px; min-width: 20px; border-radius: 6px;
+  background: rgba(17,122,101,.25); border: 1px solid rgba(17,122,101,.4);
+  color: #6ee7b7; font-size: .7rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; margin-top: 2px;
+}
+
+/* PROGRESO */
+.hero-progress { border-top: 1px solid rgba(255,255,255,.07); padding: 1.4rem 0 1.6rem; }
+.prog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .6rem; }
+.prog-header span:first-child { font-size: .68rem; color: rgba(255,255,255,.28); font-family: 'DM Mono', monospace; }
+.prog-pct { font-size: .68rem; color: #6ee7b7; font-weight: 700; font-family: 'DM Mono', monospace; }
+.prog-bar { height: 4px; background: rgba(255,255,255,.07); border-radius: 100px; margin-bottom: .9rem; overflow: hidden; }
+.prog-fill { height: 100%; width: 20%; background: linear-gradient(90deg, var(--mc), var(--mc2)); border-radius: 100px; }
+.prog-steps { display: flex; }
+.prog-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: .35rem; text-decoration: none; padding: .2rem 0; }
+.prog-step span { font-size: .66rem; font-weight: 700; color: rgba(255,255,255,.22); font-family: 'DM Mono', monospace; transition: color .2s; }
+.prog-step:hover span { color: rgba(255,255,255,.55); }
+.prog-step.active span { color: #6ee7b7; }
+.prog-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.1); border: 2px solid rgba(255,255,255,.12); transition: all .2s; }
+.prog-dot.active { background: var(--mc); border-color: var(--mc); box-shadow: 0 0 0 3px rgba(17,122,101,.25); }
+.prog-step:hover .prog-dot:not(.active) { background: rgba(255,255,255,.25); border-color: rgba(255,255,255,.25); }
+
+/* ── CUERPO ──────────────────────────────────────── */
+.body-wrap { padding: 2rem 2.5rem 5rem; }
+
+.section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 1.2rem; }
+.s-icon { width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+.ic-green  { background: linear-gradient(135deg, #4ade80, #10b981); }
+.ic-teal   { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
+.ic-blue   { background: linear-gradient(135deg, #60c8ff, #0ea5e9); }
+.ic-red    { background: linear-gradient(135deg, #ff6b6b, #de2a35); }
+.ic-orange { background: linear-gradient(135deg, #ffa040, #f59e0b); }
+.ic-purple { background: linear-gradient(135deg, #c4b5fd, #8b5cf6); }
+.section-head h2 { font-size: 1.05rem; font-weight: 800; color: #fff; letter-spacing: -.01em; }
+.section-head p { font-size: .73rem; color: var(--muted); margin-top: 2px; }
+
+.divider { height: 1px; background: var(--border); margin: 1.8rem 0; }
+
+/* OBJETIVO BOX */
+.obj-box {
+  background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.4rem 1.6rem; margin-bottom: 1.2rem;
+  font-size: .93rem; color: rgba(255,255,255,.7); line-height: 1.95;
+}
+.obj-box strong { color: #fff; }
+
+/* DIM GRID */
+.dim-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .75rem; margin-bottom: 1.2rem; }
+.dim-card {
+  background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.1rem 1rem;
+  display: flex; flex-direction: column; gap: .6rem;
+  transition: all .2s; min-height: 120px;
+}
+.dim-card:hover { border-color: rgba(17,122,101,.3); background: rgba(17,122,101,.04); transform: translateY(-1px); }
+.dim-card-top { display: flex; align-items: center; gap: .6rem; }
+.dim-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .85rem; flex-shrink: 0; }
+.dim-title { font-size: .82rem; font-weight: 700; color: #fff; }
+.dim-desc { font-size: .73rem; color: rgba(255,255,255,.42); line-height: 1.6; }
+
+/* DRIVE / NOTA */
+.drive-box {
+  background: rgba(17,122,101,.06); border: 1px solid rgba(17,122,101,.2);
+  border-radius: 13px; padding: 1.3rem; margin-bottom: .8rem;
+}
+.drive-label { font-size: .7rem; font-weight: 700; color: #6ee7b7; text-transform: uppercase; letter-spacing: .07em; margin-bottom: .35rem; display: flex; align-items: center; gap: 6px; }
+.drive-box p { font-size: .82rem; color: var(--muted); line-height: 1.75; margin-bottom: .9rem; }
+.drive-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(17,122,101,.18); border: 1px solid rgba(17,122,101,.3);
+  color: #6ee7b7; padding: 9px 20px; border-radius: 8px;
+  font-size: .8rem; font-weight: 600; text-decoration: none; transition: all .2s;
+}
+.drive-btn:hover { background: rgba(17,122,101,.3); transform: translateY(-1px); }
+
+.nota { border-radius: 9px; padding: .9rem 1.1rem; font-size: .8rem; line-height: 1.7; display: flex; gap: 9px; margin-bottom: .8rem; }
+.nota-info { background: rgba(14,165,233,.07); border: 1px solid rgba(14,165,233,.18); color: rgba(255,255,255,.62); }
+.nota-warn { background: rgba(245,158,11,.07); border: 1px solid rgba(245,158,11,.18); color: rgba(255,255,255,.62); }
+.nota-green { background: rgba(16,185,129,.07); border: 1px solid rgba(16,185,129,.18); color: rgba(255,255,255,.62); }
+.nota-info strong { color: #7dd3fc; }
+.nota-warn strong { color: #fcd34d; }
+.nota-green strong { color: #6ee7b7; }
+
+/* FLUJO */
+.flujo { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-bottom: 1.2rem; }
+.f-step {
+  display: flex; gap: .9rem; padding: .95rem 1.1rem;
+  background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  border-radius: 11px; transition: border-color .2s;
+}
+.f-step:hover { border-color: rgba(17,122,101,.3); }
+.f-num { width: 30px; height: 30px; border-radius: 9px; background: var(--mc); display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 800; color: #fff; flex-shrink: 0; }
+.f-title { font-size: .9rem; font-weight: 700; color: #fff; margin-bottom: .25rem; }
+.f-desc { font-size: .82rem; color: var(--muted); line-height: 1.7; }
+.f-tool { display: inline-flex; align-items: center; gap: 4px; background: rgba(17,122,101,.1); border: 1px solid rgba(17,122,101,.18); border-radius: 100px; padding: 2px 9px; font-size: .67rem; color: #6ee7b7; margin-top: .35rem; text-decoration: none; transition: all .2s; } .f-tool:hover { background: rgba(17,122,101,.22); border-color: rgba(17,122,101,.35); transform: translateY(-1px); }
+
+/* PROMPT */
+.prompt-box { background: #080a0c; border: 1px solid rgba(17,122,101,.3); border-radius: 12px; overflow: hidden; margin: .7rem 0; }
+.prompt-head { background: rgba(17,122,101,.1); padding: .75rem 1.1rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(17,122,101,.2); }
+.prompt-lbl { font-size: .68rem; font-weight: 700; color: #6ee7b7; text-transform: uppercase; letter-spacing: .08em; }
+.copy-btn {
+  background: rgba(17,122,101,.2); border: 1px solid rgba(17,122,101,.3);
+  color: #6ee7b7; border-radius: 5px; padding: 3px 11px;
+  font-size: .68rem; font-weight: 600; cursor: pointer; font-family: 'Sora', sans-serif; transition: all .2s;
+}
+.copy-btn:hover { background: rgba(17,122,101,.35); }
+.copy-btn.copied { color: #fff; background: var(--mc); }
+.prompt-content { padding: 1.1rem; font-size: .78rem; color: rgba(255,255,255,.78); line-height: 1.9; font-family: 'DM Mono', monospace; white-space: pre-wrap; }
+
+/* RETO */
+.reto-box { background: rgba(17,122,101,.06); border: 1px solid rgba(17,122,101,.2); border-radius: 13px; padding: 1.6rem; margin: .5rem 0; }
+.reto-head { display: flex; align-items: center; gap: .9rem; margin-bottom: 1.1rem; }
+.reto-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--mc); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+.reto-meta strong { display: block; font-size: .95rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
+.reto-meta span { font-size: .76rem; color: var(--muted); }
+.rs { display: flex; gap: 9px; font-size: .82rem; color: rgba(255,255,255,.62); line-height: 1.6; margin-bottom: .45rem; }
+.rs-n { width: 18px; height: 18px; border-radius: 50%; background: rgba(17,122,101,.3); color: #6ee7b7; font-size: .62rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.entregable { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 9px; padding: .9rem 1.1rem; display: flex; align-items: center; gap: 10px; margin: 1rem 0; }
+
+/* REFLEXIÓN */
+.reflexion-box { background: rgba(255,255,255,.02); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem; margin: .5rem 0; }
+.reflexion-box h3 { font-size: .86rem; font-weight: 700; color: rgba(255,255,255,.5); margin-bottom: .9rem; }
+.ref-q { display: flex; gap: 9px; padding: .55rem 0; border-bottom: 1px solid rgba(255,255,255,.05); font-size: .82rem; color: rgba(255,255,255,.52); line-height: 1.6; }
+.ref-q:last-child { border-bottom: none; }
+.ref-n { width: 18px; height: 18px; border-radius: 5px; background: rgba(17,122,101,.15); color: #6ee7b7; font-size: .62rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+
+/* NAV BTNS */
+.nav-btns { display: flex; gap: .9rem; flex-wrap: wrap; margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid var(--border); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 7px; background: transparent; color: rgba(255,255,255,.55); padding: 10px 22px; border-radius: 8px; font-size: .84rem; font-weight: 500; text-decoration: none; border: 1px solid rgba(255,255,255,.12); transition: all .2s; }
+.btn-ghost:hover { border-color: rgba(255,255,255,.25); color: #fff; }
+.btn-mc { display: inline-flex; align-items: center; gap: 7px; background: var(--mc); color: #fff; padding: 10px 22px; border-radius: 8px; font-size: .84rem; font-weight: 600; text-decoration: none; transition: all .2s; }
+.btn-mc:hover { background: #0e6655; transform: translateY(-1px); }
+
+footer { background: #080a0c; border-top: 1px solid var(--border); padding: 1.2rem 2.5rem; font-size: .72rem; color: rgba(255,255,255,.2); }
+
+/* ── FORO INTERNO ────────────────────────────────── */
+.foro-head { padding: .9rem 1.1rem; background: rgba(255,255,255,.025); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; gap: .5rem; }
+.foro-head-left { display: flex; align-items: center; gap: .6rem; }
+.foro-title { font-size: .84rem; font-weight: 700; color: #fff; }
+.foro-count { font-size: .68rem; color: var(--muted); background: rgba(255,255,255,.07); padding: 2px 9px; border-radius: 100px; }
+.ftabs { display: flex; gap: .3rem; }
+.ftab { background: transparent; border: 1px solid rgba(255,255,255,.09); color: rgba(255,255,255,.38); border-radius: 7px; padding: 4px 11px; font-size: .69rem; font-weight: 600; cursor: pointer; font-family: 'Sora', sans-serif; transition: all .2s; }
+.ftab:hover { border-color: rgba(255,255,255,.2); color: rgba(255,255,255,.7); }
+.ftab.active { background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.2); color: #fff; }
+
+.foro-lista { flex: 1; overflow-y: auto; padding: .65rem; display: flex; flex-direction: column; gap: .55rem; }
+.foro-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; gap: .4rem; }
+.foro-empty-icon { font-size: 2rem; }
+.foro-empty-text { font-size: .78rem; color: rgba(255,255,255,.28); }
+
+.foro-card { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 11px; padding: .9rem 1rem; transition: all .2s; }
+.foro-card:hover { border-color: rgba(255,255,255,.13); background: rgba(255,255,255,.04); }
+.foro-card-top { display: flex; align-items: flex-start; gap: .6rem; margin-bottom: .6rem; }
+.foro-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 800; color: #fff; flex-shrink: 0; text-transform: uppercase; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+.foro-card-nombre { font-size: .78rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.foro-card-tiempo { font-size: .65rem; color: rgba(255,255,255,.25); margin-top: 2px; }
+.foro-card-texto { font-size: .8rem; color: rgba(255,255,255,.72); line-height: 1.65; margin-bottom: .65rem; }
+.foro-card-texto img { max-width: 100%; border-radius: 6px; margin: 4px 0; display: block; }
+.foro-card-texto b, .foro-card-texto strong { font-weight: 700; color: #fff; }
+.foro-card-texto code { background: rgba(255,255,255,.08); padding: 1px 4px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: .75em; color: #6ee7b7; }
+.foro-card-texto ul { padding-left: 1rem; margin: 3px 0; }
+.foro-card-actions { display: flex; align-items: center; gap: .7rem; }
+.foro-vote-btn { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; padding: 3px 10px; font-size: .7rem; color: rgba(255,255,255,.45); cursor: pointer; font-family: 'Sora', sans-serif; transition: all .2s; font-weight: 600; }
+.foro-vote-btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); color: #fff; }
+.foro-vote-btn.voted { background: rgba(222,42,53,.12); border-color: rgba(222,42,53,.3); color: #ff8a80; }
+.foro-reply-btn { background: transparent; border: none; color: rgba(255,255,255,.35); font-size: .7rem; cursor: pointer; font-family: 'Sora', sans-serif; transition: color .2s; padding: 3px 6px; font-weight: 500; }
+.foro-reply-btn:hover { color: rgba(255,255,255,.75); }
+.foro-badge-fac { font-size: .58rem; background: rgba(17,122,101,.2); border: 1px solid rgba(17,122,101,.3); color: #6ee7b7; padding: 1px 6px; border-radius: 100px; font-weight: 600; }
+
+.foro-respuestas { margin-top: .5rem; padding-top: .5rem; border-top: 1px solid rgba(255,255,255,.05); display: flex; flex-direction: column; gap: .4rem; }
+.foro-resp-item { display: flex; gap: .45rem; align-items: flex-start; }
+.foro-resp-avatar { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .58rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+.foro-resp-bubble { background: rgba(255,255,255,.03); border-radius: 7px; padding: .45rem .7rem; flex: 1; }
+.foro-resp-nombre { font-size: .67rem; font-weight: 700; color: rgba(255,255,255,.62); margin-bottom: 2px; display: flex; align-items: center; gap: .35rem; }
+.foro-resp-texto { font-size: .72rem; color: rgba(255,255,255,.55); line-height: 1.5; }
+
+.foro-reply-form { margin-top: .45rem; display: none; flex-direction: column; gap: .35rem; }
+.foro-reply-form.open { display: flex; }
+.foro-reply-textarea { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); border-radius: 7px; padding: 6px 9px; color: #fff; font-size: .73rem; font-family: 'Sora', sans-serif; outline: none; resize: none; line-height: 1.5; transition: border-color .2s; }
+.foro-reply-textarea:focus { border-color: rgba(17,122,101,.4); }
+.foro-reply-textarea::placeholder { color: rgba(255,255,255,.2); }
+.foro-reply-actions { display: flex; gap: .4rem; align-items: center; }
+.foro-reply-nombre { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); border-radius: 5px; padding: 4px 8px; color: #fff; font-size: .7rem; font-family: 'Sora', sans-serif; outline: none; width: 110px; }
+.foro-reply-nombre::placeholder { color: rgba(255,255,255,.2); }
+.foro-reply-submit { background: var(--mc); border: none; color: #fff; border-radius: 6px; padding: 4px 12px; font-size: .7rem; font-weight: 600; cursor: pointer; font-family: 'Sora', sans-serif; margin-left: auto; }
+.foro-reply-cancel { background: transparent; border: none; color: rgba(255,255,255,.28); font-size: .67rem; cursor: pointer; font-family: 'Sora', sans-serif; }
+
+/* COMPOSE */
+.foro-compose { padding: .65rem; border-top: 1px solid var(--border); flex-shrink: 0; background: rgba(255,255,255,.015); }
+.foro-nombre-wrap { margin-bottom: .35rem; }
+.foro-nombre-inp { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 6px; padding: 5px 9px; color: #fff; font-size: .74rem; font-family: 'Sora', sans-serif; outline: none; width: 160px; transition: border-color .2s; }
+.foro-nombre-inp:focus { border-color: rgba(17,122,101,.4); }
+.foro-nombre-inp::placeholder { color: rgba(255,255,255,.25); }
+.editor-toolbar { display: flex; align-items: center; gap: 2px; padding: .35rem .4rem; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-bottom: none; border-radius: 8px 8px 0 0; }
+.etool { background: transparent; border: none; color: rgba(255,255,255,.45); width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-size: .78rem; display: flex; align-items: center; justify-content: center; transition: all .15s; font-family: 'Sora', sans-serif; }
+.etool:hover { background: rgba(255,255,255,.09); color: #fff; }
+.etool-sep { width: 1px; height: 14px; background: rgba(255,255,255,.1); margin: 0 2px; }
+.foro-editor { min-height: 62px; max-height: 140px; overflow-y: auto; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); border-radius: 0 0 8px 8px; padding: 7px 10px; color: #fff; font-size: .78rem; font-family: 'Sora', sans-serif; line-height: 1.55; outline: none; transition: border-color .2s; }
+.foro-editor:focus { border-color: rgba(17,122,101,.4); }
+.foro-editor:empty::before { content: attr(data-placeholder); color: rgba(255,255,255,.2); pointer-events: none; display: block; }
+.foro-editor img { max-width: 100%; max-height: 100px; border-radius: 5px; margin: 3px 0; display: block; }
+.foro-compose-bot { display: flex; align-items: center; justify-content: space-between; margin-top: .4rem; }
+.foro-hint { font-size: .64rem; color: rgba(255,255,255,.2); }
+.foro-send-btn { display: flex; align-items: center; gap: 6px; background: var(--mc); border: none; color: #fff; border-radius: 8px; padding: 8px 18px; font-size: .78rem; font-weight: 700; cursor: pointer; font-family: 'Sora', sans-serif; transition: all .2s; box-shadow: 0 2px 10px rgba(17,122,101,.3); }
+.foro-send-btn:hover { background: #0e6655; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(17,122,101,.4); }
+.foro-send-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* OBJ BOX GRID */
+.obj-box-grid { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; }
+.obj-box-text { font-size: .93rem; color: rgba(255,255,255,.7); line-height: 1.95; }
+.obj-box-stats { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.obs { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); border-radius: 10px; padding: .7rem .9rem; text-align: center; display: flex; flex-direction: column; gap: 3px; min-width: 80px; }
+.obs-n { font-size: 1.2rem; font-weight: 800; color: #6ee7b7; line-height: 1; }
+.obs-l { font-size: .62rem; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: .06em; font-family: 'DM Mono', monospace; }
+
+/* FLUJO 2 columnas */
+.f-step { display: flex; gap: .9rem; padding: .95rem 1.1rem; background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 11px; transition: border-color .2s; }
+.f-step:hover { border-color: rgba(17,122,101,.3); }
+
+/* RETO steps grid */
+.reto-steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-bottom: .8rem; }
+.rs { display: flex; gap: 9px; font-size: .82rem; color: rgba(255,255,255,.62); line-height: 1.6; padding: .6rem .8rem; background: rgba(255,255,255,.025); border-radius: 8px; }
+.rs-n { width: 20px; height: 20px; border-radius: 50%; background: rgba(17,122,101,.3); color: #6ee7b7; font-size: .65rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+
+/* REFLEXIÓN cards */
+.ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-top: .8rem; }
+.ref-card { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1rem; display: flex; flex-direction: column; gap: .7rem; transition: border-color .2s; }
+.ref-card:hover { border-color: rgba(17,122,101,.25); }
+.ref-num { width: 28px; height: 28px; border-radius: 8px; background: rgba(17,122,101,.2); border: 1px solid rgba(17,122,101,.3); color: #6ee7b7; font-size: .75rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ref-card p { font-size: .82rem; color: rgba(255,255,255,.55); line-height: 1.65; }
+
+@media(max-width:900px) {
+  body { padding-right: 0; }
+  .foro-panel { position: static; width: 100%; height: 500px; border-left: none; border-top: 1px solid var(--border); }
+  nav .nav-links { display: none; }
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-obj { display: none; }
+  .dim-grid { grid-template-columns: repeat(2, 1fr); }
+  .flujo { grid-template-columns: 1fr; }
+  .f-step[style] { grid-column: auto; }
+  .reto-steps-grid { grid-template-columns: 1fr; }
+  .ref-grid { grid-template-columns: 1fr; }
+  .obj-box-grid { grid-template-columns: 1fr; }
+  .obj-box-stats { grid-template-columns: repeat(4,1fr); }
+}
 </style>
 </head>
 <body>
+
 <nav>
-  <div style="display:flex;align-items:center"><span class="nav-badge">UBE</span><div class="nav-sep" style="margin:0 12px"></div><span style="font-size:.8rem;color:rgba(255,255,255,.5)">IA para Enseñar Mejor</span></div>
+  <div class="nav-left">
+    <span class="nav-badge">UBE</span>
+    <span class="nav-title">IA para Enseñar Mejor</span>
+  </div>
   <ul class="nav-links">
-    <li><a href="index.html">Inicio</a></li><li><a href="antes-de-empezar.html">Antes</a></li><li><a href="apertura.html">Apertura</a></li>
-    <li><a href="modulo1.html">M1</a></li><li><a href="modulo2.html">M2</a></li><li><a href="modulo3.html" class="active">M3</a></li>
-    <li><a href="modulo4.html">M4</a></li><li><a href="modulo5.html">M5</a></li><li><a href="kit.html">Kit</a></li>
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="antes-de-empezar.html">Antes</a></li>
+    <li><a href="apertura.html">Apertura</a></li>
+    <li><a href="modulo1.html">M1</a></li>
+    <li><a href="modulo2.html">M2</a></li>
+    <li><a href="modulo3.html" class="active">M3</a></li>
+    <li><a href="modulo4.html">M4</a></li>
+    <li><a href="modulo5.html">M5</a></li>
+    <li><a href="kit.html">Kit</a></li>
   </ul>
 </nav>
-<section class="page-hero">
-  <div class="page-hero-inner">
-    <div class="breadcrumb"><a href="index.html">Inicio</a> <span>›</span> Módulo 3</div>
-    <div class="mod-tag">🎙️ Módulo 3 · Sesión 2</div>
-    <h1 class="page-title">PDF a <em>Podcast</em><br>Cómic · Memes</h1>
-    <p class="page-sub">Transforma tus lecturas de cátedra en tres formatos distintos: un podcast de dos voces, un guion de historieta pedagógica y una colección de memes didácticos para distintos momentos de tu clase.</p>
-    <div class="hero-chips">
-      <div class="chip"><div class="dot" style="background:#8b5cf6"></div> NotebookLM</div>
-      <div class="chip"><div class="dot" style="background:var(--rojo)"></div> 45 minutos</div>
-      <div class="chip"><div class="dot" style="background:#10b981"></div> Sesión 2</div>
+
+<div class="foro-panel">
+  <div class="foro-head">
+    <div class="foro-head-left">
+      <span class="foro-title">💬 Preguntas</span>
+      <span class="foro-count" id="foroCount">0</span>
+    </div>
+    <div class="ftabs">
+      <button class="ftab active" onclick="cambiarTab(this,'recientes')">Nuevas</button>
+      <button class="ftab" onclick="cambiarTab(this,'votados')">Votadas</button>
     </div>
   </div>
-</section>
-<div class="main">
-  <div class="sec-label">
-    <div class="sec-icon" style="background:linear-gradient(135deg,#c4b5fd,#8b5cf6)">🎯</div>
-    <div><h2>¿Qué vas a lograr?</h2></div>
+  <div class="foro-lista" id="foroLista">
+    <div class="foro-empty" id="foroEmpty">
+      <div class="foro-empty-icon">🙋</div>
+      <div class="foro-empty-text">Sé el primero en preguntar</div>
+    </div>
   </div>
-  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem">
-    <p style="font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.9">Un mismo PDF de cátedra puede convertirse en tres recursos de alta retención: un podcast para estudiar en el bus, una historieta para explicar visualmente un proceso complejo, y memes para anclar conceptos clave con humor pedagógico. <strong style="color:#fff">Tres formatos, un solo documento fuente, para tres tipos distintos de estudiantes.</strong></p>
+  <div class="foro-compose">
+    <div class="foro-nombre-wrap">
+      <input id="foroNombre" class="foro-nombre-inp" placeholder="Tu nombre…" maxlength="40">
+    </div>
+    <div class="editor-toolbar">
+      <button class="etool" onclick="fmt('bold')"><b>B</b></button>
+      <button class="etool" onclick="fmt('italic')"><i>I</i></button>
+      <button class="etool" onclick="fmt('insertUnorderedList')">☰</button>
+      <button class="etool" onclick="fmtCode()"><span style="font-family:monospace;font-size:.85em">&lt;/&gt;</span></button>
+      <div class="etool-sep"></div>
+      <button class="etool" onclick="document.getElementById('imgUpload').click()">🖼</button>
+      <input type="file" id="imgUpload" accept="image/*" style="display:none" onchange="insertarImagen(this)">
+    </div>
+    <div id="foroEditor" class="foro-editor" contenteditable="true"
+         data-placeholder="Tu pregunta o comentario… (Ctrl+Enter)"
+         onkeydown="handleForoKey(event)"></div>
+    <div class="foro-compose-bot">
+      <span class="foro-hint">El facilitador y tus colegas pueden responder</span>
+      <button class="foro-send-btn" onclick="publicarPregunta()" id="foroSendBtn">
+        Publicar
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
   </div>
-  <div class="divider"></div>
-  <div class="sec-label">
-    <div class="sec-icon" style="background:linear-gradient(135deg,#c4b5fd,#8b5cf6)">⚙️</div>
-    <div><h2>Flujo — Parte A: Podcast con NotebookLM</h2></div>
+</div>
+
+<div class="main-content">
+
+  <!-- HERO -->
+  <div class="hero" style="background:linear-gradient(135deg,#110d18 0%,#0f0d15 50%,#0d0f11 100%)">
+    <div class="hero-inner">
+      <div class="hero-grid">
+        <div>
+          <div class="breadcrumb"><a href="index.html">Inicio</a> › Módulo 3</div>
+          <div class="hero-tag" style="background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3);color:#c4b5fd">🎙️ Módulo 3 · Sesión 3</div>
+          <h1 class="hero-title">PDF a <em style="color:#a78bfa">Podcast,</em><br>Cómic<br>y Memes</h1>
+          <p class="hero-sub">Transforma cualquier lectura de cátedra en tres recursos de alta retención: un podcast de dos voces con NotebookLM, un guion de historieta pedagógica y una colección de memes didácticos.</p>
+          <div class="hero-chips">
+            <div class="chip"><div class="chip-dot" style="background:#8b5cf6"></div> NotebookLM</div>
+            <div class="chip"><div class="chip-dot" style="background:#a78bfa"></div> Claude AI</div>
+            <div class="chip"><div class="chip-dot" style="background:var(--rojo)"></div> 45 minutos</div>
+            <div class="chip"><div class="chip-dot" style="background:#10b981"></div> Sesión 3 de 5</div>
+          </div>
+        </div>
+        <div class="hero-obj" style="background:rgba(139,92,246,.07);border-color:rgba(139,92,246,.18)">
+          <div class="obj-title" style="color:rgba(196,181,253,.45)">🎯 Al terminar este módulo podrás:</div>
+          <div class="obj-list">
+            <div class="obj-item"><div class="obj-check" style="background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.35);color:#c4b5fd">✓</div><span>Convertir un PDF de cátedra en un podcast de dos voces con NotebookLM</span></div>
+            <div class="obj-item"><div class="obj-check" style="background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.35);color:#c4b5fd">✓</div><span>Generar el guion de una historieta pedagógica de 6-8 viñetas con Claude</span></div>
+            <div class="obj-item"><div class="obj-check" style="background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.35);color:#c4b5fd">✓</div><span>Crear una colección de 5 memes didácticos pedagógicamente defendibles</span></div>
+            <div class="obj-item"><div class="obj-check" style="background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.35);color:#c4b5fd">✓</div><span>Elegir el formato adecuado según el tipo de contenido y momento de la clase</span></div>
+          </div>
+          <div class="hero-obj-m1" style="color:rgba(139,92,246,.15)">M3</div>
+        </div>
+      </div>
+      <div class="hero-progress">
+        <div class="prog-header">
+          <span>Progreso del taller</span>
+          <span class="prog-pct" style="color:#c4b5fd">3 / 5 módulos</span>
+        </div>
+        <div class="prog-bar"><div class="prog-fill" style="width:60%;background:linear-gradient(90deg,#8b5cf6,#a78bfa)"></div></div>
+        <div class="prog-steps">
+          <a href="modulo1.html" class="prog-step"><div class="prog-dot" style="background:rgba(17,122,101,.5);border-color:var(--mc)"></div><span style="color:rgba(255,255,255,.4)">M1</span></a>
+          <a href="modulo2.html" class="prog-step"><div class="prog-dot" style="background:rgba(14,165,233,.5);border-color:#0ea5e9"></div><span style="color:rgba(255,255,255,.4)">M2</span></a>
+          <a href="modulo3.html" class="prog-step active"><div class="prog-dot active" style="background:#8b5cf6;border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.25)"></div><span style="color:#c4b5fd">M3</span></a>
+          <a href="modulo4.html" class="prog-step"><div class="prog-dot"></div><span>M4</span></a>
+          <a href="modulo5.html" class="prog-step"><div class="prog-dot"></div><span>M5</span></a>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="flujo">
-    <div class="flujo-step"><div class="fs-num">1</div><div class="fs-body"><div class="fs-title">Abre NotebookLM y crea un nuevo cuaderno</div><div class="fs-desc">Ve a notebooklm.google.com → "Nuevo cuaderno" → asígnale el nombre de tu asignatura.</div><span class="fs-tool">🌐 notebooklm.google.com</span></div></div>
-    <div class="flujo-step"><div class="fs-num">2</div><div class="fs-body"><div class="fs-title">Sube tu PDF de lectura</div><div class="fs-desc">Haz clic en "Añadir fuente" → "Google Drive" o "Subir archivo" → selecciona tu PDF. NotebookLM procesa el documento automáticamente.</div></div></div>
-    <div class="flujo-step"><div class="fs-num">3</div><div class="fs-body"><div class="fs-title">Genera el Audio Overview</div><div class="fs-desc">En el panel de la derecha, busca la sección "Audio Overview" → haz clic en "Generar". El proceso toma 2–5 minutos. NotebookLM crea una conversación de dos voces sobre tu documento.</div></div></div>
-    <div class="flujo-step"><div class="fs-num">4</div><div class="fs-body"><div class="fs-title">Escucha y descarga el MP3</div><div class="fs-desc">Reproduce el podcast directamente en NotebookLM. Si el resultado te convence, descárgalo como MP3 para compartir con tus estudiantes o subirlo a Moodle.</div></div></div>
-  </div>
-  <div class="divider"></div>
-  <div class="sec-label">
-    <div class="sec-icon" style="background:linear-gradient(135deg,#c4b5fd,#8b5cf6)">📋</div>
-    <div><h2>Prompts P3b y P3c — Cómic y Memes</h2><p>Para usar en Claude o ChatGPT con el contenido de tu PDF</p></div>
-  </div>
-  <div class="tabs">
-    <button class="tab-btn active" onclick="cambiarTab(this,'comic')">🎭 P3b — Historieta / Cómic</button>
-    <button class="tab-btn" onclick="cambiarTab(this,'memes')">😄 P3c — Memes Pedagógicos</button>
-  </div>
-  <div id="tab-comic" class="tab-content active">
-    <div class="prompt-box">
-      <div class="prompt-header">
-        <span class="prompt-label">🎭 P3b · Historieta Pedagógica</span>
-        <button class="copy-btn" onclick="copiarPrompt(this)">Copiar prompt</button>
+
+  <div class="body-wrap">
+
+    <!-- OBJETIVO -->
+    <div class="section-head">
+      <div class="s-icon ic-purple">🎯</div>
+      <div><h2>¿Qué vas a lograr?</h2><p>Un documento fuente, tres formatos de alta retención</p></div>
+    </div>
+    <div class="obj-box">
+      <div class="obj-box-grid">
+        <div class="obj-box-text">
+          Un mismo PDF de cátedra puede convertirse en tres recursos pensados para distintos tipos de estudiantes: un podcast para quienes aprenden escuchando, una historieta para quienes necesitan contexto narrativo visual, y memes para anclar conceptos clave con humor pedagógico. <strong>Tres formatos, un solo documento fuente, para tres tipos distintos de aprendices.</strong>
+        </div>
+        <div class="obj-box-stats">
+          <div class="obs"><span class="obs-n" style="color:#c4b5fd">1</span><span class="obs-l">PDF fuente</span></div>
+          <div class="obs"><span class="obs-n" style="color:#c4b5fd">3</span><span class="obs-l">Formatos</span></div>
+          <div class="obs"><span class="obs-n" style="color:#c4b5fd">🎙️</span><span class="obs-l">Podcast</span></div>
+          <div class="obs"><span class="obs-n" style="color:#c4b5fd">😂</span><span class="obs-l">Memes</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 3 FORMATOS -->
+    <div class="section-head">
+      <div class="s-icon ic-purple">🗂️</div>
+      <div><h2>Los 3 formatos que generarás</h2><p>Cada uno activa un canal cognitivo diferente</p></div>
+    </div>
+    <div class="dim-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="dim-card" style="min-height:160px">
+        <div class="dim-card-top"><div class="dim-icon ic-purple">🎙️</div><div class="dim-title">Podcast de dos voces</div></div>
+        <div class="dim-desc">NotebookLM genera una conversación natural entre dos presentadores que explican y debaten el contenido del PDF. Ideal para el trayecto casa-universidad.</div>
+        <div style="margin-top:.5rem;font-size:.67rem;color:rgba(196,181,253,.5);font-family:'DM Mono',monospace;font-weight:700">HERRAMIENTA: NotebookLM</div>
+      </div>
+      <div class="dim-card" style="min-height:160px">
+        <div class="dim-card-top"><div class="dim-icon ic-orange">🎨</div><div class="dim-title">Historieta pedagógica</div></div>
+        <div class="dim-desc">Claude genera el guion completo de 6-8 viñetas con descripción visual, diálogos y el concepto pedagógico que ilustra cada escena. Listo para un ilustrador.</div>
+        <div style="margin-top:.5rem;font-size:.67rem;color:rgba(196,181,253,.5);font-family:'DM Mono',monospace;font-weight:700">HERRAMIENTA: Claude AI</div>
+      </div>
+      <div class="dim-card" style="min-height:160px">
+        <div class="dim-card-top"><div class="dim-icon ic-green">😂</div><div class="dim-title">Memes pedagógicos</div></div>
+        <div class="dim-desc">Claude genera 5 memes con formato base identificado (Drake, Expanding Brain, etc.), textos listos para insertar, nivel Bloom y momento de uso en clase.</div>
+        <div style="margin-top:.5rem;font-size:.67rem;color:rgba(196,181,253,.5);font-family:'DM Mono',monospace;font-weight:700">HERRAMIENTA: Claude AI</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- MATERIALES -->
+    <div class="section-head">
+      <div class="s-icon ic-teal">📁</div>
+      <div><h2>Materiales del facilitador</h2><p>PDF de ejemplo y accesos a herramientas</p></div>
+    </div>
+    <div class="drive-box" style="background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.2)">
+      <div class="drive-label" style="color:#c4b5fd">📂 Carpeta compartida — Módulo 3</div>
+      <p>El facilitador ha subido un PDF de lectura académica de ejemplo. Úsalo para practicar los tres formatos si aún no tienes tu propio material de cátedra listo.</p>
+      <a href="https://drive.google.com/drive/folders/1WcGT3MPtsdcwaMJA9M8wCQQ4HLquI4AK?usp=sharing" target="_blank" class="drive-btn" style="background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.25);color:#c4b5fd">📥 Abrir carpeta del facilitador</a>
+    </div>
+    <div class="nota nota-info">
+      <span>🔗</span>
+      <span><strong>NotebookLM:</strong> Ve a <a href="https://notebooklm.google.com" target="_blank" style="color:#7dd3fc">notebooklm.google.com</a> → Nuevo cuaderno → Añadir fuente → sube tu PDF → pestaña "Audio Overview" → Generate.</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- FLUJO -->
+    <div class="section-head">
+      <div class="s-icon ic-purple">⚙️</div>
+      <div><h2>Flujo de trabajo</h2><p>Parte A: Podcast con NotebookLM · Parte B: Cómic y Memes con Claude</p></div>
+    </div>
+    <div class="flujo">
+      <div class="f-step"><div class="f-num">1</div><div><div class="f-title">Selecciona tu PDF de cátedra</div><div class="f-desc">Elige una lectura de entre 2 y 20 páginas. Guárdala en tu equipo o usa el PDF de ejemplo del facilitador.</div><a href="https://drive.google.com/drive/folders/1WcGT3MPtsdcwaMJA9M8wCQQ4HLquI4AK?usp=sharing" target="_blank" class="f-tool">📄 Carpeta del facilitador ↗</a></div></div>
+      <div class="f-step"><div class="f-num">2</div><div><div class="f-title">Genera el Podcast en NotebookLM</div><div class="f-desc">Nuevo cuaderno → Añadir fuente (PDF) → Audio Overview → Generate. En 2-3 min tienes el audio.</div><a href="https://notebooklm.google.com" target="_blank" class="f-tool">🎙️ notebooklm.google.com ↗</a></div></div>
+      <div class="f-step"><div class="f-num">3</div><div><div class="f-title">Genera el Guion de Historieta con Claude</div><div class="f-desc">Abre Claude → pega el Prompt P3b → reemplaza los campos en [ ] → pega un fragmento del PDF (máx. 500 palabras).</div><a href="https://claude.ai" target="_blank" class="f-tool">🌐 claude.ai ↗</a></div></div>
+      <div class="f-step"><div class="f-num">4</div><div><div class="f-title">Genera los Memes con Claude</div><div class="f-desc">Nueva conversación → pega el Prompt P3c → pega el mismo fragmento del PDF → revisa los 5 memes generados.</div></div></div>
+      <div class="f-step" style="grid-column:1/-1"><div class="f-num">5</div><div><div class="f-title">Selecciona el mejor formato y sube tu entregable</div><div class="f-desc">Elige el recurso que usarías en tu próxima clase. Guarda el podcast como audio y los guiones como PDF. Súbelos a tu carpeta del taller.</div><a href="https://drive.google.com/drive/folders/195jR_XyK0XeqqMIr8_SKJF_hUhwC_WmZ?usp=sharing" target="_blank" class="f-tool">📁 Tu carpeta → Drive del taller ↗</a></div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- PROMPT COMIC -->
+    <div class="section-head">
+      <div class="s-icon ic-orange">📋</div>
+      <div><h2>Prompt P3b — Guion de Historieta</h2><p>Para Claude AI · Personaliza los campos en [ ]</p></div>
+    </div>
+    <div class="prompt-box" style="border-color:rgba(139,92,246,.3)">
+      <div class="prompt-head" style="background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.2)">
+        <span class="prompt-lbl" style="color:#c4b5fd">📋 P3b · Claude AI — Guion de Historieta Pedagógica</span>
+        <button class="copy-btn" style="background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3);color:#c4b5fd" onclick="copiarPrompt(this)">Copiar prompt</button>
       </div>
       <div class="prompt-content">A partir del siguiente texto sobre [TEMA DE TU ASIGNATURA], crea el guion de una historieta pedagógica de 6 a 8 viñetas.
 
@@ -145,12 +603,16 @@ La historieta debe tener un arco narrativo: problema → exploración → compre
 
 Responde solo con el guion estructurado, listo para entregarlo a un ilustrador.</div>
     </div>
-  </div>
-  <div id="tab-memes" class="tab-content">
-    <div class="prompt-box">
-      <div class="prompt-header">
-        <span class="prompt-label">😄 P3c · Memes Pedagógicos</span>
-        <button class="copy-btn" onclick="copiarPrompt(this)">Copiar prompt</button>
+
+    <!-- PROMPT MEME -->
+    <div class="section-head" style="margin-top:1.5rem">
+      <div class="s-icon ic-green">📋</div>
+      <div><h2>Prompt P3c — Memes Pedagógicos</h2><p>Para Claude AI · Personaliza los campos en [ ]</p></div>
+    </div>
+    <div class="prompt-box" style="border-color:rgba(139,92,246,.3)">
+      <div class="prompt-head" style="background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.2)">
+        <span class="prompt-lbl" style="color:#c4b5fd">📋 P3c · Claude AI — Memes Pedagógicos</span>
+        <button class="copy-btn" style="background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3);color:#c4b5fd" onclick="copiarPrompt(this)">Copiar prompt</button>
       </div>
       <div class="prompt-content">A partir del siguiente contenido de [ASIGNATURA], crea una colección de 5 memes pedagógicos.
 
@@ -167,43 +629,398 @@ Para cada meme incluye:
 
 Restricción importante: el humor debe ser pedagógicamente defendible. Nada que pueda malinterpretarse fuera de contexto académico. Prioriza el humor de situación sobre el humor de persona.</div>
     </div>
-  </div>
-  <div class="nota nota-info">
-    <span>ℹ️</span>
-    <span><strong>Flujo sugerido:</strong> Genera el podcast con NotebookLM primero (es automático). Luego usa el resumen que hace NotebookLM de tu PDF como insumo para los prompts P3b y P3c en Claude o ChatGPT.</span>
-  </div>
-  <div class="divider"></div>
-  <div class="sec-label">
-    <div class="sec-icon" style="background:linear-gradient(135deg,#ff6b6b,#de2a35)">⚡</div>
-    <div><h2>Reto del Módulo 3</h2></div>
-  </div>
-  <div class="reto-box">
-    <div class="reto-header">
-      <div class="reto-icon">🎙️</div>
-      <div class="reto-meta">
-        <strong>Transforma una lectura en 3 formatos</strong>
-        <span>30 minutos · Entregable: MP3 + guion de cómic o colección de memes</span>
+    <div class="nota nota-warn">
+      <span>⚠️</span>
+      <span><strong>NotebookLM no tiene prompt:</strong> El podcast se genera automáticamente. Si quieres enfocarlo en un tema específico, en el campo "Customize" de Audio Overview puedes indicar el enfoque antes de generar.</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- RETO -->
+    <div class="section-head">
+      <div class="s-icon ic-red">⚡</div>
+      <div><h2>Reto del Módulo 3</h2><p>45 minutos para generar los tres formatos con tu PDF</p></div>
+    </div>
+    <div class="reto-box" style="background:rgba(139,92,246,.05);border-color:rgba(139,92,246,.2)">
+      <div class="reto-head">
+        <div class="reto-icon" style="background:#8b5cf6">🎙️</div>
+        <div class="reto-meta">
+          <strong>Transforma tu PDF en Podcast, Cómic y Memes</strong>
+          <span>Tiempo estimado: 45 min · Entregable: los 3 recursos + tu selección justificada</span>
+        </div>
+      </div>
+      <div class="reto-steps-grid">
+        <div class="rs"><div class="rs-n" style="background:rgba(139,92,246,.2);color:#c4b5fd">1</div><span>Elige tu PDF de cátedra (2-20 páginas) o descarga el ejemplo del facilitador.</span></div>
+        <div class="rs"><div class="rs-n" style="background:rgba(139,92,246,.2);color:#c4b5fd">2</div><span>Genera el podcast en NotebookLM → Audio Overview → escúchalo completo.</span></div>
+        <div class="rs"><div class="rs-n" style="background:rgba(139,92,246,.2);color:#c4b5fd">3</div><span>Usa P3b en Claude para generar el guion de la historieta con tu fragmento.</span></div>
+        <div class="rs"><div class="rs-n" style="background:rgba(139,92,246,.2);color:#c4b5fd">4</div><span>Usa P3c en Claude para generar los 5 memes pedagógicos del mismo fragmento.</span></div>
+        <div class="rs"><div class="rs-n" style="background:rgba(139,92,246,.2);color:#c4b5fd">5</div><span>Elige el recurso que usarías en tu próxima clase y justifica en 2 líneas por qué.</span></div>
+      </div>
+      <div class="entregable">
+        <span style="font-size:1.2rem">🎙️</span>
+        <div>
+          <div style="font-size:.82rem;font-weight:700;color:#fff;margin-bottom:2px">Entregable del Módulo 3</div>
+          <div style="font-size:.74rem;color:var(--muted)">Los 3 recursos generados + justificación del formato elegido (2-3 líneas)</div>
+        </div>
+      </div>
+      <a href="https://drive.google.com/drive/folders/195jR_XyK0XeqqMIr8_SKJF_hUhwC_WmZ?usp=sharing" target="_blank" class="drive-btn" style="background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.25);color:#c4b5fd">📁 Subir mi entregable a Drive →</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- REFLEXIÓN -->
+    <div class="section-head">
+      <div class="s-icon ic-purple">💬</div>
+      <div><h2>Reflexión de cierre</h2><p>Antes de pasar al Módulo 4</p></div>
+    </div>
+    <div class="reflexion-box">
+      <h3>🤔 Tres preguntas para consolidar:</h3>
+      <div class="ref-grid">
+        <div class="ref-card"><div class="ref-num" style="background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3);color:#c4b5fd">1</div><p>¿Cuál de los tres formatos usarías primero con tus estudiantes y en qué momento de la unidad didáctica?</p></div>
+        <div class="ref-card"><div class="ref-num" style="background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3);color:#c4b5fd">2</div><p>¿Qué tan preciso fue Claude al representar los conceptos de tu asignatura? ¿Qué corregiría antes de usar el material?</p></div>
+        <div class="ref-card"><div class="ref-num" style="background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3);color:#c4b5fd">3</div><p>¿Cómo reaccionarían tus estudiantes si recibieras el contenido en formato meme o historieta en lugar de PDF?</p></div>
       </div>
     </div>
-    <div class="rs"><div class="rs-n">1</div><span>Sube tu PDF a NotebookLM y genera el Audio Overview. Escúchalo.</span></div>
-    <div class="rs"><div class="rs-n">2</div><span>Elige uno: guion de historieta (P3b) o memes (P3c). Copia el prompt, personaliza y pégalo en Claude o ChatGPT junto con un fragmento de tu lectura.</span></div>
-    <div class="rs"><div class="rs-n">3</div><span>Descarga el MP3 y guarda el guion del cómic o los memes en un Google Doc.</span></div>
-    <div class="rs"><div class="rs-n">4</div><span>Sube ambos archivos a tu carpeta personal en Drive.</span></div>
-    <a href="#" class="drive-btn">📁 Subir mi entregable a Drive →</a>
+    <div class="nota nota-green">
+      <span>✅</span>
+      <span><strong>Módulo 4:</strong> Ya tienes recursos para distintos estilos de aprendizaje. En el M4 usas IA para diseñar evaluaciones auténticas alineadas con la taxonomía de Bloom.</span>
+    </div>
+
+    <div class="nav-btns">
+      <a href="modulo2.html" class="btn-ghost">← Módulo 2</a>
+      <a href="modulo4.html" class="btn-mc">Módulo 4 →</a>
+    </div>
   </div>
-  <div class="nota nota-green">
-    <span>✅</span>
-    <span><strong>Conexión al Módulo 4:</strong> En el M3 transformaste un documento escrito en audio y visual. En el M4 harás el proceso inverso: tomarás un audio (tu clase grabada) y lo convertirás en una evaluación escrita.</span>
-  </div>
-  <div class="nav-btns">
-    <a href="modulo2.html" class="btn-ghost">← Módulo 2</a>
-    <a href="modulo4.html" class="btn-mc">Módulo 4 →</a>
-  </div>
+
+  <footer>Universidad Bolivariana del Ecuador · Carrera de Ciencias de la Educación · IA para Enseñar Mejor 2025</footer>
 </div>
-<footer>Universidad Bolivariana del Ecuador · Carrera de Ciencias de la Educación · IA para Enseñar Mejor 2025</footer>
+
 <script>
-function copiarPrompt(btn){const c=btn.closest('.prompt-box').querySelector('.prompt-content').innerText;navigator.clipboard.writeText(c).catch(()=>{});btn.textContent='✓ Copiado';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copiar prompt';btn.classList.remove('copied')},2500)}
-function cambiarTab(btn,id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));btn.classList.add('active');document.getElementById('tab-'+id).classList.add('active')}
+// Prevenir restauración de scroll del browser
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+// Forzar scroll top en content-col desde el primer frame posible
+(function forceTop() {
+  const col = document.getElementById('mainCol');
+  if (col) { col.scrollTop = 0; return; }
+  requestAnimationFrame(forceTop);
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const col = document.getElementById('mainCol');
+  if (col) col.scrollTop = 0;
+});
+window.addEventListener('load', () => {
+  const col = document.getElementById('mainCol');
+  if (col) col.scrollTop = 0;
+  // Double safety after any deferred content
+  setTimeout(() => { if (col) col.scrollTop = 0; }, 100);
+  setTimeout(() => { if (col) col.scrollTop = 0; }, 500);
+});
+
+// ═══════════════════════════════════════════════════════
+// FORO MÓDULO 1 — conectado a Google Sheets via Apps Script
+// Pega tu URL de Apps Script aquí después de desplegarlo:
+const API_URL = 'https://script.google.com/macros/s/AKfycbygVDiSJM3bVoHSHJiTFY2CSIE0bugVCL7goEoQgiAyB2r2rx2vjUisid-jbW13Wb2a2g/exec';
+// ═══════════════════════════════════════════════════════
+
+const COLORES = ['#117a65','#1a5276','#784212','#6c3483','#b5202a','#0d9488','#1d4ed8'];
+let preguntas = [];
+let tabActual = 'recientes';
+let cargando = false;
+
+function colorPara(nombre) {
+  let h = 0;
+  for (const c of (nombre||'A')) h = (h * 31 + c.charCodeAt(0)) & 0xffff;
+  return COLORES[h % COLORES.length];
+}
+
+function tiempoRelativo(ts) {
+  const s = Math.floor((Date.now() - Number(ts)) / 1000);
+  if (s < 60) return 'ahora mismo';
+  if (s < 3600) return `hace ${Math.floor(s/60)} min`;
+  if (s < 86400) return `hace ${Math.floor(s/3600)} h`;
+  return `hace ${Math.floor(s/86400)} días`;
+}
+
+function getVoterId() {
+  let id = sessionStorage.getItem('ube_vid');
+  if (!id) { id = Math.random().toString(36).slice(2,10); sessionStorage.setItem('ube_vid', id); }
+  return id;
+}
+
+function esFacilitador(nombre) {
+  return /hendy|facilitador/i.test(nombre||'');
+}
+
+// ── API CALLS ─────────────────────────────────────────
+function jsonp(url) {
+  return new Promise((resolve) => {
+    const cb = '_ube_' + Date.now() + '_' + Math.floor(Math.random()*9999);
+    const timeout = setTimeout(() => {
+      delete window[cb];
+      document.getElementById(cb)?.remove();
+      resolve(null);
+    }, 8000);
+    window[cb] = (data) => {
+      clearTimeout(timeout);
+      delete window[cb];
+      document.getElementById(cb)?.remove();
+      resolve(data);
+    };
+    const s = document.createElement('script');
+    s.id = cb;
+    s.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb + '&t=' + Date.now();
+    s.onerror = () => { clearTimeout(timeout); delete window[cb]; resolve(null); };
+    document.head.appendChild(s);
+  });
+}
+
+async function apiGet() {
+  const data = await jsonp(API_URL);
+  if (data && data.preguntas) return data.preguntas;
+  return preguntas;
+}
+
+async function apiPost(payload) {
+  const url = API_URL + '?data=' + encodeURIComponent(JSON.stringify(payload));
+  const data = await jsonp(url);
+  return data || { ok: true };
+}
+
+// ── RENDER ────────────────────────────────────────────
+function renderizar() {
+  const lista = document.getElementById('foroLista');
+  const empty = document.getElementById('foroEmpty');
+  const count = document.getElementById('foroCount');
+
+  count.textContent = preguntas.length === 1 ? '1 pregunta' : `${preguntas.length} preguntas`;
+
+  let ordenadas = [...preguntas];
+  if (tabActual === 'votados') ordenadas.sort((a,b) => (b.votos||0)-(a.votos||0));
+  else ordenadas.sort((a,b) => Number(b.ts)-Number(a.ts));
+
+  lista.querySelectorAll('.foro-card').forEach(c => c.remove());
+
+  if (!ordenadas.length) { empty.style.display='flex'; return; }
+  empty.style.display = 'none';
+
+  const vid = getVoterId();
+
+  ordenadas.forEach(p => {
+    const color = colorPara(p.nombre);
+    const inicial = (p.nombre||'?').charAt(0).toUpperCase();
+    const yaVotado = (p.votadoPor||[]).includes(vid);
+    const esFac = esFacilitador(p.nombre);
+
+    const respsHtml = (p.respuestas||[]).map(r => {
+      const rc = colorPara(r.nombre);
+      const ri = (r.nombre||'?').charAt(0).toUpperCase();
+      const rf = esFacilitador(r.nombre);
+      return `<div class="foro-resp-item">
+        <div class="foro-resp-dot" style="background:${rc}">${ri}</div>
+        <div class="foro-resp-bubble">
+          <div class="foro-resp-nombre">
+            ${r.nombre||'Anónimo'}
+            ${rf ? '<span class="foro-resp-fac">Facilitador</span>' : ''}
+            <span style="font-size:.62rem;color:rgba(255,255,255,.25);font-weight:400">${tiempoRelativo(r.ts)}</span>
+          </div>
+          <div class="foro-resp-texto">${r.texto}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    const card = document.createElement('div');
+    card.className = 'foro-card';
+    card.id = `card-${p.id}`;
+    card.innerHTML = `
+      <div class="foro-card-top">
+        <div class="foro-user-dot" style="background:${color}">${inicial}</div>
+        <div class="foro-card-meta">
+          <div class="foro-card-nombre">
+            ${p.nombre||'Anónimo'}
+            ${esFac ? '<span style="font-size:.6rem;background:rgba(17,122,101,.2);border:1px solid rgba(17,122,101,.3);color:#6ee7b7;padding:1px 6px;border-radius:100px;margin-left:4px">Facilitador</span>' : ''}
+          </div>
+          <div class="foro-card-tiempo">${tiempoRelativo(p.ts)}</div>
+        </div>
+      </div>
+      <div class="foro-card-texto">${p.texto}</div>
+      <div class="foro-card-actions">
+        <button class="foro-vote-btn ${yaVotado?'voted':''}" onclick="votar('${p.id}')">
+          ▲ <span id="votos-${p.id}">${p.votos||0}</span>
+        </button>
+        <button class="foro-reply-btn" onclick="toggleReply('${p.id}')">
+          💬 ${(p.respuestas||[]).length ? `${p.respuestas.length} respuesta${p.respuestas.length>1?'s':''}` : 'Responder'}
+        </button>
+      </div>
+      ${respsHtml ? `<div class="foro-respuestas">${respsHtml}</div>` : ''}
+      <div class="foro-reply-form" id="reply-${p.id}">
+        <input class="foro-reply-nombre-inp" id="reply-nombre-${p.id}" placeholder="Tu nombre…" maxlength="40" />
+        <textarea class="foro-reply-input" id="reply-texto-${p.id}" placeholder="Escribe tu respuesta…" rows="2"></textarea>
+        <div class="foro-reply-actions">
+          <button class="foro-reply-cancel" onclick="toggleReply('${p.id}')">Cancelar</button>
+          <button class="foro-reply-submit" onclick="publicarRespuesta('${p.id}')">Responder</button>
+        </div>
+      </div>`;
+    lista.appendChild(card);
+  });
+}
+
+// ── ACCIONES ──────────────────────────────────────────
+async function cargarPreguntas() {
+  preguntas = await apiGet();
+  renderizar();
+}
+
+async function votar(id) {
+  const vid = getVoterId();
+  await apiPost({ action:'votar', pregunta_id: id, voter_id: vid });
+  await cargarPreguntas();
+}
+
+function toggleReply(id) {
+  const form = document.getElementById(`reply-${id}`);
+  const isOpen = form.classList.toggle('open');
+  if (isOpen) {
+    const n = document.getElementById('foroNombre').value.trim();
+    if (n) document.getElementById(`reply-nombre-${id}`).value = n;
+    document.getElementById(`reply-texto-${id}`).focus();
+  }
+}
+
+async function publicarRespuesta(id) {
+  const nombre = document.getElementById(`reply-nombre-${id}`).value.trim() || 'Anónimo';
+  const textoEl = document.getElementById(`reply-texto-${id}`);
+  const texto = textoEl.value.trim();
+  if (!texto) { textoEl.style.borderColor='rgba(222,42,53,.5)'; setTimeout(()=>textoEl.style.borderColor='',1500); return; }
+  const btn = textoEl.closest('.foro-reply-form').querySelector('.foro-reply-submit');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+  await apiPost({ action:'nueva_respuesta', pregunta_id: id, nombre, texto });
+  await new Promise(r => setTimeout(r, 1200));
+  await cargarPreguntas();
+  document.getElementById(`reply-${id}`)?.classList.remove('open');
+  setTimeout(() => document.getElementById(`card-${id}`)?.scrollIntoView({behavior:'smooth',block:'nearest'}), 100);
+}
+
+// ── Editor rico ─────────────────────────────────────────
+function fmt(cmd) {
+  document.getElementById('foroEditor').focus();
+  document.execCommand(cmd, false, null);
+}
+function fmtCode() {
+  document.getElementById('foroEditor').focus();
+  const sel = window.getSelection();
+  const selected = sel.rangeCount ? sel.getRangeAt(0).toString() : 'código';
+  document.execCommand('insertHTML', false, `<code>${selected || 'código'}</code>`);
+}
+function insertarImagen(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // Mostrar preview inmediato mientras sube
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    // 1. Comprimir imagen
+    const compressed = await comprimirImagen(e.target.result, 900, 0.80);
+
+    // 2. Insertar preview en el editor con id temporal
+    const tempId = 'img_' + Date.now();
+    document.getElementById('foroEditor').focus();
+    document.execCommand('insertHTML', false,
+      `<br><img id="${tempId}" src="${compressed}" style="opacity:.5;border:2px dashed rgba(255,255,255,.2);border-radius:7px" /><br>`
+    );
+
+    // 3. Subir a ImgBB (API gratuita)
+    try {
+      const base64 = compressed.split(',')[1];
+      const form = new FormData();
+      form.append('image', base64);
+      const res = await fetch('https://api.imgbb.com/1/upload?key=2e4e742769b7ed4b7e037a5a55f8a931', {
+        method: 'POST', body: form
+      });
+      const data = await res.json();
+      if (data.success) {
+        // 4. Reemplazar src temporal con URL real
+        const imgEl = document.getElementById(tempId);
+        if (imgEl) {
+          imgEl.src = data.data.display_url;
+          imgEl.style.opacity = '1';
+          imgEl.style.border = 'none';
+          imgEl.removeAttribute('id');
+        }
+      } else {
+        // Si falla ImgBB, dejar base64 (funciona para texto corto)
+        const imgEl = document.getElementById(tempId);
+        if (imgEl) { imgEl.style.opacity='1'; imgEl.style.border='none'; imgEl.removeAttribute('id'); }
+      }
+    } catch {
+      const imgEl = document.getElementById(tempId);
+      if (imgEl) { imgEl.style.opacity='1'; imgEl.style.border='none'; imgEl.removeAttribute('id'); }
+    }
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+async function comprimirImagen(dataUrl, maxW, quality) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = dataUrl;
+  });
+}
+
+async function publicarPregunta() {
+  const nombre = document.getElementById('foroNombre').value.trim() || 'Anónimo';
+  const editor = document.getElementById('foroEditor');
+  const texto  = editor.innerHTML.replace(/<br\s*\/?>/gi,'').trim();
+  if (!texto) {
+    editor.style.borderColor = 'rgba(222,42,53,.5)';
+    setTimeout(() => editor.style.borderColor = '', 1500);
+    editor.focus(); return;
+  }
+  const btn = document.getElementById('foroSendBtn');
+  btn.disabled = true; btn.textContent = 'Publicando…';
+  await apiPost({ action:'nueva_pregunta', nombre, texto });
+  editor.innerHTML = '';
+  tabActual = 'recientes';
+  document.querySelectorAll('.ftab').forEach((t,i) => t.classList.toggle('active', i===0));
+  await new Promise(r => setTimeout(r, 1200));
+  await cargarPreguntas();
+  btn.disabled = false;
+  btn.innerHTML = 'Publicar <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+  document.getElementById('foroLista').scrollTop = 0;
+}
+
+function handleForoKey(e) {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); publicarPregunta(); }
+}
+
+function cambiarTab(btn, tab) {
+  tabActual = tab;
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderizar();
+}
+
+// Cargar al inicio y refrescar cada 20s
+cargarPreguntas();
+setInterval(cargarPreguntas, 20000);
+
+// ── COPIAR PROMPT ──────────────────────────────────────
+function copiarPrompt(btn){
+  const content = btn.closest('.prompt-box').querySelector('.prompt-content').innerText;
+  navigator.clipboard.writeText(content).catch(()=>{});
+  btn.textContent = '✓ Copiado'; btn.classList.add('copied');
+  setTimeout(()=>{ btn.textContent = 'Copiar prompt'; btn.classList.remove('copied'); }, 2500);
+}
 </script>
 </body>
 </html>
