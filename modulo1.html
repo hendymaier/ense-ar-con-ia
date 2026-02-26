@@ -527,23 +527,38 @@ function esFacilitador(nombre) {
 }
 
 // ── API CALLS ─────────────────────────────────────────
+function jsonp(url) {
+  return new Promise((resolve) => {
+    const cb = '_ube_' + Date.now() + '_' + Math.floor(Math.random()*9999);
+    const timeout = setTimeout(() => {
+      delete window[cb];
+      document.getElementById(cb)?.remove();
+      resolve(null);
+    }, 8000);
+    window[cb] = (data) => {
+      clearTimeout(timeout);
+      delete window[cb];
+      document.getElementById(cb)?.remove();
+      resolve(data);
+    };
+    const s = document.createElement('script');
+    s.id = cb;
+    s.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb + '&t=' + Date.now();
+    s.onerror = () => { clearTimeout(timeout); delete window[cb]; resolve(null); };
+    document.head.appendChild(s);
+  });
+}
+
 async function apiGet() {
-  try {
-    const r = await fetch(API_URL);
-    const d = await r.json();
-    return d.preguntas || [];
-  } catch { return preguntas; }
+  const data = await jsonp(API_URL);
+  if (data && data.preguntas) return data.preguntas;
+  return preguntas;
 }
 
 async function apiPost(payload) {
-  try {
-    const r = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    return await r.json();
-  } catch { return { ok: false }; }
+  const url = API_URL + '?data=' + encodeURIComponent(JSON.stringify(payload));
+  const data = await jsonp(url);
+  return data || { ok: true };
 }
 
 // ── RENDER ────────────────────────────────────────────
@@ -654,6 +669,7 @@ async function publicarRespuesta(id) {
   const btn = textoEl.closest('.foro-reply-form').querySelector('.foro-reply-submit');
   btn.disabled = true; btn.textContent = 'Enviando…';
   await apiPost({ action:'nueva_respuesta', pregunta_id: id, nombre, texto });
+  await new Promise(r => setTimeout(r, 1200));
   await cargarPreguntas();
   document.getElementById(`reply-${id}`)?.classList.remove('open');
   setTimeout(() => document.getElementById(`card-${id}`)?.scrollIntoView({behavior:'smooth',block:'nearest'}), 100);
@@ -670,6 +686,8 @@ async function publicarPregunta() {
   textoEl.value = '';
   tabActual = 'recientes';
   document.querySelectorAll('.ftab').forEach((t,i) => t.classList.toggle('active', i===0));
+  // Esperar 1.2s para que Sheets confirme el guardado antes de recargar
+  await new Promise(r => setTimeout(r, 1200));
   await cargarPreguntas();
   btn.disabled = false; btn.innerHTML = 'Publicar <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
   document.getElementById('foroLista').scrollTop = 0;
