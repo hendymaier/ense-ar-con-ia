@@ -85,6 +85,9 @@ nav {
   transition: all 0.2s; white-space: nowrap;
 }
 .nav-links a:hover { background: rgba(255,255,255,0.08); color: white; }
+.nav-links a.active { color: white !important; background: rgba(255,255,255,0.09); border-radius: 7px; }
+.nav-page-link { border: 1px solid rgba(255,255,255,0.15) !important; border-radius: 7px !important; color: rgba(255,255,255,0.75) !important; }
+.nav-page-link:hover { border-color: rgba(255,255,255,0.35) !important; color: white !important; }
 .nav-cta {
   background: var(--rojo) !important;
   color: white !important;
@@ -776,19 +779,20 @@ footer {
 <!-- NAV -->
 <nav>
   <div class="nav-left">
-    <a class="nav-ube" href="#">
+    <a class="nav-ube" href="index.html">
       <span class="nav-ube-badge">UBE</span>
       <span class="nav-ube-name">Universidad Bolivariana<br>del Ecuador</span>
     </a>
     <div class="nav-divider"></div>
     <span class="nav-program">IA para Enseñar Mejor</span>
   </div>
-  <ul class="nav-links">
-    <li><a href="#modulos">Módulos</a></li>
-    <li><a href="#sesiones">Sesiones</a></li>
-    <li><a href="#facilitador">Facilitador</a></li>
-    <li><a href="#acceso">Acceso</a></li>
-    <li><a href="#kit" class="nav-cta">Kit de Prompts</a></li>
+  <ul class="nav-links" id="mainNav">
+    <li><a href="antes-de-empezar.html" class="nav-page-link">Antes de Empezar</a></li>
+    <li><a href="#modulos" data-section="modulos">Módulos</a></li>
+    <li><a href="#sesiones" data-section="sesiones">Sesiones</a></li>
+    <li><a href="#facilitador" data-section="facilitador">Facilitador</a></li>
+    <li><a href="#acceso" data-section="acceso">Acceso</a></li>
+    <li><a href="kit.html" class="nav-cta">Kit de Prompts</a></li>
   </ul>
 </nav>
 
@@ -829,7 +833,7 @@ footer {
           <span class="hcard-badge">● Activo</span>
         </div>
         <div class="mod-list">
-          <a href="#" class="mod-row" style="--mc:var(--m1);--mc-l:var(--m1l)">
+          <a href="modulo1.html" class="mod-row" style="--mc:var(--m1);--mc-l:var(--m1l)">
             <div class="mod-icon-wrap">🔍</div>
             <div class="mod-info">
               <div class="mod-name">Diagnóstico Cualitativo</div>
@@ -837,7 +841,7 @@ footer {
             </div>
             <span class="mod-dur">45'</span>
           </a>
-          <a href="#" class="mod-row" style="--mc:var(--m2);--mc-l:var(--m2l)">
+          <a href="modulo2.html" class="mod-row" style="--mc:var(--m2);--mc-l:var(--m2l)">
             <div class="mod-icon-wrap">📊</div>
             <div class="mod-info">
               <div class="mod-name">Analítica de Notas</div>
@@ -845,7 +849,7 @@ footer {
             </div>
             <span class="mod-dur">45'</span>
           </a>
-          <a href="#" class="mod-row" style="--mc:var(--m3);--mc-l:var(--m3l)">
+          <a href="modulo3.html" class="mod-row" style="--mc:var(--m3);--mc-l:var(--m3l)">
             <div class="mod-icon-wrap">🎙️</div>
             <div class="mod-info">
               <div class="mod-name">PDF → Podcast · Cómic · Memes</div>
@@ -853,7 +857,7 @@ footer {
             </div>
             <span class="mod-dur">45'</span>
           </a>
-          <a href="#" class="mod-row" style="--mc:var(--m4);--mc-l:var(--m4l)">
+          <a href="modulo4.html" class="mod-row" style="--mc:var(--m4);--mc-l:var(--m4l)">
             <div class="mod-icon-wrap">🎬</div>
             <div class="mod-info">
               <div class="mod-name">Clase → Google Forms</div>
@@ -861,7 +865,7 @@ footer {
             </div>
             <span class="mod-dur">45'</span>
           </a>
-          <a href="#" class="mod-row" style="--mc:var(--m5);--mc-l:var(--m5l)">
+          <a href="modulo5.html" class="mod-row" style="--mc:var(--m5);--mc-l:var(--m5l)">
             <div class="mod-icon-wrap">✍️</div>
             <div class="mod-info">
               <div class="mod-name">Materiales Avanzados</div>
@@ -934,7 +938,7 @@ footer {
     </div>
     <div class="modulos-grid">
 
-      <a href="#" class="mod-card reveal" style="--mc:var(--m1);--mc-l:var(--m1l)">
+      <a href="modulo1.html" class="mod-card reveal" style="--mc:var(--m1);--mc-l:var(--m1l)">
         <div class="mod-card-top"></div>
         <div class="mod-card-body">
           <div class="mod-card-head">
@@ -957,7 +961,7 @@ footer {
         </div>
       </a>
 
-      <a href="#" class="mod-card reveal" style="--mc:var(--m2);--mc-l:var(--m2l)">
+      <a href="modulo2.html" class="mod-card reveal" style="--mc:var(--m2);--mc-l:var(--m2l)">
         <div class="mod-card-top"></div>
         <div class="mod-card-body">
           <div class="mod-card-head">
@@ -980,7 +984,7 @@ footer {
         </div>
       </a>
 
-      <a href="#" class="mod-card reveal" style="--mc:var(--m3);--mc-l:var(--m3l)">
+      <a href="modulo3.html" class="mod-card reveal" style="--mc:var(--m3);--mc-l:var(--m3l)">
         <div class="mod-card-top"></div>
         <div class="mod-card-body">
           <div class="mod-card-head">
@@ -1003,7 +1007,7 @@ footer {
         </div>
       </a>
 
-      <a href="#" class="mod-card reveal" style="--mc:var(--m4);--mc-l:var(--m4l)">
+      <a href="modulo4.html" class="mod-card reveal" style="--mc:var(--m4);--mc-l:var(--m4l)">
         <div class="mod-card-top"></div>
         <div class="mod-card-body">
           <div class="mod-card-head">
@@ -1026,7 +1030,7 @@ footer {
         </div>
       </a>
 
-      <a href="#" class="mod-card reveal" style="--mc:var(--m5);--mc-l:var(--m5l)">
+      <a href="modulo5.html" class="mod-card reveal" style="--mc:var(--m5);--mc-l:var(--m5l)">
         <div class="mod-card-top"></div>
         <div class="mod-card-body">
           <div class="mod-card-head">
@@ -1292,7 +1296,7 @@ footer {
   <div class="cta-inner reveal">
     <h2>Empieza con la Apertura Conceptual</h2>
     <p>Antes del primer módulo, entiende cómo la IA interpreta el lenguaje pedagógico. 10 minutos que cambian la forma en que escribes prompts para siempre.</p>
-    <a href="#" class="btn-white">Ir a la Apertura Conceptual →</a>
+    <a href="apertura.html" class="btn-white">Ir a la Apertura Conceptual →</a>
   </div>
 </section>
 
@@ -1314,6 +1318,24 @@ footer {
 </footer>
 
 <script>
+  // ── Active nav on scroll ──────────────────────────────────
+  const sections = ['modulos','sesiones','facilitador','acceso'];
+  const navAnchors = document.querySelectorAll('#mainNav a[data-section]');
+
+  function updateActive() {
+    let current = '';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 100) current = id;
+    });
+    navAnchors.forEach(a => {
+      a.classList.toggle('active', a.dataset.section === current);
+    });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+  // ─────────────────────────────────────────────────────────
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
