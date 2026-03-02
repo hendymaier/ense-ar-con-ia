@@ -463,6 +463,84 @@
   .delay-2 { animation-delay: 0.2s; }
   .delay-3 { animation-delay: 0.3s; }
   .delay-4 { animation-delay: 0.4s; }
+
+  /* ─── GOOGLE LABS BANNER ──────────────────────────────── */
+  .labs-banner {
+    background: linear-gradient(135deg, rgba(66,133,244,0.1) 0%, rgba(52,168,83,0.08) 40%, rgba(251,188,4,0.08) 70%, rgba(234,67,53,0.08) 100%);
+    border: 1px solid rgba(66,133,244,0.25);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s;
+  }
+  .labs-banner:hover {
+    border-color: rgba(66,133,244,0.5);
+    background: linear-gradient(135deg, rgba(66,133,244,0.15) 0%, rgba(52,168,83,0.12) 40%, rgba(251,188,4,0.12) 70%, rgba(234,67,53,0.12) 100%);
+    transform: translateY(-2px);
+  }
+  .labs-banner::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(66,133,244,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .labs-icon {
+    width: 64px; height: 64px; border-radius: 16px;
+    background: linear-gradient(135deg, #4285f4, #34a853, #fbbc04, #ea4335);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; flex-shrink: 0;
+  }
+  .labs-content { flex: 1; }
+  .labs-badge {
+    display: inline-block;
+    background: rgba(66,133,244,0.15);
+    border: 1px solid rgba(66,133,244,0.3);
+    color: #60a5fa;
+    font-size: 0.68rem; font-weight: 700;
+    padding: 2px 10px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    margin-bottom: 0.5rem;
+  }
+  .labs-content h3 {
+    font-size: 1.1rem; font-weight: 700; color: #fff;
+    margin-bottom: 0.35rem;
+  }
+  .labs-content p {
+    font-size: 0.85rem; color: var(--muted); line-height: 1.6;
+    max-width: 560px;
+  }
+  .labs-arrow {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(66,133,244,0.1);
+    border: 1px solid rgba(66,133,244,0.2);
+    display: flex; align-items: center; justify-content: center;
+    color: #60a5fa; font-size: 1.1rem; flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .labs-banner:hover .labs-arrow {
+    background: rgba(66,133,244,0.2);
+    transform: translateX(4px);
+  }
+  .tag-advanced {
+    background: rgba(229,0,106,0.08);
+    color: #f472b6;
+    border: 1px solid rgba(229,0,106,0.2);
+    font-size: 0.68rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 4px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    display: inline-block; margin-top: 0.5rem;
+  }
+
 </style>
 </head>
 <body>
@@ -815,6 +893,135 @@ For instrumental background only (Soundraw):
         <span class="tool-tag tag-free">Gratuito</span>
       </div>
     </a>
+
+  </div>
+</div>
+
+
+<!-- SECCIÓN 5: GOOGLE LABS + Z.AI -->
+<div class="section">
+  <div class="section-label fade-up">
+    <span class="num">05</span>
+    <h2>Portal de exploración autónoma</h2>
+  </div>
+  <div class="divider"></div>
+
+  <!-- GOOGLE LABS BANNER -->
+  <a class="labs-banner fade-up" href="https://labs.google/" target="_blank">
+    <div class="labs-icon">🧪</div>
+    <div class="labs-content">
+      <span class="labs-badge">Portal oficial Google</span>
+      <h3>Google Labs — Todos los experimentos de IA de Google en un solo lugar</h3>
+      <p>Desde aquí accedes a Whisk, ImageFX, MusicFX, NotebookLM y decenas de experimentos nuevos antes de que sean lanzados al público. Si ya usas herramientas de Google en el taller, este es tu próximo destino natural.</p>
+    </div>
+    <div class="labs-arrow">→</div>
+  </a>
+
+  <!-- Z.AI ADVANCED -->
+  <div class="section-label fade-up" style="margin-top: 0.5rem; margin-bottom: 1rem;">
+    <span class="num" style="opacity:0.4;">↳</span>
+    <h2 style="font-size:0.95rem; color: var(--muted);">Para explorar después — Nivel avanzado</h2>
+  </div>
+  <div class="prompts-grid fade-up">
+
+    <!-- Z.AI CARD + PROMPT -->
+    <div class="prompt-block" style="border-color: rgba(124,106,245,0.2);">
+      <div class="prompt-header">
+        <div class="ph-icon" style="background: linear-gradient(135deg, rgba(124,106,245,0.15), rgba(229,0,106,0.1)); font-size:1.2rem;">🌀</div>
+        <div>
+          <h3>Z.ai — Animaciones 3D con IA</h3>
+          <p>Genera animaciones educativas 3D desde un prompt de texto · <a href="https://chat.z.ai/" target="_blank" style="color:var(--accent2); text-decoration:none;">chat.z.ai ↗</a></p>
+        </div>
+        <span class="tag-advanced" style="margin-left:auto; align-self:flex-start; white-space:nowrap;">Avanzado</span>
+      </div>
+      <div class="prompt-tools" style="border-color: rgba(124,106,245,0.1);">
+        <span class="prompt-tool-chip chip-music">Animación 3D</span>
+        <span class="prompt-tool-chip chip-music">Científico</span>
+        <span class="prompt-tool-chip chip-music">Pedagógico</span>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-text" id="prompt-zai">Crear una animación 3D educativa que represente el flujo de proteínas dentro de una célula eucariota.
+Mostrar una célula en corte transversal con sus principales orgánulos identificables:
+núcleo, retículo endoplasmático rugoso, aparato de Golgi, vesículas de transporte y membrana celular.
+
+Animar el proceso paso a paso:
+1. El ADN dentro del núcleo produce ARN mensajero.
+2. El ARN sale del núcleo hacia los ribosomas.
+3. Los ribosomas del retículo endoplasmático rugoso sintetizan proteínas.
+4. Las proteínas se desplazan dentro del retículo.
+5. Vesículas transportan proteínas hacia el aparato de Golgi.
+6. El aparato de Golgi modifica y empaqueta las proteínas.
+7. Vesículas se mueven hasta la membrana celular y liberan proteínas por exocitosis.
+
+Incluir:
+- movimiento fluido de partículas representando proteínas,
+- flechas luminosas indicando dirección del transporte,
+- etiquetas suaves de cada orgánulo,
+- colores diferenciados para cada estructura celular.
+
+Movimiento de cámara lento recorriendo el interior celular.
+Estilo científico realista pero pedagógico.
+Iluminación suave tipo microscopía moderna.
+Fondo oscuro con efecto biológico.
+Duración 12–15 segundos.
+Animación fluida, alta calidad, visualización científica 3D, estilo educativo.</div>
+        <button class="copy-btn" onclick="copyPrompt('prompt-zai', this)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+    </div>
+
+    <!-- GEOMETRÍA ANALÍTICA 3D -->
+    <div class="prompt-block" style="border-color: rgba(0,229,192,0.2);">
+      <div class="prompt-header">
+        <div class="ph-icon" style="background: rgba(0,229,192,0.1); font-size:1.2rem;">📐</div>
+        <div>
+          <h3>Geometría Analítica — Visualización 3D</h3>
+          <p>Genera gráficos 3D interactivos de geometría analítica · <a href="https://chat.z.ai/" target="_blank" style="color:var(--accent); text-decoration:none;">chat.z.ai ↗</a></p>
+        </div>
+        <span class="tag-advanced" style="margin-left:auto; align-self:flex-start; white-space:nowrap;">Avanzado</span>
+      </div>
+      <div class="prompt-tools" style="border-color: rgba(0,229,192,0.1);">
+        <span class="prompt-tool-chip" style="background:rgba(0,229,192,0.08);color:var(--accent);border-color:rgba(0,229,192,0.2);">Geometría 3D</span>
+        <span class="prompt-tool-chip" style="background:rgba(0,229,192,0.08);color:var(--accent);border-color:rgba(0,229,192,0.2);">Matemáticas</span>
+        <span class="prompt-tool-chip" style="background:rgba(0,229,192,0.08);color:var(--accent);border-color:rgba(0,229,192,0.2);">Interactivo</span>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-text" id="prompt-geo3d">Crear una visualización 3D educativa e interactiva de geometría analítica para estudiantes universitarios.
+
+Mostrar simultáneamente en el espacio tridimensional:
+- Un plano cartesiano 3D con ejes X, Y, Z claramente etiquetados y numerados.
+- Una esfera centrada en el origen con radio visible y ecuación flotando junto a ella: x² + y² + z² = r².
+- Un plano secante que corte la esfera, mostrando la circunferencia de intersección.
+- Un vector director desde el origen hacia un punto de la superficie, con sus componentes proyectadas sobre cada eje.
+- El cono cuádrático z² = x² + y² superpuesto con transparencia.
+
+Animar el proceso paso a paso:
+1. Aparecer los ejes con etiquetas luminosas.
+2. Construir la esfera con efecto de materialización desde el centro.
+3. Insertar el plano secante y resaltar la curva de intersección.
+4. Dibujar el vector con sus proyecciones ortogonales animadas.
+5. Superponer el cono cuádrático con transparencia del 40%.
+6. Rotar lentamente toda la escena 360° para apreciar la geometría completa.
+
+Incluir:
+- colores diferenciados para cada objeto geométrico,
+- ecuaciones flotantes junto a cada figura,
+- cuadrícula de referencia en el plano XY,
+- iluminación suave con sombras proyectadas,
+- fondo oscuro estilo pizarrón digital.
+
+Movimiento de cámara orbital lento.
+Estilo matemático limpio y preciso.
+Duración 15–18 segundos.
+Alta calidad, visualización científica 3D, estilo educativo universitario.</div>
+        <button class="copy-btn" onclick="copyPrompt('prompt-geo3d', this)">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+    </div>
 
   </div>
 </div>
